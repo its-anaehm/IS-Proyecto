@@ -9,10 +9,6 @@ app.set('port', 4000 )
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) =>{
-    res.send({message: "Hello World"})
-})
+app.use('/',routes);
 
-app.use('/api/v1',routes);
-
-export { app };
+export default app;
