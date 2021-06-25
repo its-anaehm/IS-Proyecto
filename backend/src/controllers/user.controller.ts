@@ -14,3 +14,11 @@ export class UserController{
         }
     }
 }
+
+export class Login
+{
+    public static sucessLogin: Handler = function(req, res)
+    {
+        res.status(200).send({message: 'Login Successful'})
+    }
+}

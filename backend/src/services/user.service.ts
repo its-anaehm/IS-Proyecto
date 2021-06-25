@@ -11,6 +11,4 @@ export class UserService{
         user.password = await bcrypt.hash(user.password, salt)
         console.log(user);
     }
-
-
 }

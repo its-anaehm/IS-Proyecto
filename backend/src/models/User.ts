@@ -1,8 +1,8 @@
 
 export default interface User{
-    firstName: string,
-    lastNmae: string,
+    firstName?: string,
+    lastNmae?: string,
     email: string,
-    phone: string,
+    phone?: string,
     password: string
 }
