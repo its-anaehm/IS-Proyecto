@@ -4,13 +4,15 @@ import { UserService } from "../services/user.service";
 
 export class UserController{
 
-    public static registerUser: Handler = (req, res) => {
-        const user: User = req.body;
-        if (!UserService.isRegistered(user)){
-            UserService.createAccount(user);
+    public static registerUser: Handler = async (req, res) => {
+        try{
+            const user: User = req.body;
+            await UserService.createAccount(user)
             res.status(200).send({message: 'User registered'})
-        }else{
-            res.status(400).send({message:"User already exists"});
+        }catch(err){
+            if(err.errno == 1062){
+                res.status(400).send({message:"Email already exists"});
+            }
         }
     }
 }
