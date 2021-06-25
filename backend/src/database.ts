@@ -1,6 +1,6 @@
 import mysql from "mysql2";
 
-export const db = mysql.createConnection
+export const database = mysql.createConnection
 (
   {
     host: 'localhost',
@@ -11,7 +11,7 @@ export const db = mysql.createConnection
   }
 );
 
-db.connect((err) => {
+database.connect((err) => {
   if (err) { 
       throw err; 
   }
@@ -19,4 +19,4 @@ db.connect((err) => {
   }
 );
 
-module.exports = db;
+export const db = database.promise();
