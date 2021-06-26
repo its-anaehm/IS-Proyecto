@@ -64,7 +64,7 @@ CREATE TABLE Venta(
         REFERENCES Usuario(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE Denuncia(
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -83,4 +83,4 @@ CREATE TABLE Denuncia(
         REFERENCES Usuario(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-)
+);
