@@ -13,6 +13,9 @@ export class UserController{
             if(err.errno == 1062){
                 res.status(400).send({message:"Email already exists"});
             }
+            else{
+                throw err;
+            }
         }
     }
 

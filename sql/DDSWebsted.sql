@@ -9,7 +9,7 @@ CREATE TABLE Usuario(
     Apellido VARCHAR(15) NOT NULL,
     Email VARCHAR(50) UNIQUE NOT NULL,
     Telefono VARCHAR(20) NOT NULL,
-    Contraseña VARCHAR(50) NOT NULL
+    Contrasena VARCHAR(150) NOT NULL
 );
 
 CREATE TABLE Departamento(
@@ -39,7 +39,7 @@ CREATE TABLE Producto(
     Nombre VARCHAR(50) NOT NULL,
     Precio VARCHAR(15) NOT NULL,
     Descripcion VARCHAR(70) NOT NULL,
-    Fecha_Publicación DATETIME DEFAULT NOW(),
+    Fecha_Publicacion DATETIME DEFAULT NOW(),
     Estado ENUM('Disponible','Vendido', 'Retirado'),
 
     FOREIGN KEY (fk_id_categoria)
