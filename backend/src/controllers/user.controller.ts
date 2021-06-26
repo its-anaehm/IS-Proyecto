@@ -15,12 +15,24 @@ export class UserController{
             }
         }
     }
-}
 
-export class Login
-{
-    public static sucessLogin: Handler = function(req, res)
+    public static sucessLogin: Handler = async (req, res) =>
     {
-        res.status(200).send({message: 'Login Successful'})
+        const user: User = req.body;
+        try
+        {
+            if(await UserService.checkPassword(user))
+            {
+                res.status(200).send({message: 'Login Successful'})
+            }
+            else
+            {
+                res.status(400).send({message: 'Incorrect Email/Password'})
+            }
+        }
+        catch(err)
+        {
+            throw(err);
+        }
     }
 }
