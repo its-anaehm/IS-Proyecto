@@ -1,6 +1,8 @@
-import User from "../models/User";
 import bcrypt from "bcrypt";
+
+import User from "../models/User";
 import { db } from "../database";
+
 
 export class UserService{
 
