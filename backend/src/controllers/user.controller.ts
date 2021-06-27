@@ -11,11 +11,9 @@ export class UserController{
             res.status(200).send({message: 'User registered'})
         }catch(err){
             if(err.errno == 1062){
-                res.status(400).send({message:"Email already exists"});
+                return res.status(400).send({message:"Email already exists"});
             }
-            else{
-                throw err;
-            }
+            res.status(400).send({message: 'An error was ocurred'})
         }
     }
 
