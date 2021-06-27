@@ -9,6 +9,7 @@ CREATE TABLE Usuario(
     Apellido VARCHAR(15) NOT NULL,
     Email VARCHAR(50) UNIQUE NOT NULL,
     Telefono VARCHAR(20) NOT NULL,
+    Rol ENUM('Administrador', 'Usuario') DEFAULT 'Usuario',
     Contrasena VARCHAR(150) NOT NULL
 );
 
