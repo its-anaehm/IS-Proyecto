@@ -1,6 +1,7 @@
 import { Handler } from "express";
 import User from "../models/User";
 import { UserService } from "../services/user.service";
+import { JWT } from "../utils/jwt";
 
 export class UserController{
 
@@ -24,7 +25,16 @@ export class UserController{
         {
             if(await UserService.checkPassword(user))
             {
-                res.status(200).send({message: 'Login Successful'})
+                let token = JWT.generateToken(1,"user");
+                try
+                {
+                    JWT.verifyToken(token);
+                    res.status(200).send({message: 'Login Successful', token: token});
+                }
+                catch(err)
+                {
+                    res.status(400).send({message: 'Something went wrong.'});
+                }
             }
             else
             {
