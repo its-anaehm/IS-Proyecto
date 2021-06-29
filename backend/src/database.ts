@@ -11,6 +11,9 @@ export const database = mysql.createConnection
   }
 );
 
+/**
+ * Funcion encargada de realizar la conexión a la base de datos
+ */
 database.connect((err) => {
   if (err) { 
       throw err; 

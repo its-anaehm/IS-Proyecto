@@ -6,6 +6,11 @@ import { db } from "../database";
 
 export class UserService{
 
+    /**
+     * Método encargado de registrar una nueva cuenta de usuario en la base de datos. Se lanza una excepción si el correo ingresado existe
+     * en la base o si ocurre otro tipo de error
+     * @param user El usuario que se desea registrar en la base de Datos
+     */
     public static createAccount = async (user: User) => {
     
         const salt = await bcrypt.genSalt(10);
@@ -23,6 +28,10 @@ export class UserService{
         }
     }
 
+    /**
+     * Método encargado de verificar si la contraseña recibida es igual a la contraseña que se encuentra almacenada en la base de Datos.
+     * @param user La información del usuario que se desea loguear.
+     */
     public static checkPassword = async (user: User) =>
     {
         const [row, fields] = await db.query('SELECT Contrasena FROM `Usuario` WHERE `Email` = ?', [user.email]);

@@ -5,6 +5,13 @@ import { JWT } from "../utils/jwt";
 
 export class UserController{
 
+    /**
+     * Método encargado de registrar un nuevo usuario en rl sistema.
+     * @returns status 200 y mensaje de éxito si se registra de forma correcta.
+     * @returns status 400 y mensaje de error si existe un problema al registar el usuario.
+     * @param req Objeto de tipo Request
+     * @param res Objeto de tipo Response
+     */
     public static registerUser: Handler = async (req, res) => {
         try{
             const user: User = req.body;
@@ -18,6 +25,14 @@ export class UserController{
         }
     }
 
+    /**
+     * Método encargado de comprobar si la infomación de logueo recibida es correcta.
+     * @returns status 200 y token si la infortmación recibida es correcta.
+     * @returns status 400 y mensaje de error si el token enviado no es válido.
+     * @returns status 400 y mensaje de error si el email o contraseña no son válidos.
+     * @param req Objeto de tipo Request
+     * @param res Objeto de tipo Response
+     */
     public static sucessLogin: Handler = async (req, res) =>
     {
         const user: User = req.body;
