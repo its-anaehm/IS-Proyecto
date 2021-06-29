@@ -4,10 +4,8 @@ import jwt from "jsonwebtoken";
  * Interface utilizada para retornar la información obtenida desde un token válido
  */
 interface IPayload{
-    user: {
-        id: Number;
-        role: string;
-    };
+    id: Number;
+    role: string;
 }
 
 /**
