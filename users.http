@@ -1,4 +1,4 @@
-
+### Register an user
 POST http://localhost:4000/users/register HTTP/1.1
 Content-Type: application/json
 
@@ -10,8 +10,20 @@ Content-Type: application/json
     "password": "elBrando"
 }
 
-###
+### Register an admin
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
 
+{
+    "firstName": "Luis",
+    "lastName": "Martinez",
+    "email": "lkez@gmail.com",
+    "phone": "9435-8799",
+    "role": "Administrador",
+    "password": "lkezhn"
+}
+
+### Login user
 POST http://localhost:4000/users/login HTTP/1.1
 Content-Type: application/json
 
@@ -19,3 +31,36 @@ Content-Type: application/json
     "email": "correo@gmail.com",
     "password": "elBrando"
 }
+
+### Get my user's info
+GET http://localhost:4000/users/my_details HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwMTgyMjYsImV4cCI6MTYyNTAyMTgyNn0.0M6mqR7mSaeC3FfUBfA1cQsQoCz2uGFSKX6B4Kl27vw
+
+### Get user's info
+GET http://localhost:4000/users/2 HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwMDY3MzksImV4cCI6MTYyNTAxMDMzOX0.n5XvpwhEFDxttRMmdBUt3GxQojnd2mdITNxSjsKYZTs
+
+### Get all user's info
+GET http://localhost:4000/users/page=1 HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwNzAyNjgsImV4cCI6MTYyNTA3Mzg2OH0.nhCZoGgyrzLZuHPavnoq-UVhNG9DWfVlJeOB5v9E_HY
+
+### Update user's info
+PUT http://localhost:4000/users/2 HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwMDc5NzYsImV4cCI6MTYyNTAxMTU3Nn0.90PaazX8AwDB5ta40hVDXewaJD3WI_qm3z35_FcSgYs
+
+{
+    "firstName": "Jaffeth",
+    "lastName": "Fernandez",
+    "email": "correo@gmail.com",
+    "phone": "8947-8799" 
+}
+
+### Delete user's info
+DELETE http://localhost:4000/users/1 HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwMDY3MzksImV4cCI6MTYyNTAxMDMzOX0.n5XvpwhEFDxttRMmdBUt3GxQojnd2mdITNxSjsKYZTs
+###
