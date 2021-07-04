@@ -39,6 +39,16 @@ export class UserService{
         }
     }
 
+    public static getUserRole = async (user:User) =>
+    {
+        const [row, fields] = await db.query('SELECT Rol FROM `Usuario` WHERE `Email` = ?', [user.email]);
+        let jsonRole = JSON.parse(JSON.stringify(row));
+        for (const result of jsonRole)
+        {
+            return result.Rol;
+        }
+    }
+
     /**
      * Método encargado de verificar si la contraseña recibida es igual a la contraseña que se encuentra almacenada en la base de Datos.
      * @param user La información del usuario que se desea loguear.

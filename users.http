@@ -32,15 +32,24 @@ Content-Type: application/json
     "password": "elBrando"
 }
 
+### Login admin
+POST http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "lkez@gmail.com",
+    "password": "lkezhn"
+}
+
 ### Get my user's info
 GET http://localhost:4000/users/my_details HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwMTgyMjYsImV4cCI6MTYyNTAyMTgyNn0.0M6mqR7mSaeC3FfUBfA1cQsQoCz2uGFSKX6B4Kl27vw
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IkFkbWluaXN0cmFkb3IiLCJpYXQiOjE2MjU0MjU4MTYsImV4cCI6MTYyNTQyOTQxNn0.ZkU9w_olYXWCVFiuI8mp3yz_yA3lZwPjKOp_rbHfzlA
 
 ### Get user's info
 GET http://localhost:4000/users/2 HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwMDY3MzksImV4cCI6MTYyNTAxMDMzOX0.n5XvpwhEFDxttRMmdBUt3GxQojnd2mdITNxSjsKYZTs
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjU0MjU3NDMsImV4cCI6MTYyNTQyOTM0M30.4cdsodZ65h1L42NSrFCx882G0UnEWSMalsMt1kd3AEA
 
 ### Get all user's info
 GET http://localhost:4000/users/page=1 HTTP/1.1

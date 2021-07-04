@@ -82,19 +82,21 @@ export class UserController{
      */
     public static sucessLogin: Handler = async (req, res) =>
     {
-        const user: User = req.body;
+        const user:User = req.body;
         try
         {
             if(await UserService.checkPassword(user))
             {
-                let token = await UserService.getUserToken(user)// JWT.generateToken(1,"user");
+                let token = await UserService.getUserToken(user);
+                let role = await UserService.getUserRole(user);
                 try
                 {
                     JWT.verifyToken(token);
-                    res.status(200).send({message: 'Login Successful', token: token});
+                    res.status(200).send({message: 'Login Successful', token: token, rol: role});
                 }
                 catch(err)
                 {
+                    console.log(err);
                     res.status(400).send({message: 'Something went wrong.'});
                 }
             }
