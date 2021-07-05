@@ -9,12 +9,9 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Link as LinkRoute } from 'react-router-dom';
+import { Link as LinkRoute, Redirect } from 'react-router-dom';
 import LoginForm from '../interfaces/LoginForm';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import Navbar from '../componentes/Navbar';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -50,20 +47,21 @@ const useStyles = makeStyles((theme) => ({
     },
     focusedInput:{
       color: theme.palette.background.paper
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      fontFamily: "'Arimo', sans-serif",
-      flexGrow: 1,
-    },
+    }
   }));
 
 function Login() {
     const classes = useStyles();
     const requestURL: string = 'http://localhost:4000/users/login';
     const [loginErr, setLoginErr] = useState<boolean>(false);
+    const [redirect, setRedirect] = useState<boolean>(false);
+    const [authed] = useState<boolean>(()=>{
+      if(localStorage.getItem("USR_TKN")){
+          return true;
+      }else{
+          return false;
+      }
+    });
 
     function mostrarError(){
         return(
@@ -71,52 +69,44 @@ function Login() {
         );
     }
 
-    function verificarDatos(e: React.FocusEvent<HTMLFormElement>){
+    function verifyData(e: React.FocusEvent<HTMLFormElement>){
         e.preventDefault();
     
-        let datos: LoginForm = {"email": e.target.email.value,"password": e.target.password.value};
+        let data: LoginForm = {"email": e.target.email.value,"password": e.target.password.value};
     
         fetch(requestURL, {
           method: 'POST',
           headers: {'Content-Type': 'application/json','Accept': 'application/json'},
-          body: JSON.stringify(datos)
-        }).then(respuesta => respuesta.json()).then( resJSON =>{
-          console.log(resJSON);
-          if(resJSON.message === "Login Successful"){
-            setLoginErr(false);
-            //localStorage.setItem("LOCAL_USER",JSON.stringify(resJSON.user));
-    
-          }else{
+          body: JSON.stringify(data)
+        }).then( response => {
+          if(response.status >= 400){
             setLoginErr(true);
+          }else{
+            response.json().then(jsonResponse => {
+              //console.log(jsonResponse.token);
+              localStorage.setItem("USR_TKN", jsonResponse.token);
+              setRedirect(true);
+            });
           }
-        }).catch((error) => {
-          setLoginErr(true);
-        });
+        } ).catch(error => setLoginErr(true));
       }
 
   return (
     <>
-    {/************ Barra de Navegación **************/}
-    <AppBar position="static">
-      <Toolbar>
-        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" className={classes.title}>
-          News
-        </Typography>
-        <Button color="inherit">Login</Button>
-      </Toolbar>
-    </AppBar>
+    {authed ? <Redirect to="/"/> : undefined}
+    {redirect ? <Redirect to="/"/> : undefined}
+
+    {/*********** Barra de Navegación ***************/}
+    <Navbar/>
 
     {/*********** Contenido de la página ************/}
     <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
+        <Typography variant="h3">
             Ingresa con tu cuenta
         </Typography>
-        <form className={classes.form} onSubmit={verificarDatos}>
+        <form className={classes.form} onSubmit={verifyData}>
             <TextField
             variant="outlined"
             margin="normal"
@@ -126,7 +116,7 @@ function Login() {
             label="Correo Electrónico"
             name="email"
             autoComplete="email"
-            InputLabelProps={{className:classes.textField}}
+            //InputLabelProps={{className:classes.textField}}
             />
             <TextField
             variant="outlined"
@@ -138,7 +128,7 @@ function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
-            InputLabelProps={{className:"textFieldLabel"}}
+            //InputLabelProps={{className:"textFieldLabel"}}
             />
             <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
