@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -123,15 +121,29 @@ function Register() {
     function showContract(e: React.FocusEvent<HTMLFormElement>){
         e.preventDefault();
 
-        setCurrentRegData({
-            "firstName": e.target.fname.value,
-            "lastName": e.target.lname.value,
-            "email": e.target.email.value,
-            "phone": e.target.phone.value,
-            "password": e.target.password.value
-        });
+        if( 
+            !(/[a-zA-Z0-9_.\-]+@(\w+.)+/g.test(`${e.target.email.value}`))
+         ){
+             setErrMessage("Asegurese de ingresar un correo válido.");
+             setRegisterErr(true);
 
-        setShowModal(true);
+        }else if(e.target.password.value !== e.target.password_confirm.value){
+            setErrMessage("Asegurese de escribir debidamente su contraseña al confirmarla.");
+            setRegisterErr(true);
+
+        }else{
+            setRegisterErr(false);
+            setCurrentRegData({
+                "firstName": e.target.fname.value,
+                "lastName": e.target.lname.value,
+                "email": e.target.email.value,
+                "phone": e.target.phone.value,
+                "password": e.target.password.value
+            });
+    
+            setShowModal(true);
+        }
+
     }
 
     function closeModal(){
@@ -187,7 +199,6 @@ function Register() {
                 label="Correo Electrónico"
                 name="email"
                 autoComplete="email"
-                //InputLabelProps={{className:classes.textField}}
                 />
                 <TextField
                 variant="outlined"
@@ -222,10 +233,6 @@ function Register() {
                 type="password"
                 id="password_confirm"
                 //InputLabelProps={{className:"textFieldLabel"}}
-                />
-                <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Guardar Datos"
                 />
                 <br></br>
                 <Button

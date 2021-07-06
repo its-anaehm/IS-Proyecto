@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { useState } from "react";
 import Typography from "material-ui/styles/typography";
 import { Button } from "@material-ui/core";
+import UserObj from "../interfaces/UserObj";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -16,10 +17,17 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
+let userPlaceholder: UserObj = {
+    Nombre: "nombre",
+    Apellido: "apellido",
+    Email: "email",
+    Telefono: "telefono"
+}
 
 function LandingPage(){
     const requestURL:string = "http://localhost:4000/users/my_details";
     const classes = useStyles();
+    const [currentUser, setCurrentUser] = useState<UserObj>(userPlaceholder);
     const [authed, setAuthedState] = useState<boolean>(()=>{
         if(localStorage.getItem("USR_TKN")){
             return true;
@@ -45,7 +53,13 @@ function LandingPage(){
               console.log("Error");
             }else{
               response.json().then(jsonResponse => {
-                console.log(jsonResponse);
+                //console.log(jsonResponse);
+                setCurrentUser({
+                    Nombre: jsonResponse.Nombre,
+                    Apellido: jsonResponse.Apellido,
+                    Email: jsonResponse.Email,
+                    Telefono: jsonResponse.Telefono
+                });
               });
             }
           } ).catch(error => console.log(error));
@@ -55,6 +69,9 @@ function LandingPage(){
                 <h2>
                     Un usuario se encuentra registrado
                 </h2>
+                <h3>
+
+                </h3>
                 <Button onClick={signOut}>
                     Cerrar Sesión
                 </Button>
