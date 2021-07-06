@@ -1,5 +1,5 @@
 DROP DATABASE IF EXISTS Websted ;
-CREATE DATABASE Websted;
+CREATE DATABASE Websted CHARACTER SET utf8;
 
 USE Websted;
 
@@ -9,7 +9,8 @@ CREATE TABLE Usuario(
     Apellido VARCHAR(15) NOT NULL,
     Email VARCHAR(50) UNIQUE NOT NULL,
     Telefono VARCHAR(20) NOT NULL,
-    Contraseña VARCHAR(50) NOT NULL
+    Rol ENUM('Administrador', 'Usuario') DEFAULT 'Usuario',
+    Contrasena VARCHAR(150) NOT NULL
 );
 
 CREATE TABLE Departamento(
@@ -40,7 +41,7 @@ CREATE TABLE Producto(
     Nombre VARCHAR(50) NOT NULL,
     Precio VARCHAR(15) NOT NULL,
     Descripcion VARCHAR(70) NOT NULL,
-    Fecha_Publicación DATETIME DEFAULT NOW(),
+    Fecha_Publicacion DATETIME DEFAULT NOW(),
     Num_Visita  INT NOT NULL DEFAULT 0,
     Estado ENUM('Disponible','Vendido', 'Retirado'),
 
@@ -73,7 +74,7 @@ CREATE TABLE Denuncia(
     fk_id_denunciador INT NOT NULL,
     fk_id_acusado INT NOT NULL,
     Fecha_denuncia DATETIME DEFAULT NOW(),
-    Tipo_Denuncia ENUM('',''),
+    Tipo_Denuncia ENUM('1','2'),
     Estado ENUM('Aprobado','Desestimado'),
 
     FOREIGN KEY (fk_id_denunciador)
