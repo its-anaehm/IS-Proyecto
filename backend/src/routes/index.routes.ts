@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { UserController } from '../controllers/user.controller';
+import AccountRoutes from './user.routes';
+import HomeRoutes from './home.routes';
 
 const router = Router()
 
-router.get('/', UserController.hello);
-
-router.get('/users', UserController.getUsers);
+router.use('/users', AccountRoutes);
+router.use('/home', HomeRoutes);
 
 export default router;

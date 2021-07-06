@@ -1,0 +1,80 @@
+### Register an user
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Brando",
+    "lastName": "Fernandez",
+    "email": "correo@gmail.com",
+    "phone": "8975-8799",
+    "password": "elBrando"
+}
+
+### Register an admin
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Luis",
+    "lastName": "Martinez",
+    "email": "lkez@gmail.com",
+    "phone": "9435-8799",
+    "role": "Administrador",
+    "password": "lkezhn"
+}
+
+### Login user
+POST http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "correo@gmail.com",
+    "password": "elBrando"
+}
+
+### Login admin
+POST http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "lkez@gmail.com",
+    "password": "lkezhn"
+}
+
+### Get my user's info
+GET http://localhost:4000/users/my_details HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IkFkbWluaXN0cmFkb3IiLCJpYXQiOjE2MjU0MjU4MTYsImV4cCI6MTYyNTQyOTQxNn0.ZkU9w_olYXWCVFiuI8mp3yz_yA3lZwPjKOp_rbHfzlA
+
+### Get user's info
+GET http://localhost:4000/users/2 HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjU0MjU3NDMsImV4cCI6MTYyNTQyOTM0M30.4cdsodZ65h1L42NSrFCx882G0UnEWSMalsMt1kd3AEA
+
+### Get all user's info
+GET http://localhost:4000/users/page=1 HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwNzAyNjgsImV4cCI6MTYyNTA3Mzg2OH0.nhCZoGgyrzLZuHPavnoq-UVhNG9DWfVlJeOB5v9E_HY
+
+### Update user's info
+PUT http://localhost:4000/users/2 HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwMDc5NzYsImV4cCI6MTYyNTAxMTU3Nn0.90PaazX8AwDB5ta40hVDXewaJD3WI_qm3z35_FcSgYs
+
+{
+    "firstName": "Jaffeth",
+    "lastName": "Fernandez",
+    "email": "correo@gmail.com",
+    "phone": "8947-8799" 
+}
+
+### Delete user's info
+DELETE http://localhost:4000/users/1 HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwMDY3MzksImV4cCI6MTYyNTAxMDMzOX0.n5XvpwhEFDxttRMmdBUt3GxQojnd2mdITNxSjsKYZTs
+
+### Verifies if the user is logged in when trying to access the wishlist page
+
+GET http://localhost:4000/home/wishlist HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwNzIyMzksImV4cCI6MTYyNTA3NTgzOX0.fkhN2jJegt9EqBgvD9T_W6elaILJ4gFK1YmmeGAAtQI
