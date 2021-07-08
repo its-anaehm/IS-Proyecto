@@ -78,3 +78,19 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFy
 GET http://localhost:4000/home/wishlist HTTP/1.1
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwNzIyMzksImV4cCI6MTYyNTA3NTgzOX0.fkhN2jJegt9EqBgvD9T_W6elaILJ4gFK1YmmeGAAtQI
+
+### Get municipalities according to its id (id: 8 -> Fracisco Morazán)
+GET http://localhost:4000/filters/municipality HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": "8"
+}
+
+### Get all departments
+GET http://localhost:4000/filters/department HTTP/1.1
+Content-Type: application/json
+
+### Get all categories
+GET http://localhost:4000/category/ HTTP/1.1
+Content-Type: application/json
