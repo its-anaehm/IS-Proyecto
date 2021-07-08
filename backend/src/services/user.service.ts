@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 
 import User from "../models/User";
-import { db } from "../database";
+import { db } from "../config/database";
 import { JWT } from "../utils/jwt";
 
 
