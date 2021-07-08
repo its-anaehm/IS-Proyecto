@@ -43,7 +43,7 @@ CREATE TABLE Producto(
     Descripcion VARCHAR(70) NOT NULL,
     Fecha_Publicacion DATETIME DEFAULT NOW(),
     Num_Visita  INT NOT NULL DEFAULT 0,
-    Estado ENUM('Disponible','Vendido', 'Retirado'),
+    Estado ENUM('Disponible','Vendido', 'Retirado') DEFAULT 'Disponible',
 
     FOREIGN KEY (fk_id_categoria)
         REFERENCES Categoria(id)
@@ -75,7 +75,7 @@ CREATE TABLE Denuncia(
     fk_id_acusado INT NOT NULL,
     Fecha_denuncia DATETIME DEFAULT NOW(),
     Tipo_Denuncia ENUM('1','2'),
-    Estado ENUM('Aprobado','Desestimado'),
+    Estado ENUM('Aprobado','Desestimado', 'Pendiente') DEFAULT 'Pendiente',
 
     FOREIGN KEY (fk_id_denunciador)
         REFERENCES Usuario(id)
