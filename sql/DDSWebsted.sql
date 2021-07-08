@@ -105,7 +105,7 @@ CREATE TABLE Lista_Deseo(
 
 CREATE TABLE Imagen(
     fk_id_producto INT NOT NULL,
-    Nombre VARCHAR(50),
+    Nombre VARCHAR(100),
 
     FOREIGN KEY (fk_id_producto)
         REFERENCES Producto(id)
