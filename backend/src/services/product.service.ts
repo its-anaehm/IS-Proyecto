@@ -10,7 +10,7 @@ export default class ProductService{
         for(let product of productList){
             product.images = []
             let [row] = await db.query("SELECT Nombre FROM Imagen WHERE Imagen.fk_id_producto = ? LIMIT 1", [product.id])
-            product.images.push(`uploads/${JSON.parse(JSON.stringify(row))[0]["Nombre"]}`)
+            product.images.push(JSON.parse(JSON.stringify(row))[0]["Nombre"])
         }
         return productList
     }
