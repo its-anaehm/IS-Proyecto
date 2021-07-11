@@ -14,7 +14,8 @@ const storage = multer.diskStorage({
 });
 
 const fields = [
-    { name: "productImages", maxCount: 5},
+    { name: "productImages", maxCount: 6},
+    { name: "categoryImage", maxCount: 1}
 ]
 
 export { storage, fields }
