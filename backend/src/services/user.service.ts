@@ -39,6 +39,10 @@ export class UserService{
         }
     }
 
+    /**
+     * Método encargado de obtener el rol del usuario desde la base de datos.
+     * @param user La información del usuario que se desea loguear.
+     */
     public static getUserRole = async (user:User) =>
     {
         const [row, fields] = await db.query('SELECT Rol FROM `Usuario` WHERE `Email` = ?', [user.email]);
