@@ -18,7 +18,7 @@ export class CategoryService
      */
     public static categoryPopular = async () =>
     {
-        const [row, fields] = await db.query('SELECT Nombre, Num_Visita FROM Categoria ORDER BY Num_Visita DESC LIMIT 6');
+        const [row, fields] = await db.query('SELECT Nombre, Imagen, Num_Visita FROM Categoria ORDER BY Num_Visita DESC LIMIT 6');
         let jsonCategoryPopular = JSON.parse(JSON.stringify(row));
         return jsonCategoryPopular;
     }
