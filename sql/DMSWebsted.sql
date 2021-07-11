@@ -14,7 +14,7 @@ INSERT INTO Categoria(Nombre, Imagen, Num_Visita) VALUES
     ("Juguetería", "Jugueteria.png", 15),
     ("Para Bebés", "Bebes.png", 7),
     ("Electrónica", "Electronica.png", 20),
-    ("Motos y Automoviles", "Motos y Automoviles.png", 5);
+    ("Motos y Automóviles", "Motos y Automoviles.png", 5);
 
 INSERT INTO Departamento (Nombre) VALUES
     ("Atlantidad"),
