@@ -32,6 +32,7 @@ CREATE TABLE Municipio(
 CREATE TABLE Categoria(
     id INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(40) NOT NULL,
+    Imagen VARCHAR(70) NOT NULL,
     Num_Visita  INT NOT NULL DEFAULT 0
 );
 
