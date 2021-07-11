@@ -2,19 +2,19 @@ USE Websted;
 
 
 INSERT INTO Categoria(Nombre, Imagen, Num_Visita) VALUES
-    ("Tecnología", "Tecnología.png", 10),
+    ("Tecnología", "Tecnologia.png", 10),
     ("Mascotas", "Mascotas.png", 15),
     ("Hogar", "Hogar.png", 20),
     ("Moda", "Moda.png", 30),
     ("Bioseguridad", "Bioseguridad.png", 50),
     ("Belleza y Salud", "Belleza y Salud.png", 10),
     ("Deporte", "Deportes.png", 35),
-    ("Electrodomésticos", "Electrodomésticos.png", 25),
+    ("Electrodomésticos", "Electrodomesticos.png", 25),
     ("Escolar y Oficina", "Escolar y Oficina.png", 55),
-    ("Juguetería", "Juguetería.png", 15),
-    ("Para Bebés", "Bebés.png", 7),
-    ("Electrónica", "Electrónica.png", 20),
-    ("Motos y Automóviles", "Motos y Automóviles.png", 5);
+    ("Juguetería", "Jugueteria.png", 15),
+    ("Para Bebés", "Bebes.png", 7),
+    ("Electrónica", "Electronica.png", 20),
+    ("Motos y Automoviles", "Motos y Automoviles.png", 5);
 
 INSERT INTO Departamento (Nombre) VALUES
     ("Atlantidad"),
