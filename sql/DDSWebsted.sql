@@ -38,6 +38,8 @@ CREATE TABLE Categoria(
 CREATE TABLE Producto(
     id INT AUTO_INCREMENT PRIMARY KEY,
     fk_id_categoria INT NOT NULL,
+    fk_id_departamento INT NOT NULL,
+    fk_id_municipio INT NOT NULL,
     Nombre VARCHAR(50) NOT NULL,
     Precio VARCHAR(15) NOT NULL,
     Descripcion VARCHAR(70) NOT NULL,
@@ -47,6 +49,14 @@ CREATE TABLE Producto(
 
     FOREIGN KEY (fk_id_categoria)
         REFERENCES Categoria(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (fk_id_departamento)
+        REFERENCES Departamento(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (fk_id_municipio)
+        REFERENCES Municipio(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
