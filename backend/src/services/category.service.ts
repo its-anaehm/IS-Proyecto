@@ -8,7 +8,7 @@ export class CategoryService
      */
     public static categoryFilter = async () =>
     {
-        const [row, fields] = await db.query('SELECT * FROM categoria');
+        const [row, fields] = await db.query('SELECT * FROM Categoria');
         let jsonCategory = JSON.parse(JSON.stringify(row));
         return jsonCategory;   
     }

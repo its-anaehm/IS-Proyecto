@@ -8,7 +8,7 @@ export class FilterService
      */
     public static municipalityFilter = async (id: number) =>
     {
-        const [row, fields] = await db.query('SELECT municipio.Nombre, municipio.id FROM municipio JOIN departamento ON municipio.fk_id_departamento = departamento.id WHERE municipio.fk_id_departamento = ?', [id]);
+        const [row, fields] = await db.query('SELECT Municipio.Nombre, Municipio.id FROM Municipio JOIN Departamento ON Municipio.fk_id_departamento = Departamento.id WHERE Municipio.fk_id_departamento = ?', [id]);
         let jsonMunicipality = JSON.parse(JSON.stringify(row));
         return jsonMunicipality;      
     }
@@ -18,7 +18,7 @@ export class FilterService
      */
     public static departmentFilter = async () =>
     {
-        const [row, fields] = await db.query('SELECT * FROM departamento');
+        const [row, fields] = await db.query('SELECT * FROM Departamento');
         let jsonDepartment = JSON.parse(JSON.stringify(row));
         return jsonDepartment;
     }
