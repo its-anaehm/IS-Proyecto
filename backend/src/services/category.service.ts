@@ -24,7 +24,7 @@ export class CategoryService
     }
 
     public static getSuscribedCategories = async (id: Number) => {
-        let [ row ] = await db.query(`SELECT Suscripcion_Categoria.id, Categoria.Nombre, Categoria.Imagen, Categoria.Num_Visitas 
+        let [ row ] = await db.query(`SELECT Suscripcion_Categoria.fk_id_categoria, Categoria.Nombre, Categoria.Imagen, Categoria.Num_Visitas 
                         FROM Suscripcion_Categoria INNER JOIN Categoria ON Suscripcion_Categoria.fk_id_categoria = Categoria.id 
                         WHERE Suscripcion_Categoria.fk_id_usuario = ?`, [ id ])
 
