@@ -12,6 +12,7 @@ export class HomeController
         }
         catch(err)
         {
+            console.log(err);
             res.status(400).send({message: err});
         }
     }

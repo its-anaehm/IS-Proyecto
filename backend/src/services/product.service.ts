@@ -6,7 +6,7 @@ import Product from "../models/Product";
 
 export default class ProductService{
     
-    private static getProductsImages = async ( productList: Array<Product>) => {
+    public static getProductsImages = async ( productList: Array<Product>) => {
         for(let product of productList){
             product.images = []
             let [row] = await db.query("SELECT Nombre FROM Imagen WHERE Imagen.fk_id_producto = ? LIMIT 1", [product.id])

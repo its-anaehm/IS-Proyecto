@@ -96,4 +96,8 @@ Content-Type: application/json
 ### Verifies if the user is logged in when trying to access the wishlist page
 GET http://localhost:4000/home/wishlist HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjYyMTAzOTMsImV4cCI6MTY2MjIwNjc5M30.XC4IJADSKbl1iHaHP--x5IKjVS3Xk6yE_KUDUvihe1o
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjYyMjAwODAsImV4cCI6MTY2MjIxNjQ4MH0.NKBESIugKCTQ6EANmjuaJNTgZwiNU9TliidkHL4jRek
+
+###
+GET http://localhost:4000/products HTTP/1.1
+Content-Type: application/json
