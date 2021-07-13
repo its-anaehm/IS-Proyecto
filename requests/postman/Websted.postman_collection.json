@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "c0f17201-6655-4768-98f0-531bac5bbf19",
+		"name": "Websted",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Agregar un producto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "nameNombre producto",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "14000",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "La descripcion",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "department",
+							"value": "8",
+							"type": "text"
+						},
+						{
+							"key": "municipy",
+							"value": "53",
+							"type": "text"
+						},
+						{
+							"key": "productImages",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:4000/products/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
