@@ -19,7 +19,7 @@ export class CategoryController
         }
         catch(err)
         {
-            res.status(400).send({message: 'Error'});
+            res.status(400).send({message: err});
         }
     }
 
@@ -39,7 +39,7 @@ export class CategoryController
         }
         catch(err)
         {
-            res.status(400).send({message: 'Error'});
+            res.status(400).send({message: err});
         }
     }
 
