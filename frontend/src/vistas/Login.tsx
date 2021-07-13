@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link as LinkRoute, Redirect } from 'react-router-dom';
 import LoginForm from '../interfaces/LoginForm';
-import Navbar from '../componentes/Navbar';
+import UserObj from '../interfaces/UserObj';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -50,23 +50,48 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-function Login() {
+interface LoginProps{
+  auth: boolean,
+  setAuth: (auth:boolean) => void,
+  setCurrentUser: (user: UserObj)=> void
+}
+
+function Login({
+  auth,
+  setAuth,
+  setCurrentUser
+}:LoginProps) {
     const classes = useStyles();
     const requestURL: string = 'http://localhost:4000/users/login';
     const [loginErr, setLoginErr] = useState<boolean>(false);
     const [redirect, setRedirect] = useState<boolean>(false);
-    const [authed] = useState<boolean>(()=>{
-      if(localStorage.getItem("USR_TKN")){
-          return true;
-      }else{
-          return false;
-      }
-    });
 
     function mostrarError(){
         return(
         <h3 style={{color: "red"}}>El usuario o contraseña son incorrectos.</h3>
         );
+    }
+
+    function saveUserInfo(token: string){
+      fetch(requestURL, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json','Accept': 'application/json', 'Authorization':token}
+      }).then( response => {
+        if(response.status >= 400){
+          console.log("Error");
+        }else{
+            response.json().then(jsonResponse => {
+                let newUser: UserObj = {
+                    Nombre: `${jsonResponse.Nombre}`,
+                    Apellido: `${jsonResponse.Apellido}`,
+                    Email: `${jsonResponse.Email}`,
+                    Telefono: `${jsonResponse.Telefono}`
+                };
+                setCurrentUser(newUser);
+                localStorage.setItem("USR", JSON.stringify(newUser));
+          });
+        }
+      } ).catch(error => console.log(error));
     }
 
     function verifyData(e: React.FocusEvent<HTMLFormElement>){
@@ -85,6 +110,8 @@ function Login() {
             response.json().then(jsonResponse => {
               //console.log(jsonResponse.token);
               localStorage.setItem("USR_TKN", jsonResponse.token);
+              setAuth(true);
+              saveUserInfo(jsonResponse.token);
               setRedirect(true);
             });
           }
@@ -93,11 +120,9 @@ function Login() {
 
   return (
     <>
-    {authed ? <Redirect to="/"/> : undefined}
+    {auth ? <Redirect to="/"/> : undefined}
     {redirect ? <Redirect to="/"/> : undefined}
 
-    {/*********** Barra de Navegación ***************/}
-    <Navbar/>
 
     {/*********** Contenido de la página ************/}
     <Container component="main" maxWidth="xs">

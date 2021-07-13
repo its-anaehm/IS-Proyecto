@@ -1,13 +1,8 @@
-//import { Link as LinkRoute } from "react-router-dom";
+import { useParams } from 'react-router-dom';
+import ParamInterface from '../interfaces/ParamInterface';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { useEffect, useState } from "react";
-import Typography from "material-ui/styles/typography";
-import { Button } from "@material-ui/core";
-import UserObj from "../interfaces/UserObj";
-import UserHome from '../componentes/UserHome';
-import GuestHome from '../componentes/GuestHome';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -22,26 +17,22 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-  interface LandingPageProps {
-      auth: boolean
-  }
-
-function LandingPage({
-    auth
-    }:LandingPageProps
-){
-    const classes = useStyles();
+function SingleProduct(){
+    let classes = useStyles();
+    const { id } = useParams<ParamInterface>();
 
     return(
         <>
             <Container component="main" maxWidth="lg" className={classes.main}>
             <CssBaseline />
                 <div className={classes.paper}>
-                    {auth ? <UserHome/> : <GuestHome/>}
+                    <h2>
+                        Producto: {`${id}`}
+                    </h2>
                 </div>
             </Container>
         </>
-    )
+    );
 }
 
-export default LandingPage;
+export default SingleProduct;
