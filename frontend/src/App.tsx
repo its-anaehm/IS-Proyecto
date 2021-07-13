@@ -84,7 +84,7 @@ function App() {
       <main>
         <Switch>
           <Route exact path="/">
-            <LandingPage auth={auth}/>
+            <LandingPage auth={auth} currentUser={currentUser}/>
           </Route>
           <Route path="/login">
             <Login auth={auth} setAuth={setAuth} setCurrentUser={setCurrentUser} />

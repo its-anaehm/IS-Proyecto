@@ -56,7 +56,7 @@ function GuestHome(){
 
     function getPopularCategories(){
         fetch("http://localhost:4000/category/popular", {
-            method: 'POST',
+            method: 'GET',
             headers: {'Content-Type': 'application/json','Accept': 'application/json'}
         }).then( response =>{
             if(response.status < 400){

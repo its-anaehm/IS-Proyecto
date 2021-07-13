@@ -23,11 +23,13 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   interface LandingPageProps {
-      auth: boolean
+      auth: boolean,
+      currentUser: UserObj
   }
 
 function LandingPage({
-    auth
+    auth,
+    currentUser
     }:LandingPageProps
 ){
     const classes = useStyles();
@@ -37,7 +39,7 @@ function LandingPage({
             <Container component="main" maxWidth="lg" className={classes.main}>
             <CssBaseline />
                 <div className={classes.paper}>
-                    {auth ? <UserHome/> : <GuestHome/>}
+                    {auth ? <UserHome currentUser={currentUser}/> : <GuestHome/>}
                 </div>
             </Container>
         </>
