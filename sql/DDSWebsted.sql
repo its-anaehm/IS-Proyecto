@@ -124,3 +124,17 @@ CREATE TABLE Imagen(
         ON UPDATE CASCADE
 );
 
+CREATE TABLE Suscripcion_Categoria(
+    fk_id_categoria INT NOT NULL,
+    fk_id_usuario INT NOT NULL,
+
+    FOREIGN KEY (fk_id_categoria)
+        REFERENCES Categoria(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    FOREIGN KEY (fk_id_usuario)
+        REFERENCES Usuario(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+)
