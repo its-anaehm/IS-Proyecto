@@ -20,7 +20,7 @@ export class JWT{
      * @param role Rol asignado al usuario en la base de Datos.
      */
     public static generateToken = (id: Number, role: string) => {
-        return jwt.sign({id, role}, JWT.secret, { expiresIn: '1h'} )
+        return jwt.sign({id, role}, JWT.secret, { expiresIn: '9999h'} )
     }
 
     /**
