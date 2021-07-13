@@ -4,9 +4,7 @@ import { verifyToken } from "../middlewares/auth.middleware";
 
 const routes = Router()
 
-//routes.post('/about');
-//routes.post('/contact');
 /** Ruta para la lista de deseos del usuario */
-routes.get('/wishlist', verifyToken , HomeController.verifyLogin);
+routes.get('/wishlist', verifyToken , HomeController.verifyWishlist);
 
 export default routes;
