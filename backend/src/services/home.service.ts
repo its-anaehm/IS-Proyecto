@@ -1,5 +1,6 @@
 import { db } from "../config/database";
 import User from "../models/User";
+import ProductService from "./product.service";
 
 export class HomeService
 {
@@ -10,6 +11,7 @@ export class HomeService
         console.log(typeof(jsonWishlist));
         if(jsonWishlist.length > 0)
         {
+            jsonWishlist = await ProductService.getProductsImages(jsonWishlist)
             return jsonWishlist;  
         }
         else
