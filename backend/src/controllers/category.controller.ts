@@ -42,4 +42,16 @@ export class CategoryController
             res.status(400).send({message: 'Error'});
         }
     }
+
+    public static getSuscribedCategories: Handler = async (req, res) => {
+        const categories = await CategoryService.getSuscribedCategories(req.user.id)
+
+        res.status(200).send({suscribedCategories: categories})
+    }
+
+    public static suscribeToCategory: Handler = async (req, res) => {
+        await CategoryService.addSuscribedCategory(req.params.id, req.user.id)
+
+        res.status(201).send({message: 'Category suscribed'})
+    }
 }
