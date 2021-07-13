@@ -22,4 +22,16 @@ export class CategoryService
         let jsonCategoryPopular = JSON.parse(JSON.stringify(row));
         return jsonCategoryPopular;
     }
+
+    public static getSuscribedCategories = async (id: Number) => {
+        let [ row ] = await db.query(`SELECT Suscripcion_Categoria.id, Categoria.Nombre, Categoria.Imagen, Categoria.Num_Visitas 
+                        FROM Suscripcion_Categoria INNER JOIN Categoria ON Suscripcion_Categoria.fk_id_categoria = Categoria.id 
+                        WHERE Suscripcion_Categoria.fk_id_usuario = ?`, [ id ])
+
+        return JSON.parse(JSON.stringify(row));
+    }
+
+    public static addSuscribedCategory = async (category_id: string, user_id: Number ) => {
+        await db.query('INSERT INTO Suscripcion_Categoria(fk_id_usuario, fk_id_categoria) VALUES (?,?)', [user_id, category_id])
+    }
 }
