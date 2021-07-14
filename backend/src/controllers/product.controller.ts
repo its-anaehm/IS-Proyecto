@@ -34,6 +34,6 @@ export default class ProductController{
 
         await ProductService.addProduct(product)
 
-        res.send({message:'Response xd'})
+        res.send({message:'Product added'})
     }
 }

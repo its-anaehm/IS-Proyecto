@@ -26,8 +26,8 @@ export default class ProductService{
     }
 
     public static addProduct = async (product: Product) => {
-        const [row] = await db.query("INSERT INTO Producto(fk_id_categoria, fk_id_departamento, fk_id_municipio, Nombre, Precio, Descripcion) VALUES (?,?,?,?,?,?)", 
-                                    [ product.category, product.department, product.municipy, product.name, product.price, product.description ])
+        const [row] = await db.query("INSERT INTO Producto(fk_id_categoria, fk_id_departamento, fk_id_municipio, Nombre, Precio, Estado, Descripcion) VALUES (?,?,?,?,?,?)", 
+                                    [ product.category, product.department, product.municipy, product.name, product.price, product.status, product.description ])
 
         const transformedRow = JSON.parse(JSON.stringify(row))
 

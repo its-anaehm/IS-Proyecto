@@ -46,7 +46,8 @@ CREATE TABLE Producto(
     Descripcion VARCHAR(70) NOT NULL,
     Fecha_Publicacion DATETIME DEFAULT NOW(),
     Num_Visita  INT NOT NULL DEFAULT 0,
-    Estado ENUM('Disponible','Vendido', 'Retirado') DEFAULT 'Disponible',
+    Estado INT NOT NULL DEFAULT 1,
+    Disponibilidad ENUM('Disponible','Vendido', 'Retirado') DEFAULT 'Disponible',
 
     FOREIGN KEY (fk_id_categoria)
         REFERENCES Categoria(id)
