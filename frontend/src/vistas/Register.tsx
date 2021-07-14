@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link as LinkRoute, Redirect } from 'react-router-dom';
-import Navbar from '../componentes/Navbar';
 import RegisterForm from '../interfaces/RegisterForm';
 import Modal from '@material-ui/core/Modal';
 import { Card, CardActions, CardContent, CardHeader } from '@material-ui/core';
@@ -157,8 +156,6 @@ function Register() {
       <>
         {authed ? <Redirect to="/"/> : undefined}
         {redirect ? <Redirect to="/login"/> : undefined}
-        {/************* Barra de Navegación ******************/}
-        <Navbar/>
         {/************* Forma de Registro ******************/}
         <Container component="main" maxWidth="xs">
             <CssBaseline />

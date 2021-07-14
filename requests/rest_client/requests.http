@@ -1,0 +1,60 @@
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Daniel",
+    "lastName": "Arteaga",
+    "email": "omen@gmail.com",
+    "phone": "8975-8799",
+    "password": "omentruco"
+}
+
+###
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Andrea",
+    "lastName": "Hernandez",
+    "email": "andrea_her@gmail.com",
+    "phone": "3245-8578",
+    "password": "admin"
+}
+
+### Register an admin
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Luis",
+    "lastName": "Martinez",
+    "email": "lkez@gmail.com",
+    "phone": "9435-8799",
+    "password": "lkezhn"
+}
+
+### Login
+POST http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "lkez@gmail.com",
+    "password": "lkezhn"
+}
+
+### Suscribirse a categoria (1 - 13)
+POST http://localhost:4000/category/1/suscribe HTTP/1.1
+Content-Type: application/json
+Authorization: aqui va el token
+
+### Obtener categorias
+GET http://localhost:4000/category/suscribed HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjYyMDMyODgsImV4cCI6MTYyNjIwNjg4OH0.1aEXWxT7eyKWhpUNoxC5p36E2hEkUVZxqzks1l6cxlg
+
+### Obtener la lista de deseo
+GET http://localhost:4000/home/wishlist HTTP/1.1
+Content-Type: application/json
+Authorization: otra vez el token xd x2
+
+##
