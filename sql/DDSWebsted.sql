@@ -41,6 +41,7 @@ CREATE TABLE Producto(
     fk_id_categoria INT NOT NULL,
     fk_id_departamento INT NOT NULL,
     fk_id_municipio INT NOT NULL,
+    fk_id_usuario INT NOT NULL,
     Nombre VARCHAR(50) NOT NULL,
     Precio VARCHAR(15) NOT NULL,
     Descripcion VARCHAR(70) NOT NULL,
@@ -55,6 +56,10 @@ CREATE TABLE Producto(
         ON UPDATE CASCADE,
     FOREIGN KEY (fk_id_departamento)
         REFERENCES Departamento(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (fk_id_usuario)
+        REFERENCES Usuario(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (fk_id_municipio)
