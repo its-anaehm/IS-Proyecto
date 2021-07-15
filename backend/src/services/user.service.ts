@@ -169,4 +169,11 @@ export class UserService{
             throw err;
         }
     }
+
+    public static publishedProducts = async (id: Number) =>
+    {
+        const [ row ] = await db.query(`SELECT Producto.Nombre AS 'published' FROM Producto JOIN Usuario ON Producto.fk_id_usuario = Usuario.id WHERE Producto.fk_id_usuario = ?`, [id]);
+        let jsonProductDetails = JSON.parse(JSON.stringify(row));
+        return jsonProductDetails;
+    }
 }
