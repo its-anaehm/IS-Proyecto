@@ -19,6 +19,7 @@ export default class ProductController{
     }
     
     public static getPopularProducts : Handler = async (req, res) => {
+        
         const productList = await ProductService.getPopularProducts()
         for( let product of productList){
             product.department = await DepartmentService.getDepartment(product.department)
@@ -35,5 +36,32 @@ export default class ProductController{
         await ProductService.addProduct(product)
 
         res.send({message:'Product added'})
+    }
+
+    public static productDetail: Handler = async (req, res) =>
+    {
+        try
+        {
+            const productInfo = await ProductService.getProductInfo();
+            res.status(200).send({message: productInfo});
+        }
+        catch(err)
+        {
+            console.log(err)
+            res.status(400).send({message: err});
+        }
+    }
+
+    public static productDetailAuth: Handler = async (req, res) =>
+    {
+        try
+        {
+            const productInfo = await ProductService.getProductInfoAuth();
+            res.status(200).send({message: productInfo});
+        }
+        catch(err)
+        {
+            res.status(400).send({message: err});
+        }
     }
 }

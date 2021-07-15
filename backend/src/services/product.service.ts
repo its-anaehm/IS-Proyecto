@@ -1,16 +1,27 @@
 import { Request } from "express";
 
 import { db } from "../config/database";
+import ProductController from "../controllers/product.controller";
 import File from "../models/ImageFile";
 import Product from "../models/Product";
+import User from "../models/User";
 
 export default class ProductService{
     
     public static getProductsImages = async ( productList: Array<Product>) => {
         for(let product of productList){
             product.images = []
-            let [row] = await db.query("SELECT Nombre FROM Imagen WHERE Imagen.fk_id_producto = ? LIMIT 1", [product.id])
+            let [row] = await db.query("SELECT Nombre FROM Imagen WHERE Imagen.fk_id_producto = ?", [product.id])
             product.images.push(JSON.parse(JSON.stringify(row))[0]["Nombre"])
+        }
+        return productList
+    }
+
+    public static getAllProductsImages = async ( productList: Array<Product>) => {
+        for(let product of productList){
+            product.images = []
+            let [row] = await db.query("SELECT Nombre FROM Imagen WHERE Imagen.fk_id_producto = ?", [product.id])
+            product.images.push(JSON.parse(JSON.stringify(row)))
         }
         return productList
     }
@@ -54,5 +65,21 @@ export default class ProductService{
         productList = await ProductService.getProductsImages(productList)
         
         return productList
+    }
+
+    public static getProductInfo = async () =>
+    {
+        const [ row ] = await db.query(`SELECT Producto.id AS 'id', Usuario.Nombre AS 'UNombre', Usuario.Apellido AS 'UApellido', Producto.Nombre AS 'Pname', Producto.Precio AS 'price', Producto.Descripcion AS 'description', Producto.Fecha_Publicacion AS 'date', Categoria.Nombre AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id`);
+        let jsonProductDetails: Array<Product> = JSON.parse(JSON.stringify(row));
+        jsonProductDetails = await ProductService.getAllProductsImages(jsonProductDetails);
+        return jsonProductDetails;
+    }
+
+    public static getProductInfoAuth = async () =>
+    {
+        const [ row ] = await db.query(`SELECT Producto.id AS 'id', Usuario.Nombre AS 'UNombre', Usuario.Apellido AS 'UApellido', Producto.Nombre AS 'Pname', Producto.Precio AS 'price', Producto.Descripcion AS 'description', Producto.Fecha_Publicacion AS 'date', Categoria.Nombre AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy', Comentario.Comentario AS 'comments', Comentario.Fecha_Publicacion AS 'Cdate' FROM Comentario JOIN Usuario ON Comentario.fk_id_usuario = Usuario.id JOIN Producto ON Comentario.fk_id_producto = Producto.id JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id`);
+        let jsonProductDetails: Array<Product> = JSON.parse(JSON.stringify(row));
+        jsonProductDetails = await ProductService.getAllProductsImages(jsonProductDetails);
+        return jsonProductDetails;
     }
 }
