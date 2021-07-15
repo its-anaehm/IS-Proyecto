@@ -72,7 +72,7 @@ CREATE TABLE Comentario(
     fk_id_usuario INT NOT NULL,
     fk_id_producto INT NOT NULL,
     Comentario VARCHAR(500) NOT NULL,
-    Fecha_Publicación DATETIME DEFAULT NOW(),
+    Fecha_Publicacion DATETIME DEFAULT NOW(),
     FOREIGN KEY (fk_id_usuario)
         REFERENCES Usuario(id)
         ON DELETE CASCADE
