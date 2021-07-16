@@ -65,12 +65,12 @@ Content-Type: application/json
 ### Información del Usuario
 GET http://localhost:4000/users/my_details HTTP/1.1
 Content-Type: application/json
-Authorization:
+Authorization: aqui va el token
 
 ### Obtiene la lista de los productos que ha publicado un usuario
 POST http://localhost:4000/users/published HTTP/1.1
 Content-Type: application/json
-Authorization: 
+Authorization: aqui va el token
 
 #------------------------ PÁGINA DE PRODUCTO ------------------------
 
@@ -85,7 +85,7 @@ Content-Type: application/json
 ### Obtiene los comentarios de los productos (se tiene que hacer un request del id del producto)
 GET http://localhost:4000/comments HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjY0MDIxNzYsImV4cCI6MTY2MjM5ODU3Nn0.DPYqJLl9Z9F5Jglu1e4dK2T7UF9qvq6SFx0n2S2opRQ
+Authorization: aqui va el token
 
 {
     "productID": "1"
@@ -98,19 +98,11 @@ POST http://localhost:4000/category/1/suscribe HTTP/1.1
 Content-Type: application/json
 Authorization: aqui va el token
 
-### Se añade el producto a la lista de deseo (se tiene que hacer un request del id del producto)
-GET http://localhost:4000/home/subscribe HTTP/1.1
-Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjYzNzM1MTYsImV4cCI6MTY2MjM2OTkxNn0.6lMVVzO54N6gH_-n_ru7i0M8k4C_NgDtGVkHoideqR0
-
-{
-    "productID": "1"
-}
 
 ### Obtener categorias a las que esta suscrito un usuario
 GET http://localhost:4000/category/suscribed HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjYzOTQ3MzAsImV4cCI6MTY2MjM5MTEzMH0.NtAAgBffBCC93iZMEaXnPDNGXEXNgiWhDfi_AQd48N4
+Authorization: aqui va el token
 
 #------------------------ LISTADO DE PRODUCTOS Y CATEGORIAS ------------------------
 
@@ -127,4 +119,13 @@ Content-Type: application/json
 ### Obtiene la lista de deseo
 GET http://localhost:4000/home/wishlist HTTP/1.1
 Content-Type: application/json
-Authorization: 
+Authorization: aqui va el token
+
+### Se añade el producto a la lista de deseo (se tiene que hacer un request del id del producto)
+GET http://localhost:4000/home/subscribe HTTP/1.1
+Content-Type: application/json
+Authorization: aqui va el token
+
+{
+    "productID": "1"
+}
