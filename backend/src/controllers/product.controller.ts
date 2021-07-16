@@ -42,7 +42,7 @@ export default class ProductController{
     {
         try
         {
-            const productInfo = await ProductService.getProductInfo();
+            const productInfo = await ProductService.getAllProductsInfo();
             res.status(200).send({message: productInfo});
         }
         catch(err)
@@ -52,12 +52,12 @@ export default class ProductController{
         }
     }
 
-    public static productDetailAuth: Handler = async (req, res) =>
+    public static productCategory: Handler = async (req, res) =>
     {
         try
         {
-            const productInfo = await ProductService.getProductInfoAuth();
-            res.status(200).send({message: productInfo});
+            const productCategory = await ProductService.getCategoryProducts(req.body.productID);
+            res.status(200).send({message: productCategory});
         }
         catch(err)
         {
