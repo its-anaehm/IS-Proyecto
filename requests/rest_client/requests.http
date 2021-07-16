@@ -60,37 +60,45 @@ Content-Type: application/json
     "password": "lkezhn"
 }
 
+#------------------------ PÁGINA DE USUARIO ------------------------
+
+### Información del Usuario
+GET http://localhost:4000/users/my_details HTTP/1.1
+Content-Type: application/json
+Authorization:
+
+### Obtiene la lista de los productos que ha publicado un usuario
+POST http://localhost:4000/users/published HTTP/1.1
+Content-Type: application/json
+Authorization: 
+
+#------------------------ PÁGINA DE PRODUCTO ------------------------
+
+### Retorna la información de **todos** los productos de una categoria en especifico (se tiene que hacer un request del id de la categoria 1-13)
+GET http://localhost:4000/products/productCategory HTTP/1.1
+Content-Type: application/json
+
+{
+    "productID": "1"
+}
+
+### Obtiene los comentarios de los productos (se tiene que hacer un request del id del producto)
+GET http://localhost:4000/comments HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjY0MDIxNzYsImV4cCI6MTY2MjM5ODU3Nn0.DPYqJLl9Z9F5Jglu1e4dK2T7UF9qvq6SFx0n2S2opRQ
+
+{
+    "productID": "1"
+}
+
+#------------------------ SUSCRIPCIONES ------------------------
 
 ### Suscribirse a categoria (1 - 13)
 POST http://localhost:4000/category/1/suscribe HTTP/1.1
 Content-Type: application/json
 Authorization: aqui va el token
 
-### Obtener categorias
-GET http://localhost:4000/category/suscribed HTTP/1.1
-Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjYyMDMyODgsImV4cCI6MTYyNjIwNjg4OH0.1aEXWxT7eyKWhpUNoxC5p36E2hEkUVZxqzks1l6cxlg
-
-### Obtener la lista de deseo
-GET http://localhost:4000/home/wishlist HTTP/1.1
-Content-Type: application/json
-Authorization: otra vez el token xd x2
-
-### Retorna  la información de **todos** los productos publicados (Sin registrar)
-GET http://localhost:4000/products/productInfo HTTP/1.1
-Content-Type: application/json
-
-### Retorna la información de **todos** los productos publicados (registrado)
-GET http://localhost:4000/products/productInfoAuth HTTP/1.1
-Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjYzNzg5MjAsImV4cCI6MTY2MjM3NTMyMH0.rAYCGVYAyvCzLtUk-16UuV4ALfnP4M0bgO_UWbtuUaE
-
-### Obtiene la lista de los productos que ha publicado un usuario
-POST http://localhost:4000/users/published HTTP/1.1
-Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjYzNjM5NzEsImV4cCI6MTY2MjM2MDM3MX0.JVhS3C6lHkH-f8wLYs0OpL3NURov3S4yu1NfYZkqQqI
-
-### Se suscribe a un producto
+### Se añade el producto a la lista de deseo (se tiene que hacer un request del id del producto)
 GET http://localhost:4000/home/subscribe HTTP/1.1
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjYzNzM1MTYsImV4cCI6MTY2MjM2OTkxNn0.6lMVVzO54N6gH_-n_ru7i0M8k4C_NgDtGVkHoideqR0
@@ -98,3 +106,25 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IlVzdWFy
 {
     "productID": "1"
 }
+
+### Obtener categorias a las que esta suscrito un usuario
+GET http://localhost:4000/category/suscribed HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjYzOTQ3MzAsImV4cCI6MTY2MjM5MTEzMH0.NtAAgBffBCC93iZMEaXnPDNGXEXNgiWhDfi_AQd48N4
+
+#------------------------ LISTADO DE PRODUCTOS Y CATEGORIAS ------------------------
+
+### Retorna  la información de **todos** los productos publicados (Sin registrar)
+GET http://localhost:4000/products/productInfo HTTP/1.1
+Content-Type: application/json
+
+### Get all categories
+GET http://localhost:4000/category/ HTTP/1.1
+Content-Type: application/json
+
+#------------------------ LISTA DE DESEO ------------------------
+
+### Obtiene la lista de deseo
+GET http://localhost:4000/home/wishlist HTTP/1.1
+Content-Type: application/json
+Authorization: 
