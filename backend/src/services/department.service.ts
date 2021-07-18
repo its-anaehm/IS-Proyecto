@@ -7,4 +7,14 @@ export default class DepartmentService{
         return JSON.parse(JSON.stringify(row))[0]["Nombre"]
     }
 
+    public static getDepartmentList = async () => {
+        let [row] = await db.query('SELECT * FROM Departamento');
+        return JSON.parse(JSON.stringify(row))
+    }
+
+    public static getMunicipies = async (id: string) => {
+        let [row] = await db.query('SELECT * FROM Municipio WHERE fk_id_departamento = ?', [id]);
+        return JSON.parse(JSON.stringify(row))
+    }
+
 }
