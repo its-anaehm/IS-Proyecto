@@ -30,12 +30,15 @@ export default class ProductController{
     }
 
     public static addProduct : Handler = async (req, res) => {
-        const product : Product = req.body
-        product.images = ProductService.getImages(req.files)
+        if(req.user.role !== 'guest'){
+            const product : Product = req.body
+            product.images = ProductService.getImages(req.files)
+    
+            await ProductService.addProduct(product, req.user.id)
 
-        await ProductService.addProduct(product)
-
-        res.send({message:'Product added'})
+            return res.send({message:'Product added'})
+        }
+        res.status(400).send({message: 'Invalid user'})
     }
 
     public static productDetail: Handler = async (req, res) =>
