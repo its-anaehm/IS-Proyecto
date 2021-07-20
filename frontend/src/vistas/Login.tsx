@@ -131,7 +131,7 @@ function Login({
         <Typography variant="h3">
             Ingresa con tu cuenta
         </Typography>
-        <form className={classes.form} onSubmit={verifyData}>
+        <form className={classes.form} onSubmit={verifyData} autoComplete="on">
             <TextField
             variant="outlined"
             margin="normal"

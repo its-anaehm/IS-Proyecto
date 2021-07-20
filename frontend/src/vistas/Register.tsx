@@ -169,7 +169,6 @@ function Register() {
                 variant="outlined"
                 margin="normal"
                 required
-                fullWidth
                 id="fname"
                 label="Nombre"
                 name="fname"
@@ -180,7 +179,6 @@ function Register() {
                 variant="outlined"
                 margin="normal"
                 required
-                fullWidth
                 id="lname"
                 label="Apellido"
                 name="lname"

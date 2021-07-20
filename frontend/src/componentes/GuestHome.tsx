@@ -74,7 +74,7 @@ function GuestHome(){
 
     useEffect(() => {
         getPopularCategories();
-        console.log(popularCat);
+        //console.log(popularCat);
     }, [])
 
     return(
@@ -83,7 +83,7 @@ function GuestHome(){
             <Grid item lg={12} className={classes.grid_item}>
                 <video
                     className={classes.banner}
-                    width="1184"
+                    width={`${window.innerWidth*0.70}`}
                     height="400"
                     src="banner.mp4"
                     autoPlay
