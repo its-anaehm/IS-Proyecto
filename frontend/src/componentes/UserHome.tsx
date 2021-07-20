@@ -112,7 +112,7 @@ function UserHome({
         }).then( response =>{
             if(response.status < 400){
                 response.json().then( jsonResponse => {
-                    console.log(jsonResponse);
+                    //console.log(jsonResponse);
 
                     const categorias: CategoryObj[] = jsonResponse.suscribedCategories;
 
