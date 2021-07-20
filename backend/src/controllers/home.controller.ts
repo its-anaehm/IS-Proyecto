@@ -21,7 +21,14 @@ export class HomeController
         try
         {
             const wishlist = await HomeService.subscribeToWishlist(req.user.id, req.body.productID);
-            res.status(200).send({message: 'Subscribed to product'});
+            if(wishlist == true)
+            {
+                res.status(400).send({message: 'User is already subscribed'});
+            }
+            else
+            {
+                res.status(200).send({message: 'Subscribed to product'});
+            }
         }
         catch(err)
         {

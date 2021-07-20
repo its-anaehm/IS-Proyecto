@@ -11,10 +11,30 @@ export class HomeService
         jsonWishlist = await ProductService.getProductsImages(jsonWishlist);
         return jsonWishlist;
     }
-    public static subscribeToWishlist = async (id: Number, category_id: string) =>
+    public static subscribeToWishlist = async (user_id: Number, product_id: Number) =>
     {
-        const [row] = await db.query('INSERT INTO Lista_Deseo (fk_id_usuario, fk_id_producto) VALUES (?,?)', [id, category_id]);
+        if(await HomeService.verifySubscription(user_id,product_id) == true)
+        {
+            return true;
+        }
+        else
+        {
+            const [row] = await db.query('INSERT INTO Lista_Deseo (fk_id_usuario, fk_id_producto) VALUES (?,?)', [user_id, product_id]);
+            let jsonWishlistSub = JSON.parse(JSON.stringify(row));
+            return jsonWishlistSub; 
+        }
+    }
+    public static verifySubscription = async (user_id: Number, product_id: Number) =>
+    {
+        const [row] = await db.query('SELECT fk_id_producto FROM Lista_Deseo WHERE fk_id_usuario = ? AND fk_id_producto = ?;', [user_id, product_id]);
         let jsonWishlistSub = JSON.parse(JSON.stringify(row));
-        return jsonWishlistSub; 
+        if(jsonWishlistSub.length > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
