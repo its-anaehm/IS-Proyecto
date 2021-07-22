@@ -109,38 +109,44 @@ function NewProduct({
 
         const formData: FormData = new FormData();
 
-        //console.log(formData);
+        if(productImage == null){
+            setFormErr(true);
 
-        formData.append('name', e.target.product_name.value);
-        formData.append('price', price);
-        formData.append('description', e.target.product_desc.value);
-        formData.append('category',e.target.select_category.value );
-        formData.append('department', e.target.select_department.value);
-        formData.append('municipy', e.target.select_municipality.value);
-        formData.append('productImages', productImage as Blob );
-        formData.append('status', e.target.select_state.value);
-
-        console.log(formData);
-        
-        fetch(requestURL, {
-            method: 'POST',
-            headers: {
-                'Accept': 'multipart/form-data',
-                'Authorization':`${localStorage.getItem("USR_TKN")}`
-            },
-            body: formData
-          }).then(response => {
-              if( response.status >= 400){
+            setErrMessage("Es necesario que suba una imagen del producto.");
+        }else{
+            setFormErr(false);
+            formData.append('name', e.target.product_name.value);
+            formData.append('price', price);
+            formData.append('description', e.target.product_desc.value);
+            formData.append('category',e.target.select_category.value );
+            formData.append('department', e.target.select_department.value);
+            formData.append('municipy', e.target.select_municipality.value);
+            formData.append('productImages', productImage as Blob );
+            formData.append('status', e.target.select_state.value);
+    
+            console.log(formData);
+            
+            fetch(requestURL, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'multipart/form-data',
+                    'Authorization':`${localStorage.getItem("USR_TKN")}`
+                },
+                body: formData
+              }).then(response => {
+                  if( response.status >= 400){
+                      setErrMessage("");
+                      setFormErr(true);
+                  }else{
+                      console.log(response);
+                      setRedirectHome(true);
+                  }
+              }).catch(error => {
                   setErrMessage("");
                   setFormErr(true);
-              }else{
-                  console.log(response);
-                  setRedirectHome(true);
-              }
-          }).catch(error => {
-              setErrMessage("");
-              setFormErr(true);
-          });
+              });
+        }
+
     }
 
     function getCategories(){
@@ -349,7 +355,9 @@ function NewProduct({
                                     //marginRight: 50
                                 }}
                                 >
-                                    <Grid container md={12} spacing={4}>
+                                    <Grid container md={12} spacing={6} style={{
+                                        marginBottom: 10
+                                    }}>
                                         
                                         <Grid
                                         item
@@ -372,7 +380,8 @@ function NewProduct({
                                             style={{
                                                 display: 'flex',
                                                 justifyContent: 'center',
-                                                marginTop: 15
+                                                marginTop: 15,
+                                                
                                             }}
                                             >
                                                 <input
