@@ -13,6 +13,8 @@ routes.get('/page=:page',verifyToken, UserController.getUsersInfo)
 routes.get('/:id',verifyToken, UserController.getUserInfo)
 /** Obtener la información del usuario que realiza la petición */
 routes.get('/my_details',verifyToken, UserController.getMyInfo)
+/** Obtiene la lista de los productos que ha publicado un usuario */
+routes.post('/published',verifyToken, UserController.getPublishedProducts);
 /** Registrar un nuevo usuario */
 routes.post('/register', UserController.registerUser)
 /** Login de un usuario */

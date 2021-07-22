@@ -41,12 +41,14 @@ CREATE TABLE Producto(
     fk_id_categoria INT NOT NULL,
     fk_id_departamento INT NOT NULL,
     fk_id_municipio INT NOT NULL,
+    fk_id_usuario INT NOT NULL,
     Nombre VARCHAR(50) NOT NULL,
     Precio VARCHAR(15) NOT NULL,
-    Descripcion VARCHAR(70) NOT NULL,
+    Descripcion VARCHAR(500) NOT NULL,
     Fecha_Publicacion DATETIME DEFAULT NOW(),
     Num_Visita  INT NOT NULL DEFAULT 0,
-    Estado ENUM('Disponible','Vendido', 'Retirado') DEFAULT 'Disponible',
+    Estado INT NOT NULL DEFAULT 1,
+    Disponibilidad ENUM('Disponible','Vendido', 'Retirado') DEFAULT 'Disponible',
 
     FOREIGN KEY (fk_id_categoria)
         REFERENCES Categoria(id)
@@ -56,10 +58,30 @@ CREATE TABLE Producto(
         REFERENCES Departamento(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
+    FOREIGN KEY (fk_id_usuario)
+        REFERENCES Usuario(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (fk_id_municipio)
         REFERENCES Municipio(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
+);
+
+CREATE TABLE Comentario(
+    fk_id_usuario INT NOT NULL,
+    fk_id_producto INT NOT NULL,
+    Comentario VARCHAR(500) NOT NULL,
+    Fecha_Publicacion DATETIME DEFAULT NOW(),
+    FOREIGN KEY (fk_id_usuario)
+        REFERENCES Usuario(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (fk_id_producto)
+        REFERENCES Producto(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+    
 );
 
 CREATE TABLE Venta(
@@ -137,4 +159,4 @@ CREATE TABLE Suscripcion_Categoria(
         REFERENCES Usuario(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-)
+);

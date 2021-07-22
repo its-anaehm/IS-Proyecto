@@ -14,7 +14,7 @@ export class FilterController
     {
         try
         {
-            const filter = await FilterService.municipalityFilter(req.body.id);
+            const filter = await FilterService.municipalityFilter(req.params.id);
             res.status(200).send({municipalities: filter});
         }
         catch(err)

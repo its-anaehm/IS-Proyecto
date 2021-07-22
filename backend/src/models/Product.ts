@@ -5,6 +5,7 @@ export default interface Product{
     price: String,
     images: Array<String>,
     description: String,
+    status: Number,
     category: Number,
     department: Number | string,
     municipy: Number | string
