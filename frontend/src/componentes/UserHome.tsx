@@ -73,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 let templateCategories: CategoryObj[] = [{
+    id: 0,
     Nombre: "Categoria",
     Imagen: categoryPlaceholder,
     Num_Visita: 0

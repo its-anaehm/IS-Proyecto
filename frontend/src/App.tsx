@@ -6,7 +6,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { createTheme, ThemeProvider } from '@material-ui/core';
 import { Shadows } from "@material-ui/core/styles/shadows";
 import NewProduct from './vistas/NewProduct';
 import AboutUs from './vistas/AboutUs';
@@ -19,7 +19,7 @@ import UserObj from './interfaces/UserObj';
 import SingleCategory from './vistas/SingleCategory';
 import SingleProduct from './vistas/SingleProduct';
 
-const defaultTheme = createMuiTheme({
+const defaultTheme = createTheme({
   palette: {
     primary:{
       main: '#455D7A'
@@ -93,7 +93,7 @@ function App() {
             <Register/>
           </Route>
           <Route path="/add-product">
-            <NewProduct/>
+            <NewProduct auth={auth}/>
           </Route>
           <Route path="/about-us">
             <AboutUs/>
