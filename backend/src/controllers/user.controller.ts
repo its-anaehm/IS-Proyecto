@@ -35,6 +35,7 @@ export class UserController{
             return res.status(401).send({message: 'Unauthorized user'})
         }
         const userInfo = await UserService.getUser(req.user.id)
+        userInfo.id = req.user.id
         return res.status(200).send(userInfo)
     }
 
