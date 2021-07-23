@@ -11,6 +11,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from "@material-ui/core/Button";
 import { couldStartTrivia } from "typescript";
+import { BorderAll } from "@material-ui/icons";
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -127,6 +129,46 @@ function UserProfile({
 
     }
 
+
+
+//JUAN
+/*
+function getProducst(){
+    fetch("http://localhost:4000/products", {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+    }).then( response =>{
+        if(response.status < 400){
+            response.json().then( jsonResponse => {
+                let product: ProductObj ={
+
+                }
+                
+            } )
+        }
+    } ).catch(error => {
+        console.log(error);
+    });
+
+}
+
+
+
+
+function showProducs(){
+
+    let hola = (<div style={{color: "green", background: "#F95959", border: "15px" }}
+    >Los cambios se han guardado con éxito.</div>
+    );
+
+    return hola
+}*/
+//JUAN
+
+
     function showError(){
         let message:string = "Ha surgido un error.";
 
@@ -229,6 +271,7 @@ function UserProfile({
                                         >
                                             <CardHeader
                                             title="Datos del Usuario"
+                                            align= "Center"
                                             />
                                             <CardContent>
                                                 <form
@@ -299,7 +342,29 @@ function UserProfile({
                                     item
                                     md={4}
                                     >
-                                        
+                                        <div
+                                        style={{
+                                            width: '100%',
+                                            height: '100%'
+                                            
+                                        }}
+                                        >   
+                                            <Card className={classes.cards} >
+                                                <CardHeader
+                                                title="Historial de Publicaciones"
+                                                align= "Center"
+                                                
+                                            />
+                                                <CardContent 
+                                                style={{
+                                                    height: 508,
+                                                    overflowY: 'scroll'
+                                                }}>
+                                                    
+                                                </CardContent>
+
+                                            </Card>
+                                        </div>
                                     </Grid>
 
                                     {/*********Favoritos*********/}
@@ -307,7 +372,26 @@ function UserProfile({
                                     item
                                     md={4}
                                     >
-                                        
+                                        <div
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                        }}
+                                        >   
+                                            <Card className={classes.cards}>
+                                                <CardHeader
+                                                title="Favoritos"
+                                                align= "Center"
+                                            />
+                                                <CardContent 
+                                                style={{
+                                                    height: 542,
+                                                    overflowY: 'scroll'
+                                                }}>
+                                                </CardContent>
+
+                                            </Card>
+                                        </div>
                                     </Grid>
                                 </Grid>
                             </div>   
