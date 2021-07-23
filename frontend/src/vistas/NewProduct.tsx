@@ -13,7 +13,6 @@ import Municipality from "../interfaces/Municipality";
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import { isConstructorDeclaration } from "typescript";
 
 const useStyles = makeStyles((theme) => ({
     paper: {

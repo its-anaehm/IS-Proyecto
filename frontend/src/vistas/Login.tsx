@@ -82,6 +82,7 @@ function Login({
         }else{
             response.json().then(jsonResponse => {
                 let newUser: UserObj = {
+                    ID: jsonResponse.id,
                     Nombre: `${jsonResponse.Nombre}`,
                     Apellido: `${jsonResponse.Apellido}`,
                     Email: `${jsonResponse.Email}`,

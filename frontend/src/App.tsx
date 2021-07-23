@@ -51,6 +51,7 @@ const defaultTheme = createTheme({
 });
 
 let userPlaceholder: UserObj = {
+  ID: 0,
   Nombre: "nombre",
   Apellido: "apellido",
   Email: "email",
@@ -105,7 +106,7 @@ function App() {
             <Products/>
           </Route>
           <Route path="/user-profile">
-            <UserProfile/>
+            <UserProfile auth={auth} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
           </Route>
           <Route path="/categories/:id" children={<SingleCategory/>} />
           <Route path="/products/:id" children={<SingleProduct/>} />
