@@ -54,4 +54,10 @@ export class CategoryController
 
         res.status(201).send({message: 'Category suscribed'})
     }
+
+    public static unsuscribeToCategory: Handler = async (req, res) =>
+    {
+        await CategoryService.removeSuscribedCategory(req.params.id, req.user.id)
+        res.status(200).send({message: 'Unsuscribed from category'})
+    }
 }

@@ -34,4 +34,8 @@ export class CategoryService
     public static addSuscribedCategory = async (category_id: string, user_id: Number ) => {
         await db.query('INSERT INTO Suscripcion_Categoria(fk_id_usuario, fk_id_categoria) VALUES (?,?)', [user_id, category_id])
     }
+    public static removeSuscribedCategory = async (category_id: string, user_id: Number) =>
+    {
+        await db.query('DELETE FROM Suscripcion_Categoria WHERE fk_id_usuario = ? AND fk_id_categoria = ?', [user_id, category_id])
+    }
 }
