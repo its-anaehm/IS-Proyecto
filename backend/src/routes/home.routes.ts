@@ -8,4 +8,6 @@ const routes = Router()
 routes.get('/wishlist', verifyToken , HomeController.verifyWishlist);
 /** Se suscribe a un producto en especifico */
 routes.get('/subscribe', verifyToken, HomeController.getSubscribed);
+
+routes.get('/removeSub', verifyToken, HomeController.removeFromWishlist);
 export default routes;
