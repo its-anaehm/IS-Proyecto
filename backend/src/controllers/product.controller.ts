@@ -5,6 +5,7 @@ import DepartmentService from "../services/department.service";
 import MunicipyService from "../services/municipy.service";
 
 import Product from '../models/Product';
+import { CategoryService } from '../services/category.service';
 
 export default class ProductController{
 
@@ -69,7 +70,8 @@ export default class ProductController{
         try
         {
             const productCategory = await ProductService.getCategoryProducts(req.body.productID);
-            res.status(200).send({message: productCategory});
+            const categoryNmae = await CategoryService.getCategoryName(req.body.productID)
+            res.status(200).send({categoryName: categoryNmae, message: productCategory});
         }
         catch(err)
         {

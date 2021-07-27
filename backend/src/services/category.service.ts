@@ -38,4 +38,9 @@ export class CategoryService
     {
         await db.query('DELETE FROM Suscripcion_Categoria WHERE fk_id_usuario = ? AND fk_id_categoria = ?', [user_id, category_id])
     }
+
+    public static getCategoryName = async(id: string) => {
+        const [row] = await db.query("SELECT  Nombre FROM Categoria WHERE Categoria.id = ?", [id]);
+        return JSON.parse(JSON.stringify(row))[0]["Nombre"];
+    }
 }
