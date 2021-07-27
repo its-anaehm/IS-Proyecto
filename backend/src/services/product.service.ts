@@ -82,4 +82,9 @@ export default class ProductService{
         jsonCategoryProducts = await ProductService.getAllProductsImages(jsonCategoryProducts);
         return jsonCategoryProducts;
     }
+
+    public static deleteProduct = async(id: string) => {
+        await db.query('DELETE FROM Producto WHERE Producto.id = ?', [id])       
+    }
+
 }

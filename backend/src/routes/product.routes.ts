@@ -14,5 +14,7 @@ routes.get('/productInfo', ProductController.productDetail)
 routes.get('/productCategory', ProductController.productCategory)
 /** Registrar un nuevo producto */
 routes.post('/', verifyToken, ProductController.addProduct)
+/** Eliminar un producto */
+routes.delete('/:id', verifyToken, ProductController.deleteProduct)
 
 export default routes;
