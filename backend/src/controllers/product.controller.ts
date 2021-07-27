@@ -69,8 +69,8 @@ export default class ProductController{
     {
         try
         {
-            const productCategory = await ProductService.getCategoryProducts(req.body.productID);
-            const categoryNmae = await CategoryService.getCategoryName(req.body.productID)
+            const productCategory = await ProductService.getCategoryProducts(req.params.id);
+            const categoryNmae = await CategoryService.getCategoryName(req.params.id)
             res.status(200).send({categoryName: categoryNmae, message: productCategory});
         }
         catch(err)
