@@ -75,7 +75,7 @@ export default class ProductService{
         return jsonProductDetails;
     }
 
-    public static getCategoryProducts = async (id: Number) =>
+    public static getCategoryProducts = async (id: string) =>
     {
         const [ row ] = await db.query(`SELECT Producto.id, Producto.Nombre AS 'name', Producto.Precio AS 'price',  Producto.Descripcion AS 'details', Producto.Fecha_Publicacion AS 'date' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id WHERE Producto.fk_id_categoria = ?`, [id]);
         let jsonCategoryProducts: Array<Product> = JSON.parse(JSON.stringify(row));
