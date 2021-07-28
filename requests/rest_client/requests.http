@@ -111,7 +111,7 @@ Authorization: aqui va el token
 #------------------------ LISTADO DE PRODUCTOS Y CATEGORIAS ------------------------
 
 ### Retorna  la información de **todos** los productos publicados (Sin registrar)
-GET http://localhost:4000/products/productInfo HTTP/1.1
+POST http://localhost:4000/products/productInfo HTTP/1.1
 Content-Type: application/json
 
 ### Get all categories

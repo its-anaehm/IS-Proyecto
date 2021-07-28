@@ -29,7 +29,7 @@ export default class ProductService{
     }
     
     public static getProduct = async (id: string) => {
-        let [row] = await db.query("SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'details', Producto.Fecha_Publicacion AS 'date', Categoria.Nombre AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id WHERE Producto.id = ? ", [id]);
+        let [row] = await db.query("SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date', Categoria.id AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id WHERE Producto.id = ? ", [id]);
 
         let jsonProductDetails: Product = JSON.parse(JSON.stringify(row));
         jsonProductDetails = await ProductService.getProductImages(jsonProductDetails);
@@ -90,7 +90,7 @@ export default class ProductService{
 
     public static getAllProductsInfo = async () =>
     {
-        const [ row ] = await db.query(`SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date', Categoria.Nombre AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id`);
+        const [ row ] = await db.query(`SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date', Categoria.id AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id`);
         let jsonProductDetails: Array<Product> = JSON.parse(JSON.stringify(row));
         jsonProductDetails = await ProductService.getAllProductsImages(jsonProductDetails);
         return jsonProductDetails;
@@ -98,7 +98,7 @@ export default class ProductService{
 
     public static getCategoryProducts = async (id: string) =>
     {
-        const [ row ] = await db.query(`SELECT Producto.id, Producto.Nombre AS 'name', Producto.Precio AS 'price',  Producto.Descripcion AS 'details', Producto.Fecha_Publicacion AS 'date' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id WHERE Producto.fk_id_categoria = ?`, [id]);
+        const [ row ] = await db.query(`SELECT Producto.id, Producto.Nombre AS 'name', Producto.Precio AS 'price',  Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id WHERE Producto.fk_id_categoria = ?`, [id]);
         let jsonCategoryProducts: Array<Product> = JSON.parse(JSON.stringify(row));
         jsonCategoryProducts = await ProductService.getAllProductsImages(jsonCategoryProducts);
         return jsonCategoryProducts;
