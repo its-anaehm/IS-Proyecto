@@ -5,6 +5,7 @@ import DepartmentService from "../services/department.service";
 import MunicipyService from "../services/municipy.service";
 
 import Product from '../models/Product';
+import { CategoryService } from '../services/category.service';
 
 export default class ProductController{
 
@@ -16,6 +17,11 @@ export default class ProductController{
             product.municipy = await MunicipyService.getMunicipy(product.municipy)
         }
         res.send(productList)
+    }
+
+    public static getOneProduct: Handler = async (req,res) => {
+        const product = await ProductService.getProduct(req.params.id)
+        res.status(200).send(product);
     }
     
     public static getPopularProducts : Handler = async (req, res) => {
@@ -41,6 +47,15 @@ export default class ProductController{
         res.status(400).send({message: 'Invalid user'})
     }
 
+
+    public static deleteProduct : Handler = async (req, res) => {
+        if(req.user.role !== 'guest'){
+            await ProductService.deleteProduct(req.params.id)
+            res.status(200).send({message: 'Product deleted'})
+        }
+        res.status(401).send('Unauthorized user')
+    }
+
     public static productDetail: Handler = async (req, res) =>
     {
         try
@@ -59,8 +74,9 @@ export default class ProductController{
     {
         try
         {
-            const productCategory = await ProductService.getCategoryProducts(req.body.productID);
-            res.status(200).send({message: productCategory});
+            const productCategory = await ProductService.getCategoryProducts(req.params.id);
+            const categoryNmae = await CategoryService.getCategoryName(req.params.id)
+            res.status(200).send({categoryName: categoryNmae, message: productCategory});
         }
         catch(err)
         {

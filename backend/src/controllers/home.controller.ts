@@ -12,6 +12,7 @@ export class HomeController
         }
         catch(err)
         {
+            console.log(err);
             res.status(400).send({message: err});
         }
     }
@@ -29,6 +30,18 @@ export class HomeController
             {
                 res.status(200).send({message: 'Subscribed to product'});
             }
+        }
+        catch(err)
+        {
+            res.status(400).send({message: err});
+        }
+    }
+    public static removeFromWishlist: Handler = async (req, res) =>
+    {
+        try
+        {
+            const wishlist = await HomeService.removeSubscription(req.user.id, req.body.productID);
+            res.status(200).send({message: 'Removed product from Wishlist'});
         }
         catch(err)
         {

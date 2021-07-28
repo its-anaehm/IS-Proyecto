@@ -24,7 +24,7 @@ export class CategoryService
     }
 
     public static getSuscribedCategories = async (id: Number) => {
-        let [ row ] = await db.query(`SELECT Suscripcion_Categoria.fk_id_categoria, Categoria.Nombre, Categoria.Imagen, Categoria.Num_Visita 
+        let [ row ] = await db.query(`SELECT Categoria.id, Categoria.Nombre, Categoria.Imagen, Categoria.Num_Visita 
                         FROM Suscripcion_Categoria INNER JOIN Categoria ON Suscripcion_Categoria.fk_id_categoria = Categoria.id 
                         WHERE Suscripcion_Categoria.fk_id_usuario = ?`, [ id ])
 
@@ -33,5 +33,14 @@ export class CategoryService
 
     public static addSuscribedCategory = async (category_id: string, user_id: Number ) => {
         await db.query('INSERT INTO Suscripcion_Categoria(fk_id_usuario, fk_id_categoria) VALUES (?,?)', [user_id, category_id])
+    }
+    public static removeSuscribedCategory = async (category_id: string, user_id: Number) =>
+    {
+        await db.query('DELETE FROM Suscripcion_Categoria WHERE fk_id_usuario = ? AND fk_id_categoria = ?', [user_id, category_id])
+    }
+
+    public static getCategoryName = async(id: string) => {
+        const [row] = await db.query("SELECT  Nombre FROM Categoria WHERE Categoria.id = ?", [id]);
+        return JSON.parse(JSON.stringify(row))[0]["Nombre"];
     }
 }

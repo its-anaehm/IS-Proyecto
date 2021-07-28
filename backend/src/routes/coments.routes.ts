@@ -5,6 +5,7 @@ import { verifyToken } from "../middlewares/auth.middleware";
 const routes = Router()
 
 /** Obtener los comentarios publicados en los productos */
-routes.get('/', verifyToken, CommentController.getProductComment);
+routes.get('/:id', verifyToken, CommentController.getProductComment);
+routes.post('/publish/:userid/:productid', verifyToken, CommentController.publishComment);
 
 export default routes;

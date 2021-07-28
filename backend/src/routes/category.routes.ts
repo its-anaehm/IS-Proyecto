@@ -13,4 +13,7 @@ routes.get('/suscribed', verifyToken, CategoryController.getSuscribedCategories)
 /** Obtener lista de las categorías suscritas del usuario */
 routes.post('/:id/suscribe', verifyToken, CategoryController.suscribeToCategory);
 
+
+routes.get('/:id/unsuscribe', verifyToken, CategoryController.unsuscribeToCategory);
+
 export default routes;
