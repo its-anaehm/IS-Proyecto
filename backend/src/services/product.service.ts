@@ -59,6 +59,7 @@ export default class ProductService{
         product.images.map( async (image) => {
             await db.query("INSERT INTO Imagen(fk_id_producto, Nombre) VALUES (?,?)", [transformedRow.insertId, image] )
         })
+        return transformedRow.insertId;
     }
     
     public static getAllProducts = async () => {

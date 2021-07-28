@@ -40,9 +40,9 @@ export default class ProductController{
             const product : Product = req.body
             product.images = ProductService.getImages(req.files)
     
-            await ProductService.addProduct(product, req.user.id)
+            let idProduct = await ProductService.addProduct(product, req.user.id)
 
-            return res.send({message:'Product added', id: product.id})
+            return res.send({message:'Product added', id: idProduct})
         }
         res.status(400).send({message: 'Invalid user'})
     }
