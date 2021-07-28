@@ -1,4 +1,5 @@
 interface UserObj{
+    ID?: number,
     Nombre: string,
     Apellido: string,
     Email: string,

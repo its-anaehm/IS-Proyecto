@@ -1,12 +1,15 @@
 interface ProductObj{
-    id?: number,
-    category: number,
-    department: string,
-    municipy: string,
+    id: number,
+    owner?: string,
+    category?: number,
+    department?: string,
+    municipy?: string,
     name: string
-    price: string,
-    description: string,
-    images: string[]
+    price?: string,
+    images: string[],
+    date?: string,
+    details?:string
 }
+
 
 export default ProductObj;

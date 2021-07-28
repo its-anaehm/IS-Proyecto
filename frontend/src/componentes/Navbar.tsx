@@ -172,7 +172,7 @@ function Navbar({
                         </Link>
                     </Typography>
                     <Typography variant="button" className={classes.title}>
-                        <Link to="/products" className={classes.anchors}>
+                        <Link to="/catalogue" className={classes.anchors}>
                             Catálogo
                         </Link>
                     </Typography>

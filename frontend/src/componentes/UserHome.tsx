@@ -86,7 +86,7 @@ let templateProducts: ProductObj[] = [{
     municipy: "municipy",
     name: "name",
     price: "price",
-    description: "description",
+    details: "description",
     images: ["image1"]
 }];
 
@@ -100,7 +100,7 @@ function UserHome({
 }:UserHomeProps){
     const classes = useStyles();
     const [suscribedCat, setSubscribedCat] = useState<CategoryObj[] | []>(templateCategories);
-    const [wishlist, setWishlist] = useState<ProductObj[] | []>(templateProducts)
+    const [wishlist, setWishlist] = useState<ProductObj[] | []>(templateProducts);
 
     function getSubscribedCategories(){
         fetch("http://localhost:4000/category/suscribed", {
@@ -148,7 +148,7 @@ function UserHome({
                             backgroundColor: getRandomColor()
                         }}
                         >
-                            <Link to={`/categories/${cat.Nombre}`} style={{textDecoration:"none"}}>
+                            <Link to={`/categories/${cat.id}`} style={{textDecoration:"none"}}>
                                 <Typography
                                 variant="h6"
                                 style={{
@@ -188,7 +188,7 @@ function UserHome({
         }).then( response =>{
             if(response.status < 400){
                 response.json().then( jsonResponse => {
-                    console.log(jsonResponse);
+                    //console.log(jsonResponse);
 
                     const productos: ProductObj[] = jsonResponse.message;
 
@@ -217,13 +217,13 @@ function UserHome({
                 >
                     {wishlist.map( (product: ProductObj) => (
                         <ImageListItem
-                        key={product.images[0]}
+                        key={product.id}
                         className={classes.imageItem}
                         style={{
                             backgroundColor: getRandomColor()
                         }}
                         >
-                            <Link to={`/products/${product.name}`} style={{textDecoration:"none"}}>
+                            <Link to={`/products/${product.id}`} style={{textDecoration:"none"}}>
                                 <Typography
                                 variant="h6"
                                 style={{

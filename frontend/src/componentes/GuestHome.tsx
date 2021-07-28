@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 let templateCategories: CategoryObj[] = [{
+    id: 0,
     Nombre: "Categoria",
     Imagen: categoryPlaceholder,
     Num_Visita: 0
@@ -83,7 +84,7 @@ function GuestHome(){
             <Grid item lg={12} className={classes.grid_item}>
                 <video
                     className={classes.banner}
-                    width={`${window.innerWidth*0.70}`}
+                    width={`${window.innerWidth*0.87}`}
                     height="400"
                     src="banner.mp4"
                     autoPlay
@@ -117,7 +118,7 @@ function GuestHome(){
                             backgroundColor: getRandomColor()
                         }}
                         >
-                            <Link to={`/categories/${cat.Nombre}`} style={{textDecoration:"none"}}>
+                            <Link to={`/categories/${cat.id}`} style={{textDecoration:"none"}}>
                                 <Typography
                                 variant="h6"
                                 style={{

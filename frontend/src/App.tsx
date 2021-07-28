@@ -11,13 +11,21 @@ import { Shadows } from "@material-ui/core/styles/shadows";
 import NewProduct from './vistas/NewProduct';
 import AboutUs from './vistas/AboutUs';
 import ContactUs from './vistas/ContactUs';
-import Products from './vistas/Products';
+import Catalogue from './vistas/Catalogue';
 import UserProfile from './vistas/UserProfile';
 import Navbar from './componentes/Navbar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserObj from './interfaces/UserObj';
 import SingleCategory from './vistas/SingleCategory';
 import SingleProduct from './vistas/SingleProduct';
+import CategoryObj from './interfaces/CategoryObj';
+
+let templateCategories: CategoryObj[] = [{
+  id: 0,
+  Nombre: "Categoria",
+  Imagen: "",
+  Num_Visita: 0
+}];
 
 const defaultTheme = createTheme({
   palette: {
@@ -51,6 +59,7 @@ const defaultTheme = createTheme({
 });
 
 let userPlaceholder: UserObj = {
+  ID: 0,
   Nombre: "nombre",
   Apellido: "apellido",
   Email: "email",
@@ -58,6 +67,7 @@ let userPlaceholder: UserObj = {
 }
 
 function App() {
+  const [categories, setCategories] = useState<CategoryObj[] | []>(templateCategories);
 
   //const requestURL:string = "http://localhost:4000/users/my_details";
 
@@ -78,6 +88,34 @@ function App() {
       return userPlaceholder;
     }
   });
+
+
+  //JUAN
+  function getCategories(){
+    fetch('http://localhost:4000/category/ ',{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    }
+    ).then( response => {
+      if(response.status < 400){
+        response.json().then(jsonResponse => {
+          setCategories(jsonResponse.category)
+        })
+      }
+    } ).catch(e=>{
+      console.log(e);
+    });
+  }
+ 
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  //JUAN
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -101,14 +139,14 @@ function App() {
           <Route path="/contact-us">
             <ContactUs/>
           </Route>
-          <Route path="/products">
-            <Products/>
+          <Route path="/catalogue">
+            <Catalogue categories={categories}/>
           </Route>
           <Route path="/user-profile">
-            <UserProfile/>
+            <UserProfile auth={auth} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
           </Route>
-          <Route path="/categories/:id" children={<SingleCategory/>} />
-          <Route path="/products/:id" children={<SingleProduct/>} />
+          <Route path="/categories/:id" children={<SingleCategory auth={auth}/>} />
+          <Route path="/products/:id" children={<SingleProduct auth={auth} categories={categories} currentUser={currentUser}/>} />
         </Switch>
         <Navbar auth={auth} setAuth={setAuth} currentUser={currentUser} />
       </main>    

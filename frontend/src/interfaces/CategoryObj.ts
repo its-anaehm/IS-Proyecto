@@ -1,6 +1,6 @@
 
 interface CategoryObj{
-    id?: number,
+    id: number,
     Nombre: string,
     Imagen?: string,
     Num_Visita?: number
