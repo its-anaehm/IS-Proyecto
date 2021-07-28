@@ -6,6 +6,8 @@ const routes = Router()
 
 /** Obtener la lista de productos */
 routes.get('/', ProductController.getAllProducts)
+/** Obtener la lista de productos */
+routes.get('/:id', ProductController.getOneProduct)
 /** Obtener la lista de productos populares, limite 50 productos */
 routes.get('/popular', ProductController.getPopularProducts)
 /** Obtiene la información de todos los productos publicados */

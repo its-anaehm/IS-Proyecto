@@ -16,6 +16,25 @@ export default class ProductService{
         }
         return productList
     }
+    
+    public static getProductImages = async ( product: Product) => {
+        product.images = []
+        let [row] = await db.query("SELECT Nombre FROM Imagen WHERE Imagen.fk_id_producto = ?", [product.id])
+        if(JSON.parse(JSON.stringify(row)).length > 0){
+            for(let i = 0; i < JSON.parse(JSON.stringify(row)).length; i++){
+                product.images.push(JSON.parse(JSON.stringify(row))[i]["Nombre"])
+            }
+        }
+        return product
+    }
+    
+    public static getProduct = async (id: string) => {
+        let [row] = await db.query("SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'description', Producto.Fecha_Publicacion AS 'date', Categoria.Nombre AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id WHERE Producto.id = ? ", [id]);
+
+        let jsonProductDetails: Product = JSON.parse(JSON.stringify(row));
+        jsonProductDetails = await ProductService.getProductImages(jsonProductDetails);
+        return jsonProductDetails;
+    }
 
     public static getAllProductsImages = async ( productList: Array<Product>) => {
         for(let product of productList){

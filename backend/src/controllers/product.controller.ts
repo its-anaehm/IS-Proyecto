@@ -18,6 +18,11 @@ export default class ProductController{
         }
         res.send(productList)
     }
+
+    public static getOneProduct: Handler = async (req,res) => {
+        const product = await ProductService.getProduct(req.params.id)
+        res.status(200).send(product);
+    }
     
     public static getPopularProducts : Handler = async (req, res) => {
         
