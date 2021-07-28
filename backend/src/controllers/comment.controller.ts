@@ -20,7 +20,7 @@ export class CommentController
         try
         {
             const comments = await CommentService.publishComments(req.params.userid,req.params.productid,req.body.comment);
-            res.status(200).send({comments: comments});
+            res.status(200).send({comments: 'Success'});
         }
         catch(err)
         {
