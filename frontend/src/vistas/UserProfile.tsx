@@ -225,6 +225,42 @@ function UserProfile({
 			)
 	}
 
+	function removeFromWishList(id:number){
+		fetch(`http://localhost:4000/home/removeSub/${id}`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `${localStorage.getItem("USR_TKN")}`
+            }}
+        ).then(response =>{
+            if(response.status < 400){
+                //setFav(false);
+                getWishlist();
+            }
+        }).catch(e=>{
+            console.log(e);
+        });
+	}
+
+	function removeFromListed(id:number){
+		fetch(`http://localhost:4000/products/${id}`, {
+				method: 'DELETE',
+				headers: {
+						'Content-Type': 'application/json',
+						'Accept': 'application/json',
+						'Authorization': `${localStorage.getItem("USR_TKN")}`
+				}
+		}).then(response =>{
+			if(response.status < 400){
+					//setFav(false);
+					getPublishedProducts();
+			}
+	}).catch(e=>{
+			console.log(e)
+		});
+	}
+
 	useEffect(() => {
 		getPublishedProducts();
 		getWishlist();
@@ -404,7 +440,7 @@ function UserProfile({
 																									height: 508,
 																									overflowY: 'scroll'
 																							}}>
-																								<CardScrollable products={publishedProducts}/>
+																								<CardScrollable products={publishedProducts} removeFunction={removeFromListed}/>
 																							</CardContent>
 
 																					</Card>
@@ -432,7 +468,7 @@ function UserProfile({
 																									height: 542,
 																									overflowY: 'scroll'
 																							}}>
-																								<CardScrollable products={wishlist}/>
+																								<CardScrollable products={wishlist} removeFunction={removeFromWishList}/>
 																							</CardContent>
 
 																					</Card>

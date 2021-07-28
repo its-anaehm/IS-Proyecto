@@ -108,6 +108,7 @@ function CommentSection({
           <TextField
           id="comment_content"
           fullWidth
+          multiline
           placeholder={"Ingrese su comentario aquí..."}
           variant={"outlined"}
           className={classes.inputs}

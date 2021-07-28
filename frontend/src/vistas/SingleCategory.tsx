@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import ProductObj from '../interfaces/ProductObj';
 import placeholder from "../img/item-placeholder.png";
 import Button from '@material-ui/core/Button';
+import CategoryObj from '../interfaces/CategoryObj';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -63,8 +64,8 @@ let templateProducts: ProductObj[] = [{
     date: "ayer"
 }];
 
-let templateSuscribed: suscribedCategory[] = [{
-    fk_id_categoria: 0,
+let templateSuscribed: CategoryObj[] = [{
+    id: 0,
     Nombre: "Categoria",
     Imagen: `${placeholder}`,
     Num_Visita: 0
@@ -82,12 +83,15 @@ function SingleCategory({
     const [categoryName, setCategoryName] = useState<string>("Categoria");
     const [products, setProducts] = useState<ProductObj[]>(templateProducts);
     const [suscribed, setSuscribed] = useState<boolean>(false);
-    const [suscribedCat, setSuscribedCat] = useState<suscribedCategory[]>(templateSuscribed);
+    const [suscribedCat, setSuscribedCat] = useState<CategoryObj[]>(templateSuscribed);
 
     function changeSuscription(){
+        //console.log(suscribed);
         if(suscribed){
+            //console.log("quitar");
             unsuscribeCategory();
         }else{
+            //console.log("Suscribirse");
             suscribeCategory();
         }
     }
@@ -103,12 +107,12 @@ function SingleCategory({
             }).then(response =>{
                 if(response.status < 400){
                     response.json().then( jsonResponse =>{
-                        let cats: suscribedCategory[] = jsonResponse.suscribedCategories;
+                        let cats: CategoryObj[] = jsonResponse.suscribedCategories;
 
                         let found: boolean = false;
 
                         for(let i=0; i<cats.length; i++){
-                            if(cats[i].fk_id_categoria === parseInt(id)){
+                            if(cats[i].id === parseInt(id)){
                                 found = true;
                                 break;
                             }

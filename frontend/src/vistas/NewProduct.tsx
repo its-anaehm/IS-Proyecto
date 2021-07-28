@@ -100,6 +100,7 @@ function NewProduct({
     const [errMessage, setErrMessage] = useState<string>("");
     const [productImage, setProductImage] = useState<File|null>(null);
     const [price, setPrice] = useState<string>("");
+    const [redirectLink, setRedirectLink] = useState<string>("/");
 
     function createProduct(e: React.FocusEvent<HTMLFormElement>){
         e.preventDefault();
@@ -137,8 +138,12 @@ function NewProduct({
                       setErrMessage("");
                       setFormErr(true);
                   }else{
-                      console.log(response);
-                      setRedirectHome(true);
+                      //console.log(response);
+                      response.json().then(jsonResponse => {
+                          //console.log(jsonResponse);
+                          setRedirectLink(`/products/${jsonResponse.id}`);
+                          setRedirectHome(true);
+                      });
                   }
               }).catch(error => {
                   setErrMessage("");
@@ -313,7 +318,7 @@ function NewProduct({
     return(
         <>
             {auth ? undefined : <Redirect to="/login"/>}
-            {redirectHome ? <Redirect to="/"/> : undefined}
+            {redirectHome ? <Redirect to={redirectLink} /> : undefined}
 
             <Container component="main" maxWidth="md">
                 <CssBaseline />
@@ -372,9 +377,9 @@ function NewProduct({
                                             >
                                                {productImage === null ? showNoPreview(): showPreview()} 
                                             </div>
-                                            <Typography variant="button">
+                                            {/*<Typography variant="button">
                                                     *Máximo 6 Imagenes
-                                                </Typography>
+                                                </Typography>*/}
                                             <div
                                             style={{
                                                 display: 'flex',
