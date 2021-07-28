@@ -17,7 +17,7 @@ INSERT INTO Categoria(Nombre, Imagen, Num_Visita) VALUES
     ("Motos y Automoviles", "Motos y Automoviles.png", 5);
 
 INSERT INTO Departamento (Nombre) VALUES
-    ("Atlantidad"),
+    ("Atlantida"),
     ("Colón"),
     ("Comayagua"),
     ("Copán"),
