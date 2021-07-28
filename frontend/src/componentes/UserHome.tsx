@@ -202,7 +202,7 @@ function UserHome({
     }
 
     function showWishlist(){
-        if(suscribedCat.length === 0){
+        if(wishlist.length === 0){
             return(
                 <Typography variant="h5" style={{fontWeight:"bold"}}>
                     No tiene ningun producto en la lista de deseos.
