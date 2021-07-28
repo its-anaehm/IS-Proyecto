@@ -8,5 +8,11 @@ export class CommentService
         let jsonCategory = JSON.parse(JSON.stringify(row));
         return jsonCategory;
     }
+    public static publishComments = async(user_id: string, product_id:string, comment: string) =>
+    {
+        const [row] = await db.query(`INSERT INTO Comentario(fk_id_usuario,fk_id_producto,Comentario,Fecha_Publicacion) VALUES (?,?,?,NOW())`, [user_id,product_id,comment]);
+        let jsonCategory = JSON.parse(JSON.stringify(row));
+        return jsonCategory;
+    }
 }
 
