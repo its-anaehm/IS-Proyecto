@@ -29,7 +29,7 @@ export default class ProductService{
     }
     
     public static getProduct = async (id: string) => {
-        let [row] = await db.query("SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'description', Producto.Fecha_Publicacion AS 'date', Categoria.Nombre AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id WHERE Producto.id = ? ", [id]);
+        let [row] = await db.query("SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'details', Producto.Fecha_Publicacion AS 'date', Categoria.Nombre AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id WHERE Producto.id = ? ", [id]);
 
         let jsonProductDetails: Product = JSON.parse(JSON.stringify(row));
         jsonProductDetails = await ProductService.getProductImages(jsonProductDetails);
@@ -70,7 +70,7 @@ export default class ProductService{
 
     public static getAllProducts = async () => {
         const [row] = await db.query(`SELECT id, fk_id_categoria AS category, fk_id_departamento AS department, fk_id_municipio AS municipy, Nombre AS name, Precio AS price,
-            Descripcion AS description FROM Producto`)
+            Descripcion AS details FROM Producto`)
 
         let productList : Array<Product> = (JSON.parse(JSON.stringify(row)))
         productList = await ProductService.getProductsImages(productList)
@@ -80,7 +80,7 @@ export default class ProductService{
     
     public static getPopularProducts = async () => {
         const [ row ] = await db.query(`SELECT id, fk_id_categoria AS category, fk_id_departamento AS department, fk_id_municipio AS municipy, Nombre AS name, Precio AS price,
-        Descripcion AS description FROM Producto ORDER BY Producto.Num_Visita DESC LIMIT 50`)
+        Descripcion AS details FROM Producto ORDER BY Producto.Num_Visita DESC LIMIT 50`)
         
         let productList : Array<Product> = (JSON.parse(JSON.stringify(row)))
         productList = await ProductService.getProductsImages(productList)
@@ -90,7 +90,7 @@ export default class ProductService{
 
     public static getAllProductsInfo = async () =>
     {
-        const [ row ] = await db.query(`SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'description', Producto.Fecha_Publicacion AS 'date', Categoria.Nombre AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id`);
+        const [ row ] = await db.query(`SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date', Categoria.Nombre AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id`);
         let jsonProductDetails: Array<Product> = JSON.parse(JSON.stringify(row));
         jsonProductDetails = await ProductService.getAllProductsImages(jsonProductDetails);
         return jsonProductDetails;
