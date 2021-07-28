@@ -7,7 +7,7 @@ const routes = Router()
 /** Ruta para la lista de deseos del usuario */
 routes.get('/wishlist', verifyToken , HomeController.verifyWishlist);
 /** Se suscribe a un producto en especifico */
-routes.get('/subscribe', verifyToken, HomeController.getSubscribed);
+routes.get('/subscribe/:id', verifyToken, HomeController.getSubscribed);
 
-routes.get('/removeSub', verifyToken, HomeController.removeFromWishlist);
+routes.get('/removeSub/:id', verifyToken, HomeController.removeFromWishlist);
 export default routes;

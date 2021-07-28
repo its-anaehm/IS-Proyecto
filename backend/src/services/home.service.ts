@@ -12,7 +12,7 @@ export class HomeService
         jsonWishlist = await ProductService.getProductsImages(jsonWishlist);
         return jsonWishlist;
     }
-    public static subscribeToWishlist = async (user_id: Number, product_id: Number) =>
+    public static subscribeToWishlist = async (user_id: Number, product_id: string) =>
     {
         if(await HomeService.verifySubscription(user_id,product_id) == true)
         {
@@ -25,7 +25,7 @@ export class HomeService
             return jsonWishlistSub; 
         }
     }
-    public static verifySubscription = async (user_id: Number, product_id: Number) =>
+    public static verifySubscription = async (user_id: Number, product_id: string) =>
     {
         const [row] = await db.query('SELECT fk_id_producto FROM Lista_Deseo WHERE fk_id_usuario = ? AND fk_id_producto = ?', [user_id, product_id]);
         let jsonWishlistSub = JSON.parse(JSON.stringify(row));
@@ -38,7 +38,7 @@ export class HomeService
             return false;
         }
     }
-    public static removeSubscription = async (user_id: Number, product_id: Number) =>
+    public static removeSubscription = async (user_id: Number, product_id: string) =>
     {
         const [row] = await db.query('DELETE FROM Lista_Deseo WHERE fk_id_usuario = ? AND fk_id_producto = ?', [user_id, product_id]);
     }
