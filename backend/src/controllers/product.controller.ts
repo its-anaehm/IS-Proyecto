@@ -42,7 +42,7 @@ export default class ProductController{
     
             await ProductService.addProduct(product, req.user.id)
 
-            return res.send({message:'Product added'})
+            return res.send({message:'Product added', id: product.id})
         }
         res.status(400).send({message: 'Invalid user'})
     }

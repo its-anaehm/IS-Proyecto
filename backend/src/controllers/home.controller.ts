@@ -21,7 +21,7 @@ export class HomeController
     {
         try
         {
-            const wishlist = await HomeService.subscribeToWishlist(req.user.id, req.body.productID);
+            const wishlist = await HomeService.subscribeToWishlist(req.user.id, req.params.id);
             if(wishlist == true)
             {
                 res.status(400).send({message: 'User is already subscribed'});
@@ -40,7 +40,7 @@ export class HomeController
     {
         try
         {
-            const wishlist = await HomeService.removeSubscription(req.user.id, req.body.productID);
+            const wishlist = await HomeService.removeSubscription(req.user.id, req.params.id);
             res.status(200).send({message: 'Removed product from Wishlist'});
         }
         catch(err)
