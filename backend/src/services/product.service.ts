@@ -28,14 +28,7 @@ export default class ProductService{
         return product
     }
     
-    public static getProduct = async (id: string) => {
-        let [row] = await db.query("SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date', Categoria.id AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id WHERE Producto.id = ? ", [id]);
-
-        let jsonProductDetails: Product = JSON.parse(JSON.stringify(row));
-        jsonProductDetails = await ProductService.getProductImages(jsonProductDetails);
-        return jsonProductDetails;
-    }
-
+    
     public static getAllProductsImages = async ( productList: Array<Product>) => {
         for(let product of productList){
             product.images = []
@@ -46,36 +39,44 @@ export default class ProductService{
         }
         return productList
     }
-
+    
     public static getImages = (files : Request["files"]) => {
         let images : Array<string> = []
         let requestImages : Array<File> = JSON.parse(JSON.stringify(files))["productImages"] || []
-
+        
         requestImages.map( file => {
             images.push(file["filename"])
         })
         return images;
     }
-
+    
     public static addProduct = async (product: Product, id: Number) => {
         const [row] = await db.query("INSERT INTO Producto(fk_id_usuario, fk_id_categoria, fk_id_departamento, fk_id_municipio, Nombre, Precio, Estado, Descripcion) VALUES (?,?,?,?,?,?,?,?)", 
-                                    [ id, product.category, product.department, product.municipy, product.name, product.price, product.status, product.description ])
-
+        [ id, product.category, product.department, product.municipy, product.name, product.price, product.status, product.description ])
+        
         const transformedRow = JSON.parse(JSON.stringify(row))
-
+        
         product.images.map( async (image) => {
             await db.query("INSERT INTO Imagen(fk_id_producto, Nombre) VALUES (?,?)", [transformedRow.insertId, image] )
         })
     }
-
+    
     public static getAllProducts = async () => {
         const [row] = await db.query(`SELECT id, fk_id_categoria AS category, fk_id_departamento AS department, fk_id_municipio AS municipy, Nombre AS name, Precio AS price,
-            Descripcion AS details FROM Producto`)
-
+        Descripcion AS details FROM Producto`)
+        
         let productList : Array<Product> = (JSON.parse(JSON.stringify(row)))
         productList = await ProductService.getProductsImages(productList)
         
         return productList
+    }
+    
+    public static getProduct = async (id: string) => {
+        let [row] = await db.query("SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date', Categoria.id AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id WHERE Producto.id = ? ", [id]);
+
+        let jsonProductDetails: Array<Product> = JSON.parse(JSON.stringify(row));
+        jsonProductDetails = await ProductService.getProductsImages(jsonProductDetails);
+        return jsonProductDetails;
     }
     
     public static getPopularProducts = async () => {
@@ -84,7 +85,6 @@ export default class ProductService{
         
         let productList : Array<Product> = (JSON.parse(JSON.stringify(row)))
         productList = await ProductService.getProductsImages(productList)
-        
         return productList
     }
 
