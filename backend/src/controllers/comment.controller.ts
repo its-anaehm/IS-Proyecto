@@ -7,7 +7,7 @@ export class CommentController
     {
         try
         {
-            const comments = await CommentService.getComments(req.body.productID);
+            const comments = await CommentService.getComments(req.params.id);
             res.status(200).send({comments: comments});
         }
         catch(err)
