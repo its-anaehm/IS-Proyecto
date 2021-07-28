@@ -7,14 +7,12 @@ import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { useEffect, useState } from 'react';
 import ProductObj from '../interfaces/ProductObj';
-import placeholder from "../img/item-placeholder.png";
 import Button from '@material-ui/core/Button';
 import CategoryObj from '../interfaces/CategoryObj';
-import categoryPlaceholder from "../img/item-placeholder.png";
-import Categories from '../componentes/Categories';
 import CommentObj from '../interfaces/CommentObj';
 import CommentSection from '../componentes/CommentSection';
 import UserObj from '../interfaces/UserObj';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -65,6 +63,18 @@ interface SingleProductProps{
     currentUser: UserObj
 }
 
+let templateProducts: ProductObj[] = [{
+    id: 1,
+    category: 1,
+    department: "department",
+    municipy: "municipy",
+    name: "name",
+    price: "price",
+    details: "description",
+    images: ["image1"]
+}];
+
+
 function SingleProduct({
     auth,
     categories,
@@ -74,6 +84,9 @@ function SingleProduct({
     const { id } = useParams<ParamInterface>();
     const [productInfo, setProductInfo] = useState<ProductObj>(templateProduct);
     const [comments, setComments] = useState<CommentObj[]>(templateComments);
+    const [wishlist, setWishlist] = useState<ProductObj[] | []>(templateProducts);
+    const [fav, setFav] = useState<boolean>(false);
+    let bg: string = fav? "#F95959": "#a9a9a9";
 
     function getComments(){
         fetch(`http://localhost:4000/comments/${id}`, {
@@ -90,6 +103,36 @@ function SingleProduct({
                     setComments(jsonResponse.comments);
                 })
             }
+        });
+    }
+
+    function getWishlist(){
+        fetch("http://localhost:4000/home/wishlist", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `${localStorage.getItem("USR_TKN")}`
+            }
+        }).then( response =>{
+            if(response.status < 400){
+                response.json().then( jsonResponse => {
+                    //console.log(jsonResponse);
+
+                    const productos: ProductObj[] = jsonResponse.message;
+
+                    for(let i=0; i<productos.length; i++){
+                        if(productos[i].id === parseInt(`${id}`) ){
+                            setFav(true);
+                            break;
+                        }
+                    }
+
+                    setWishlist(productos);
+                } );
+            }
+        } ).catch(error => {
+            console.log(error);
         });
     }
 
@@ -146,8 +189,72 @@ function SingleProduct({
         );
     }
 
+    function showButton(){
+        //let hvr_bg: string = fav? "#a9a9a9": "F95959";
+
+        return(
+            <Button
+            type="button"
+            style={{
+                color: bg,
+            }}
+            onClick={changeWishList}
+            >
+                <FavoriteIcon fontSize="large"/>
+            </Button>
+        );
+    }
+
+    function changeWishList(){
+        if(fav){
+            removeFromWishList();
+        }else{
+            addToWishList();
+        }
+    }
+
+    function removeFromWishList(){
+        fetch(`http://localhost:4000/home/removeSub/${id}`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `${localStorage.getItem("USR_TKN")}`
+            }}
+        ).then(response =>{
+            if(response.status < 400){
+                setFav(false);
+                getWishlist();
+            }
+        }).catch(e=>{
+            console.log(e);
+        });
+    }
+
+    function addToWishList(){
+
+        fetch(`http://localhost:4000/home/subscribe/${id}`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `${localStorage.getItem("USR_TKN")}`
+            }}
+        ).then(response =>{
+            if(response.status < 400){
+                setFav(true);
+                getWishlist();
+            }
+            
+        }).catch(e=>{
+            console.log(e);
+        });
+
+    }
+
     useEffect(()=>{
         getProductInfo();
+        getWishlist();
 
         if(auth){
             getComments();
@@ -173,9 +280,12 @@ function SingleProduct({
                         lg={5}
                         md={5}
                         >
-                            <Typography variant="h4" >
-                                <strong>{productInfo.name}</strong>
-                            </Typography>
+                            <div>
+                                <Typography variant="h4" display="inline">
+                                    <strong>{productInfo.name}</strong>
+                                </Typography>
+                                {auth? showButton(): undefined}
+                            </div>
                             <img
                             src={`http://localhost:4000/uploads/${productInfo.images[0]}`}
                             alt={productInfo.name}
