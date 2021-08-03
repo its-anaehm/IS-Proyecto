@@ -47,17 +47,17 @@ export class FilterService
             queryParams.push(filterInfo.Category)
         }
         if(filterInfo.minPrice !== undefined && query !== ""){
-            query = " AND Producto.Precio >= ?";
+            query += " AND Producto.Precio >= ?";
             queryParams.push(filterInfo.minPrice)
         }else if(filterInfo.minPrice !== undefined){
-            query += " WHERE Producto.Precio >= ?";
+            query = " WHERE Producto.Precio >= ?";
             queryParams.push(filterInfo.minPrice)
         }
         if(filterInfo.maxPrice !== undefined && query !== ""){
-            query = " AND Producto.Precio <= ?";
+            query += " AND Producto.Precio <= ?";
             queryParams.push(filterInfo.maxPrice)
         }else if(filterInfo.maxPrice !== undefined){
-            query += "WHERE Producto.Precio <= ?";
+            query = "WHERE Producto.Precio <= ?";
             queryParams.push(filterInfo.maxPrice)
         }
         if(filterInfo.order !== undefined){

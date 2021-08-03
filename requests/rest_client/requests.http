@@ -157,5 +157,7 @@ Content-Type: application/json
 {
     "Department": "1",
     "Municipality": "4",
+    "minPrice":"500",
+    "maxPrice":"640",
     "order": "ASC"
 }
