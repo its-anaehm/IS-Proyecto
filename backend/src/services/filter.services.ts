@@ -1,4 +1,5 @@
 import { db } from "../config/database";
+import Filter from "../models/Filter";
 
 export class FilterService
 {
@@ -21,5 +22,54 @@ export class FilterService
         const [row, fields] = await db.query('SELECT * FROM Departamento');
         let jsonDepartment = JSON.parse(JSON.stringify(row));
         return jsonDepartment;
+    }
+
+    public static getQuery = async (filterInfo: Filter) => {
+        let query = "";
+        const queryParams = [];
+
+        if(filterInfo.Department !== ""){
+            query = "WHERE Departamento.id = ?";
+            queryParams.push(filterInfo.Department)
+        }
+        
+        if(filterInfo.Municipality !== "" && query !== ""){
+            query += "AND Municipio.id = ?";
+            queryParams.push(filterInfo.Municipality)
+        }else{
+            query = "WHERE Municipio.id = ?";
+            queryParams.push(filterInfo.Municipality)
+        }
+
+        if(filterInfo.Category !== "" && query !== ""){
+            query += "AND Categoria.id = ?";
+            queryParams.push(filterInfo.Category)
+        }else{
+            query = "WHERE Categoria.id = ?";
+            queryParams.push(filterInfo.Category)
+        }
+
+        if(filterInfo.minPrice !== "" && query !== ""){
+            query = "AND Producto.Precio >= ?";
+            queryParams.push(filterInfo.minPrice)
+        }else{
+            query += " WHERE Producto.Precio >= ?";
+            queryParams.push(filterInfo.minPrice)
+        }
+
+        if(filterInfo.maxPrice !== "" && query !== ""){
+            query = "AND Producto.Precio <= ?";
+            queryParams.push(filterInfo.maxPrice)
+        }else{
+            query += "WHERE Producto.Precio <= ?";
+            queryParams.push(filterInfo.maxPrice)
+        }
+
+        if(filterInfo.order !== ""){
+            query += "ORDER BY Producto.Precio ?";
+            queryParams.push(filterInfo.order)
+        }
+
+        return [query, queryParams];
     }
 }

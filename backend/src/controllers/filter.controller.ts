@@ -1,4 +1,5 @@
 import { Handler } from 'express';
+import Filter from '../models/Filter';
 import { FilterService } from '../services/filter.services';
 
 export class FilterController
@@ -42,4 +43,14 @@ export class FilterController
             res.status(400).send({message: err});
         }
     }
+
+    public static getFilteredProducts : Handler = async (req, res) => {
+        const filterInfo : Filter = req.body;
+        let [query, queryParams] = await FilterService.getQuery(filterInfo);
+
+        console.log(query, queryParams)
+
+        res.status(200).send("hola");
+    }
+
 }
