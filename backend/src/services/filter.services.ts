@@ -25,7 +25,7 @@ export class FilterService
     }
 
     public static getQuery = async (filterInfo: Filter) => {
-        var query = "";
+        var query: string = "";
         const queryParams = [];
 
         if(filterInfo.Department !== undefined){
@@ -61,10 +61,16 @@ export class FilterService
             queryParams.push(filterInfo.maxPrice)
         }
         if(filterInfo.order !== undefined){
-            query += " ORDER BY Producto.Precio ?";
-            queryParams.push(filterInfo.order)
+            query += ` ORDER BY Producto.Precio ${filterInfo.order}`;
         }
-        console.log(query);
-        return [query, queryParams];
+        //console.log(query);
+        return { query, queryParams } 
+    }
+    public static test = async(query: string, queryParams: string[]) =>
+    {
+        const [row, fields] = await db.query(`SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date', Categoria.id AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id ${query}`, queryParams);
+
+        let jsonFilter = JSON.parse(JSON.stringify(row));
+        return jsonFilter;
     }
 }

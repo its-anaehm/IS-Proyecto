@@ -46,12 +46,9 @@ export class FilterController
 
     public static getFilteredProducts : Handler = async (req, res) => {
         const filterInfo : Filter = req.body;
-        console.log(filterInfo);
-        let [query, queryParams] = await FilterService.getQuery(filterInfo);
-
-        console.log(query, queryParams)
-
-        res.status(200).send("hola");
+        let {query, queryParams} = await FilterService.getQuery(filterInfo);
+        let test = await FilterService.test(query, queryParams);
+        res.status(200).send({message: test});
     }
 
 }
