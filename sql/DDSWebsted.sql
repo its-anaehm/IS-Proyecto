@@ -43,7 +43,7 @@ CREATE TABLE Producto(
     fk_id_municipio INT NOT NULL,
     fk_id_usuario INT NOT NULL,
     Nombre VARCHAR(50) NOT NULL,
-    Precio VARCHAR(15) NOT NULL,
+    Precio DECIMAL(10,2) NOT NULL,
     Descripcion VARCHAR(500) NOT NULL,
     Fecha_Publicacion DATETIME DEFAULT NOW(),
     Num_Visita  INT NOT NULL DEFAULT 0,
