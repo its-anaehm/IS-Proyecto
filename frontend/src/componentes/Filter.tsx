@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button, FormControl } from "@material-ui/core";
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
@@ -12,6 +12,11 @@ import CategoryObj from "../interfaces/CategoryObj";
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import ProductObj from "../interfaces/ProductObj";
+import { Input } from '@material-ui/core';
+import { FormLabel } from '@material-ui/core';
+import { FormControlLabel } from '@material-ui/core';
+import { Radio } from '@material-ui/core';
+import { RadioGroup } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) => ({
     boton:{
@@ -51,7 +56,8 @@ const useStyles = makeStyles((theme: Theme) => ({
       //backgroundColor: theme.palette.primary.main,
       borderRadius: 15,
       padding: 7,
-      paddingRight: 20
+      paddingRight: 20,
+      //marginTop: 170
       //width: window.innerWidth*0.20
     },
     cancelar: {
@@ -139,11 +145,17 @@ function Filter({
         if(response.status < 400){
             response.json().then( jsonResponse => {
                 
+                let newCategories = [{
+                  id: 0,
+                  Nombre: "-------"
+                }];
 
-                setCategories( jsonResponse.category.map( (cat:CategoryObj) => ({
-                    id: cat.id,
-                    Nombre: cat.Nombre
-                }) ) );
+                jsonResponse.category.map( (cat:CategoryObj) => {
+                  newCategories.push(cat)
+                })
+
+                setCategories(newCategories)
+
             } );
         }
     } ).catch(error => {
@@ -163,10 +175,16 @@ function getDepartments(){
             response.json().then( jsonResponse => {
                 //console.log(jsonResponse);
 
-                setDepartments( jsonResponse.departments.map( (dep:Department) => ({
-                    id: dep.id,
-                    Nombre: dep.Nombre
-                }) ) );
+                let newDepartments = [{
+                  id: 0,
+                  Nombre: "-------"
+                }];
+
+                jsonResponse.departments.map( (dep:Department) =>
+                  newDepartments.push(dep)
+                )
+
+                setDepartments(newDepartments)
             } )
         }
     } ).catch(error => {
@@ -187,10 +205,17 @@ function getMunicipalities(dep: number){
             response.json().then( jsonResponse => {
                 //console.log(jsonResponse);
 
-                setMunicipalities( jsonResponse.municipalities.map( (mun: Municipality) => ({
-                    id: mun.id,
-                    Nombre: mun.Nombre
-                }) ) );
+                let newMunicipalities = [{
+                  id: 0,
+                  Nombre: "-------"
+                }];
+
+                jsonResponse.municipalities.map( (num: Municipality) => 
+                newMunicipalities.push(num)
+                ) 
+
+                setMunicipalities(newMunicipalities)
+
             } )
         }
     } ).catch(error => {
@@ -206,6 +231,18 @@ function getMunicipalities(dep: number){
 function getProductsWithFilter(e: React.FocusEvent<HTMLFormElement>){
     e.preventDefault();
 
+    const filter = {
+      Department: e.target.select_department.value,
+      Municipality: e.target.select_municipality.value,
+      Category: e.target.select_category.value,
+      minPrice: e.target.minPrice.value,
+      maxPrice: e.target.maxPrice.value,
+      order: e.target.select_order.option
+
+    }
+
+    console.log(filter)
+
     /**
      * Para obtener el valor del textfield/input:
      *     e.target."id_input".value
@@ -213,15 +250,6 @@ function getProductsWithFilter(e: React.FocusEvent<HTMLFormElement>){
      * Falta:
      * - Realizar conexón con el backend
      * 
-     * - Agregar input si en orden ascendiente
-     * o descendiente. 
-     * (https://material-ui.com/components/radio-buttons/)
-     * 
-     * - Si el slider de precios no cumple con lo deseado, utilizar:
-     * (https://material-ui.com/components/text-fields/) como type="number"
-     * 
-     * - Poner un valor por defecto a los Selects para saber si el usuario
-     * seleccionó alguna opción del select o no
      * 
      * - Enviar en un formato asi:
      *   {
@@ -287,6 +315,7 @@ function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
             label="Categoria"
             select
             fullWidth
+            size = "small"
             variant={"outlined"}
             className={classes.inputs}
             SelectProps={{
@@ -296,9 +325,9 @@ function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
             >
                 {categories.map((categoria)=>{
                     return(
-                        <option key={categoria.id} value={categoria.id}>
-                            {categoria.Nombre}
-                        </option>
+                          <option key={categoria.id} value={categoria.id}>
+                              {categoria.Nombre}
+                          </option>
                     )
                 })}
             </TextField>
@@ -306,6 +335,7 @@ function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
             id="select_department"
             label="Departamento"
             fullWidth
+            size = "small"
             select
             onChange={changeDepartment}
             variant={"outlined"}
@@ -327,6 +357,7 @@ function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
             id="select_municipality"
             label="Municipio"
             fullWidth
+            size = "small"
             select
             variant={"outlined"}
             className={classes.inputs}
@@ -347,13 +378,44 @@ function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
             <Typography variant="body1">
               Rango de Precios
             </Typography>
-            <Slider
+
+            <TextField 
+            placeholder = "Mínimo" 
+            id = "minPrice" 
+            type = "number"
+            style = {{
+              display: "inline",
+              width: "40%"
+            }}
+            className = {classes.inputs}>
+            </TextField>
+
+            <TextField 
+            placeholder= "Máximo" 
+            id = "maxPrice" 
+            type = "number" 
+            style = {{
+              display: "inline",
+              width: "40%"
+            }}
+            className = {classes.inputs}>
+            </TextField>
+
+            {/*<Slider
               value={value}
               onChange={handleChange}
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               getAriaValueText={valuetext}
-            />
+            />*/}
+
+            <FormControl id = "select_order" component="fieldset">
+              <FormLabel component="legend">Orden</FormLabel>
+              <RadioGroup id = "option">
+                <FormControlLabel value="ASC" control={<Radio />} label="Asc"/>
+                <FormControlLabel value="DESC" control={<Radio />} label="Desc"/>
+              </RadioGroup>
+            </FormControl>
 
             <div className={classes.grid_item}>
                 <Button
