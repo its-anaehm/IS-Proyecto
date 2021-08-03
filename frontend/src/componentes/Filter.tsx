@@ -229,7 +229,8 @@ function getProductsWithFilter(e: React.FocusEvent<HTMLFormElement>){
      *    Municipality: "",
      *    Category: "",
      *    minPrice: "", //precio minimo
-     *    maxPrice: "", //precio maximo
+     *    maxPrice: "", //precio maximo,
+     *    order: "DESC" //descendiente por defect o puede ser ASC
      *   }
      * 
      * 
