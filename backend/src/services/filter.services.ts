@@ -1,5 +1,7 @@
 import { db } from "../config/database";
 import Filter from "../models/Filter";
+import Product from "../models/Product";
+import ProductService from "./product.service";
 
 export class FilterService
 {
@@ -69,8 +71,8 @@ export class FilterService
     public static test = async(query: string, queryParams: string[]) =>
     {
         const [row, fields] = await db.query(`SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date', Categoria.id AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id ${query}`, queryParams);
-
-        let jsonFilter = JSON.parse(JSON.stringify(row));
+        let jsonFilter: Array<Product> = JSON.parse(JSON.stringify(row));
+        jsonFilter = await ProductService.getAllProductsImages(jsonFilter);
         return jsonFilter;
     }
 }
