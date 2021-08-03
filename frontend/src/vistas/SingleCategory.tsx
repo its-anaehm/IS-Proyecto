@@ -10,6 +10,7 @@ import ProductObj from '../interfaces/ProductObj';
 import placeholder from "../img/item-placeholder.png";
 import Button from '@material-ui/core/Button';
 import CategoryObj from '../interfaces/CategoryObj';
+import Filter from '../componentes/Filter';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      overflow: 'none'
     },
     main:{
         marginLeft: "5%",
@@ -217,6 +219,7 @@ function SingleCategory({
             <Container component="main" maxWidth="md" className={classes.main}>
             <CssBaseline />
                 <div className={classes.paper}>
+                    <Filter setProducts={setProducts}/>
                     <Grid
                     container
                     >
@@ -224,9 +227,6 @@ function SingleCategory({
                         item
                         >
                             <div
-                            style={{
-                                display: 'flex'
-                            }}
                             >
                                 <Typography
                                 variant="h4"
@@ -243,7 +243,11 @@ function SingleCategory({
                         <Grid
                         item
                         >
-                            <div>
+                            <div
+                            style={{
+                                overflow:'auto'
+                            }}
+                            >
                                 <Grid
                                 container
                                 >
