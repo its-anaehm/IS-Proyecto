@@ -156,8 +156,8 @@ Content-Type: application/json
 
 {
     "Department": "1",
-    "Municipality": "4",
-    "minPrice":"500",
-    "maxPrice":"640",
+    "Municipality": "1",
+    "minPrice":"100",
+    "maxPrice":"50000",
     "order": "ASC"
 }
