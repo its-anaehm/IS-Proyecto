@@ -4,7 +4,7 @@ import router from "./index.routes";
 
 const routes = Router()
 
-router.get("/", FilterController.getFilteredProducts)
+routes.get("/", FilterController.getFilteredProducts)
 /** Obtener lista de los municipios */
 routes.get('/municipality/id=:id', FilterController.getMunicipality);
 /** Obtener lista de los departamentos */

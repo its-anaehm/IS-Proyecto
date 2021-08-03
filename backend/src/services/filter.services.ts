@@ -25,51 +25,46 @@ export class FilterService
     }
 
     public static getQuery = async (filterInfo: Filter) => {
-        let query = "";
+        var query = "";
         const queryParams = [];
 
-        if(filterInfo.Department !== ""){
+        if(filterInfo.Department !== undefined){
             query = "WHERE Departamento.id = ?";
             queryParams.push(filterInfo.Department)
         }
-        
-        if(filterInfo.Municipality !== "" && query !== ""){
-            query += "AND Municipio.id = ?";
+        if(filterInfo.Municipality !== undefined && query !== ""){
+            query += " AND Municipio.id = ?";
             queryParams.push(filterInfo.Municipality)
-        }else{
-            query = "WHERE Municipio.id = ?";
-            queryParams.push(filterInfo.Municipality)
+        }else if(filterInfo.Municipality !== undefined){
+             query = "WHERE Municipio.id = ?";
+             queryParams.push(filterInfo.Municipality)
         }
-
-        if(filterInfo.Category !== "" && query !== ""){
-            query += "AND Categoria.id = ?";
+        if(filterInfo.Category !== undefined && query !== ""){
+            query += " AND Categoria.id = ?";
             queryParams.push(filterInfo.Category)
-        }else{
+        }else if(filterInfo.Category !== undefined){
             query = "WHERE Categoria.id = ?";
             queryParams.push(filterInfo.Category)
         }
-
-        if(filterInfo.minPrice !== "" && query !== ""){
-            query = "AND Producto.Precio >= ?";
+        if(filterInfo.minPrice !== undefined && query !== ""){
+            query = " AND Producto.Precio >= ?";
             queryParams.push(filterInfo.minPrice)
-        }else{
+        }else if(filterInfo.minPrice !== undefined){
             query += " WHERE Producto.Precio >= ?";
             queryParams.push(filterInfo.minPrice)
         }
-
-        if(filterInfo.maxPrice !== "" && query !== ""){
-            query = "AND Producto.Precio <= ?";
+        if(filterInfo.maxPrice !== undefined && query !== ""){
+            query = " AND Producto.Precio <= ?";
             queryParams.push(filterInfo.maxPrice)
-        }else{
+        }else if(filterInfo.maxPrice !== undefined){
             query += "WHERE Producto.Precio <= ?";
             queryParams.push(filterInfo.maxPrice)
         }
-
-        if(filterInfo.order !== ""){
-            query += "ORDER BY Producto.Precio ?";
+        if(filterInfo.order !== undefined){
+            query += " ORDER BY Producto.Precio ?";
             queryParams.push(filterInfo.order)
         }
-
+        console.log(query);
         return [query, queryParams];
     }
 }
