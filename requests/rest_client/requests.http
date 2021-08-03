@@ -151,7 +151,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFy
 
 
 ###
-GET http://localhost:4000/filters/ HTTP/1.1
+POST http://localhost:4000/filters/ HTTP/1.1
 Content-Type: application/json
 
 {
