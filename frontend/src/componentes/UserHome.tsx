@@ -382,13 +382,11 @@ function UserHome({
 
     function showProductGrid(){
         return(
-            //Colocar entre un grid container
             <Grid
             container
-            lg={9}
-            alignContent={"flex-end"}
+            lg = {9}
             >
-                <ProductGrid products={products} />
+                { products.length === 0? <Typography style={{paddingTop: '100px', alignContent: 'right'}} variant="h4">Ningún producto coincide con los criterios.</Typography>: <ProductGrid products={products} /> }
             </Grid>
         );
     }
@@ -550,7 +548,6 @@ function UserHome({
                 </Grid>
                 
                 {showGrid? showProductGrid(): <UserInfo suscribedCat={suscribedCat} wishlist={wishlist}/>}
-                
 
             </Grid>
         </Grid>

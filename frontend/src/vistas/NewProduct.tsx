@@ -306,7 +306,7 @@ function NewProduct({
         //console.log(newPrice);
 
         if( 
-            (newPrice.match(/([0-9]+,?)+\.\d\d\d/g))
+            (newPrice.match(/([0-9]+)\.\d\d\d/g))
         ){
             newPrice = price;
             e.target.value = newPrice;
