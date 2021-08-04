@@ -1,19 +1,15 @@
 //import { Grid } from "@material-ui/core";
 import placeholder from "../img/item-placeholder.png";
 import { useEffect, useState } from "react";
-import ImageList from '@material-ui/core/ImageList';
-import ImageListItem from '@material-ui/core/ImageListItem';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from "react-router-dom";
 import Typography from '@material-ui/core/Typography';
 import ProductObj from "../interfaces/ProductObj";
-import Card from '@material-ui/core/Card';
+/*import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-
-
-const colors = ["#20A0EB", "#99E265", "#FFBD4A", "#F95959", "#A3A847"];
+import CardContent from '@material-ui/core/CardContent';*/
+import Filter from "./Filter";
+import ProductGrid from "./ProductGrid";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
       marginRight: 10,
       display: "flex",
       justifyContent: "center",
-      height: "80%",
+      justifyItems: "center",
+      //height: "80%",
       borderRadius: 15,
       marginBottom: 10
   }
@@ -95,45 +92,9 @@ function Products(){
       width: '100%'
     }}
     >
-      <ImageList
-      cols={5}
-      className={classes.imageList}
-      //rowHeight={200}
-      >
-        {products.map((cat: ProductObj) => (
-          <ImageListItem
-          key={cat.id}
-          className={classes.imageItem}
-          style={{
-              backgroundColor: colors[parseInt(`${cat.id}`)%colors.length ]
-          }}
-          >
-              <Link to={`/Products/${cat.id}`} style={{textDecoration:"none"}}>
-                
-                  <Typography
-                  variant="h6"
-                  style={{
-                      textAlign:"center",
-                      fontWeight: "bold",
-                      color: "black",
-                      textDecoration: "none"
-                  }}
-                  >
-                      {cat.name}
-                  </Typography>
-                  <img
-                  src={`http://localhost:4000/uploads/${cat.images[0]}`}
-                  alt={cat.name}
-                  style={{
-                      //height: 530,
-                      height: "80%",
-                      padding: 2
-                  }}
-                  ></img>
-              </Link>
-          </ImageListItem>
-        ))}
-      </ImageList>
+      <Filter setProducts={setProducts}/>
+      { products.length === 0? <Typography style={{paddingTop: '100px', alignContent: 'right'}} variant="h4">Ningún producto coincide con los criterios.</Typography>: <ProductGrid products={products} /> }
+      
     </div>
   );
 }

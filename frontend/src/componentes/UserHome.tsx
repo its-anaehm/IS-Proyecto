@@ -12,18 +12,22 @@ import ProductObj from '../interfaces/ProductObj';
 import TextField from '@material-ui/core/TextField';
 import { InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-
-function getRandomColor() : string{
-    let colors = ["#20A0EB", "#99E265", "#FFBD4A", "#F95959", "#A3A847"];
-    return colors[ Math.floor(Math.random() * colors.length) ];
-}
+import { FormLabel } from '@material-ui/core';
+import { FormControlLabel } from '@material-ui/core';
+import { Radio } from '@material-ui/core';
+import { RadioGroup } from '@material-ui/core';
+import { Button, FormControl } from "@material-ui/core";
+import Municipality from "../interfaces/Municipality";
+import Department from "../interfaces/Department";
+import UserInfo from './UserInfo';
+import ProductGrid from "./ProductGrid";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     },
     grid: {
         marginLeft: "0%"
@@ -54,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center',
         width: 914,
-        height:212
+        height: 212
     },
     form:{
         backgroundColor: "#C4C4C4",
@@ -69,8 +73,47 @@ const useStyles = makeStyles((theme) => ({
     },
     formItem:{
         paddingTop: 11
+    },
+    inputs:{
+        margin: theme.spacing(1),
+    },
+    aceptar: {
+        //width: "30%",
+        margin: theme.spacing(1),
+        backgroundColor: "darkgray",
+        color: theme.palette.secondary.main,
+        borderColor: theme.palette.secondary.main,
+        border: "4px solid",
+        fontWeight: "bold",
+        '&:hover':{
+            backgroundColor: theme.palette.secondary.main,
+            color: "darkgray",
+            }
+    },
+    popperWrapper:{
+        backgroundColor: "darkgray",
+        //backgroundColor: theme.palette.primary.main,
+        borderRadius: 15,
+        padding: 7,
+        paddingRight: 20,
+        marginRight: 15
+        //marginTop: 170
+        //width: window.innerWidth*0.20
+    },
+    cancelar: {
+          //width: "30%",
+        margin: theme.spacing(1),
+        backgroundColor: "darkgray",
+        color: theme.palette.primary.main,
+        borderColor: theme.palette.primary.main,
+        border: "4px solid",
+        fontWeight: "bold",
+        '&:hover':{
+        backgroundColor: theme.palette.primary.main,
+            color: "darkgray",
+        }
     }
-  }));
+}));
 
 let templateCategories: CategoryObj[] = [{
     id: 0,
@@ -90,6 +133,16 @@ let templateProducts: ProductObj[] = [{
     images: ["image1"]
 }];
 
+let templateDepartment: Department[] = [{
+    id: 0,
+    Nombre: "Departamento"
+  }];
+  
+  let templateMunicipality: Municipality[] = [{
+    id: 0,
+    Nombre: "Departamento"
+  }];
+
 
 interface UserHomeProps{
     currentUser: UserObj
@@ -101,6 +154,170 @@ function UserHome({
     const classes = useStyles();
     const [suscribedCat, setSubscribedCat] = useState<CategoryObj[] | []>(templateCategories);
     const [wishlist, setWishlist] = useState<ProductObj[] | []>(templateProducts);
+    const [categories, setCategories] = useState<CategoryObj[]>(templateCategories);
+    const [departments, setDepartments] = useState<Department[]>(templateDepartment);
+    const [municipalities, setMunicipalities] = useState<Municipality[]>(templateMunicipality);
+    const [value, setValue] = useState<string>('ASC');
+    const [products, setProducts] = useState<ProductObj[]>(templateProducts);
+    const [showGrid, setShowGrid] = useState<boolean>(false);
+
+    function changeOrder (event: React.ChangeEvent<HTMLInputElement>){
+        setValue((event.target as HTMLInputElement).value);
+      }
+
+    function clearForm(e: React.FocusEvent<HTMLFormElement>){
+        e.target.select_department.value = 0;
+        e.target.select_municipality.value = 0;
+        e.target.select_category.value=0;
+        e.target.minPrice.value = "";
+        e.target.maxPrice.value = "";
+        setValue("ASC");
+
+        setShowGrid(false);
+    }
+
+    function getCategories(){
+        fetch("http://localhost:4000/category", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        }).then( response =>{
+            if(response.status < 400){
+                response.json().then( jsonResponse => {
+                    
+                    let newCategories = [{
+                      id: 0,
+                      Nombre: "-------"
+                    }];
+    
+                    jsonResponse.category.map( (cat:CategoryObj) => {
+                      newCategories.push(cat)
+                    })
+    
+                    setCategories(newCategories)
+    
+                } );
+            }
+        } ).catch(error => {
+            console.log(error);
+        });
+    }
+    
+    function getDepartments(){
+        fetch("http://localhost:4000/filters/department", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        }).then( response =>{
+            if(response.status < 400){
+                response.json().then( jsonResponse => {
+                    //console.log(jsonResponse);
+    
+                    let newDepartments = [{
+                      id: 0,
+                      Nombre: "-------"
+                    }];
+    
+                    jsonResponse.departments.map( (dep:Department) =>
+                      newDepartments.push(dep)
+                    )
+    
+                    setDepartments(newDepartments)
+                } )
+            }
+        } ).catch(error => {
+            console.log(error);
+        });
+    
+    }
+    
+    function getMunicipalities(dep: number){
+        fetch(`http://localhost:4000/filters/municipality/id=${dep}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        }).then( response =>{
+            if(response.status < 400){
+                response.json().then( jsonResponse => {
+                    //console.log(jsonResponse);
+    
+                    let newMunicipalities = [{
+                      id: 0,
+                      Nombre: "-------"
+                    }];
+    
+                    jsonResponse.municipalities.map( (num: Municipality) => 
+                    newMunicipalities.push(num)
+                    ) 
+    
+                    setMunicipalities(newMunicipalities)
+    
+                } )
+            }
+        } ).catch(error => {
+            console.log(error);
+        });
+    
+    }
+    
+    /**
+     * Método que obtiene los parámetros de filtro y realiza la filtración de acuerdo a lo establecido.
+     * @param e Evento del formulario
+     */
+    function getProductsWithFilter(e: React.FocusEvent<HTMLFormElement>){
+        e.preventDefault();
+        setShowGrid(true);
+        
+        let department = e.target.select_department.value;
+        let municipality = e.target.select_municipality.value;
+        let category = e.target.select_category.value;
+        let minPrice = e.target.minPrice.value;
+        let maxPrice = e.target.maxPrice.value;
+    
+        department = department !== "0"? department : undefined;
+        municipality = municipality !== "0"? municipality : undefined;
+        category = category !== "0"? category : undefined;
+        minPrice = minPrice !== ""? minPrice : undefined;
+        maxPrice = maxPrice !== ""? maxPrice : undefined;
+    
+    
+        const filter = {
+          Department: department,
+          Municipality: municipality,
+          Category: category,
+          minPrice: minPrice,
+          maxPrice: maxPrice,
+          order: value
+        };
+
+        fetch('http://localhost:4000/filters/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify(filter)
+          }).then(response => {
+            if(response.status < 400){
+              response.json().then( jsonResponse => {
+                //console.log(jsonResponse);
+                setProducts(jsonResponse.message)
+              });
+            }
+          }).catch(e=>{
+            console.log(e);
+          });
+    }
+    
+    function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
+        getMunicipalities(parseInt(`${event.target.value}`));
+    }
 
     function getSubscribedCategories(){
         fetch("http://localhost:4000/category/suscribed", {
@@ -126,56 +343,6 @@ function UserHome({
         });
     }
 
-    function showCategories(){
-        if(suscribedCat.length === 0){
-            return(
-                <Typography variant="h5" style={{fontWeight:"bold"}}>
-                    No se encuentra suscrito a ninguna categoria.
-                </Typography>
-            );
-        }else{
-            return(
-                <ImageList
-                cols={3.5}
-                className={classes.imageList}
-                rowHeight={200}
-                >
-                    {suscribedCat.map( (cat: CategoryObj) => (
-                        <ImageListItem
-                        key={cat.Imagen}
-                        className={classes.imageItem}
-                        style={{
-                            backgroundColor: getRandomColor()
-                        }}
-                        >
-                            <Link to={`/categories/${cat.id}`} style={{textDecoration:"none"}}>
-                                <Typography
-                                variant="h6"
-                                style={{
-                                    textAlign:"center",
-                                    fontWeight: "bold",
-                                    color: "black",
-                                    textDecoration: "none"
-                                }}
-                                >
-                                    {cat.Nombre}
-                                </Typography>
-                                <img
-                                src={`http://localhost:4000/uploads/${cat.Imagen}`}
-                                alt={cat.Nombre}
-                                style={{
-                                    //height: 530,
-                                    height: "80%",
-                                    padding: 2
-                                }}
-                                ></img>
-                            </Link>
-                        </ImageListItem>
-                    ) )}
-                </ImageList>
-            );
-        }
-    }
 
     function getWishlist(){
         fetch("http://localhost:4000/home/wishlist", {
@@ -201,63 +368,28 @@ function UserHome({
         });
     }
 
-    function showWishlist(){
-        if(wishlist.length === 0){
-            return(
-                <Typography variant="h5" style={{fontWeight:"bold"}}>
-                    No tiene ningun producto en la lista de deseos.
-                </Typography>
-            );
-        }else{
-            return(
-                <ImageList
-                cols={3.5}
-                className={classes.imageList}
-                rowHeight={200}
-                >
-                    {wishlist.map( (product: ProductObj) => (
-                        <ImageListItem
-                        key={product.id}
-                        className={classes.imageItem}
-                        style={{
-                            backgroundColor: getRandomColor()
-                        }}
-                        >
-                            <Link to={`/products/${product.id}`} style={{textDecoration:"none"}}>
-                                <Typography
-                                variant="h6"
-                                style={{
-                                    textAlign:"center",
-                                    fontWeight: "bold",
-                                    color: "black",
-                                    textDecoration: "none"
-                                }}
-                                >
-                                    {product.name}
-                                </Typography>
-                                <img
-                                src={`http://localhost:4000/uploads/${product.images[0]}`}
-                                alt={product.name}
-                                style={{
-                                    //height: 530,
-                                    height: "80%",
-                                    padding: 2
-                                }}
-                                ></img>
-                            </Link>
-                        </ImageListItem>
-                    ) )}
-                </ImageList>
-            );
-        }
-    }
+
 
 
     useEffect(() => {
         getSubscribedCategories();
         getWishlist();
+        getCategories();
+        getDepartments();
+        getMunicipalities(1);
         //console.log(suscribedCat);
     }, [])
+
+    function showProductGrid(){
+        return(
+            <Grid
+            container
+            lg = {9}
+            >
+                { products.length === 0? <Typography style={{paddingTop: '100px', alignContent: 'right'}} variant="h4">Ningún producto coincide con los criterios.</Typography>: <ProductGrid products={products} /> }
+            </Grid>
+        );
+    }
 
     return(
         <>
@@ -278,117 +410,145 @@ function UserHome({
                 lg={3}
                 alignContent={"flex-start"}
                 >
-                    <form className={classes.form}>
+                    <div
+                    className={classes.popperWrapper}
+                    >
+                    <form onSubmit={getProductsWithFilter} onReset={clearForm}>
                         <TextField
-                        label="Buscar"
-                        id="standard-size-small"
-                        defaultValue=""
-                        size="small"
-                        inputProps={{
-                            startAdornment: (
-                                <InputAdornment position="end">
-                                    <SearchIcon/>
-                                </InputAdornment>
-                            )
-                        }}
-                        />
-
-                        <Typography
-                        variant="h5"
-                        style={{
-                            paddingTop: "40px",
-                            fontWeight: "bold"
-                        }}
-                        >
-                            Filtrado por Categorias
-                        </Typography>
-                        <Typography
-                        variant="h6"
-                        style={{
-                            paddingTop: "10px",
-                        }}
-                        >
-                            Categoria
-                        </Typography>
-                        <TextField
-                        id="category-select"
+                        id="select_category"
+                        label="Categoria"
                         select
+                        fullWidth
+                        size = "small"
+                        variant={"outlined"}
+                        className={classes.inputs}
+                        SelectProps={{
+                            native: true,
+                        }}
+                        //helperText="Seleccione una categoria"
                         >
+                            {categories.map((categoria)=>{
+                                return(
+                                    <option key={categoria.id} value={categoria.id}>
+                                        {categoria.Nombre}
+                                    </option>
+                                )
+                            })}
+                        </TextField>
+                        <TextField
+                        id="select_department"
+                        label="Departamento"
+                        fullWidth
+                        size = "small"
+                        select
+                        onChange={changeDepartment}
+                        variant={"outlined"}
+                        className={classes.inputs}
+                        SelectProps={{
+                            native: true,
+                        }}
+                        //helperText="Seleccione un Departamento"
+                        >
+                            {departments.map((departamento: Department)=>{
+                                return(
+                                    <option key={departamento.id} value={departamento.id}>
+                                        {departamento.Nombre}
+                                    </option>
+                                )
+                            })}
+                        </TextField>
+                        <TextField
+                        id="select_municipality"
+                        label="Municipio"
+                        fullWidth
+                        size = "small"
+                        select
+                        variant={"outlined"}
+                        className={classes.inputs}
+                        SelectProps={{
+                            native: true,
+                        }}
+                        //helperText="Seleccione un Municipio"
+                        >
+                            {municipalities.map((mun: Municipality)=>{
+                                return(
+                                    <option key={mun.id} value={mun.id}>
+                                        {mun.Nombre}
+                                    </option>
+                                )
+                            })}
                         </TextField>
 
-                        {/************ Regiones***********/}
-                        <Typography
-                        variant="h5"
-                        style={{
-                            paddingTop: "40px",
-                            fontWeight: "bold"
-                        }}
-                        >
-                            Filtrado por Regiones
+                        <Typography variant="body1">
+                        Rango de Precios
                         </Typography>
-                        <Typography
-                        variant="h6"
-                        style={{
-                            paddingTop: "10px",
+
+                        <div>
+
+                        <TextField 
+                        placeholder = "Mínimo" 
+                        id = "minPrice" 
+                        type = "number"
+                        style = {{
+                            display: "inline-flex",
+                            width: '14ch'
                         }}
-                        >
-                            Departamento
-                        </Typography>
-                        <TextField
-                        id="department-select"
-                        select
-                        >
-                        </TextField>
-                        <Typography
-                        variant="h6"
-                        style={{
-                            paddingTop: "10px",
-                        }}
-                        >
-                            Municipio
-                        </Typography>
-                        <TextField
-                        id="municipy-select"
-                        select
-                        >
+                        className = {classes.inputs}>
                         </TextField>
 
+                        <TextField 
+                        placeholder= "Máximo" 
+                        id = "maxPrice" 
+                        type = "number" 
+                        style = {{
+                            display: "inline-flex",
+                            width: "14ch"
+                        }}
+                        className = {classes.inputs}>
+                        </TextField>
+                        </div>
+
+                        {/*<Slider
+                        value={value}
+                        onChange={handleChange}
+                        valueLabelDisplay="auto"
+                        aria-labelledby="range-slider"
+                        getAriaValueText={valuetext}
+                        />*/}
+
+                        <FormControl id = "select_order" component="fieldset">
+                        <FormLabel component="legend">Orden</FormLabel>
+                        <RadioGroup id = "option" value={value} onChange={changeOrder}>
+                            <FormControlLabel value="ASC" control={<Radio />} label="Asc"/>
+                            <FormControlLabel value="DESC" control={<Radio />} label="Desc"/>
+                        </RadioGroup>
+                        </FormControl>
+
+                        <div className={classes.grid_item}>
+                            <Button
+                            //onClick={clearForm}
+                            type="reset"
+                            variant="contained"
+                            color="primary"
+                            className={classes.cancelar}
+                            >
+                                Limpiar
+                            </Button>
+                            <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={classes.aceptar}
+                            >
+                                Aplicar
+                            </Button>
+                        </div>
                     </form>
+                    </div>
                 </Grid>
-                <Grid
-                container
-                lg={9}
-                alignContent={"flex-end"}
-                >
-                    <Grid
-                    item
-                    className={classes.grid_item}
-                    style={{
-                        height: "max-content"
-                    }}
-                    >
-                        <Typography variant="h6" style={{fontWeight:"bold"}}>
-                            Tus Categorias Suscritas
-                        </Typography>
-                        <div className={classes.pill}>
-                            {showCategories()}
-                        </div>
-                    </Grid>
-                    <Grid
-                    item
-                    className={classes.grid_item}
-                    style={{
-                        height: "max-content"
-                    }}
-                    >
-                        <Typography variant="h6" style={{fontWeight:"bold"}}>
-                            Tu Lista de Deseos
-                        </Typography>
-                        <div className={classes.pill}>
-                            {showWishlist()}
-                        </div>
-                    </Grid>
-                </Grid>
+                
+                {showGrid? showProductGrid(): <UserInfo suscribedCat={suscribedCat} wishlist={wishlist}/>}
+
             </Grid>
         </Grid>
         </>

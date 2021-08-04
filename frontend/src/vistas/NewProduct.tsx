@@ -306,7 +306,7 @@ function NewProduct({
         //console.log(newPrice);
 
         if( 
-            (newPrice.match(/([0-9]+,?)+\.\d\d\d/g))
+            (newPrice.match(/([0-9]+)\.\d\d\d/g))
         ){
             newPrice = price;
             e.target.value = newPrice;
@@ -398,7 +398,7 @@ function NewProduct({
                                                 />
                                                 <label htmlFor="subir_imagen">
                                                     <Button variant="contained" color="primary" component="span">
-                                                    Upload
+                                                    Subir Imagen
                                                     </Button>
                                                 </label>
                                             </div>
@@ -451,7 +451,7 @@ function NewProduct({
                                                     <TextField
                                                     id="product_price"
                                                     label="Precio"
-                                                    //type="number"
+                                                    type="number"
                                                     required
                                                     onChange={handlePrice}
                                                     placeholder={"0.00"}
