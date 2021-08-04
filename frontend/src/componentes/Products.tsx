@@ -93,7 +93,7 @@ function Products(){
     }}
     >
       <Filter setProducts={setProducts}/>
-      { products.length === 0? <Typography variant="h4">Ningún producto coincide con los criterios.</Typography>: <ProductGrid products={products} /> }
+      { products.length === 0? <Typography style={{paddingTop: '100px', alignContent: 'right'}} variant="h4">Ningún producto coincide con los criterios.</Typography>: <ProductGrid products={products} /> }
       
     </div>
   );

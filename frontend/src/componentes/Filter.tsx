@@ -328,6 +328,7 @@ function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
       id={id}
       open={open}
       anchorEl={anchorEl}
+      placement={'bottom'}
       style={{
         width: window.innerWidth*0.20
       }}
