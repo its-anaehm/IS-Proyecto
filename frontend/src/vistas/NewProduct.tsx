@@ -451,7 +451,7 @@ function NewProduct({
                                                     <TextField
                                                     id="product_price"
                                                     label="Precio"
-                                                    //type="number"
+                                                    type="number"
                                                     required
                                                     onChange={handlePrice}
                                                     placeholder={"0.00"}
