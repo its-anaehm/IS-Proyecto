@@ -1,21 +1,15 @@
 //import { Grid } from "@material-ui/core";
 import placeholder from "../img/item-placeholder.png";
 import { useEffect, useState } from "react";
-import ImageList from '@material-ui/core/ImageList';
-import ImageListItem from '@material-ui/core/ImageListItem';
-import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from "react-router-dom";
 import Typography from '@material-ui/core/Typography';
 import ProductObj from "../interfaces/ProductObj";
-import Card from '@material-ui/core/Card';
+/*import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
+import CardContent from '@material-ui/core/CardContent';*/
 import Filter from "./Filter";
-
-
-const colors = ["#20A0EB", "#99E265", "#FFBD4A", "#F95959", "#A3A847"];
+import ProductGrid from "./ProductGrid";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -99,94 +93,8 @@ function Products(){
     }}
     >
       <Filter setProducts={setProducts}/>
-      <ImageList
-      cols={5}
-      className={classes.imageList}
-      //rowHeight={200}
-      >
-        {products.map((cat: ProductObj) => (
-          <ImageListItem
-          key={cat.id}
-          className={classes.imageItem}
-          style={{
-              backgroundColor: colors[parseInt(`${cat.id}`)%colors.length ]
-          }}
-          >
-              <Link
-              to={`/Products/${cat.id}`}
-              style={{
-                textDecoration:"none",
-                //display:"flex",
-                //justifyItems:
-              }}
-              >
-                
-                  <img
-                  src={`http://localhost:4000/uploads/${cat.images[0]}`}
-                  alt={cat.name}
-                  style={{
-                      //height: 530,
-                      height: "35%",
-                      //width: "80%",
-                      padding: 5,
-                      //paddingBottom: 10,
-                      borderRadius: 15
-                  }}
-                  ></img>
-                  <Typography
-                  variant="button"
-                  //display="inline"
-                  style={{
-                      textAlign:"center",
-                      fontWeight: "bold",
-                      color: "black",
-                      textDecoration: "none"
-                  }}
-                  >
-                      {cat.name}
-                  </Typography>
-                  
-                    <Typography
-                    variant="body2"
-                    style={{
-                      textDecoration: "none"
-                    }}
-                    >
-                      {`${cat.municipy}, ${cat.department}`}
-                    </Typography>
-                  <div
-                  style={{
-                    padding:5,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyItems: 'space-between'
-                  }}
-                  >
-                    <Typography
-                    variant="body2"
-                    display="inline"
-                    align="left"
-                    style={{
-                      textDecoration: "none"
-                    }}
-                    >
-                      {cat.date}
-                    </Typography>
-                    <Typography
-                    variant="overline"
-                    display="inline"
-                    align="right"
-                    style={{
-                      textDecoration: "none"
-                    }}
-                    >
-                      {`LPS.${cat.price}`}
-                    </Typography>
-                  </div>
-              </Link>
-          </ImageListItem>
-        ))}
-      </ImageList>
+      { products.length === 0? <Typography variant="h4">Ningún producto coincide con los criterios.</Typography>: <ProductGrid products={products} /> }
+      
     </div>
   );
 }

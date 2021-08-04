@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme: Theme) => ({
       '&:hover':{
         backgroundColor: theme.palette.secondary.main,
         color: theme.palette.primary.main
-      }
+      },
+      //marginBottom: 10
     },
     paper: {
       border: '1px solid',
@@ -41,14 +42,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     aceptar: {
       //width: "30%",
       margin: theme.spacing(1),
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: "darkgray",
       color: theme.palette.secondary.main,
       borderColor: theme.palette.secondary.main,
       border: "4px solid",
       fontWeight: "bold",
       '&:hover':{
           backgroundColor: theme.palette.secondary.main,
-          color: theme.palette.background.paper,
+          color: "darkgray",
           }
     },
     popperWrapper:{
@@ -63,14 +64,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     cancelar: {
         //width: "30%",
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: "darkgray",
         color: theme.palette.primary.main,
         borderColor: theme.palette.primary.main,
         border: "4px solid",
         fontWeight: "bold",
         '&:hover':{
             backgroundColor: theme.palette.primary.main,
-            color: theme.palette.background.paper,
+            color: "darkgray",
         }
     },
     grid_item:{
@@ -95,11 +96,6 @@ let templateMunicipality: Municipality[] = [{
   id: 0,
   Nombre: "Departamento"
 }];
-
-function valuetext(value: number) {
-  return `${value}`;
-}
-
 interface FilterProps{
   setProducts: (productos: ProductObj[])=>void
 }
@@ -113,7 +109,11 @@ function Filter({
   const [categories, setCategories] = useState<CategoryObj[]>(templateCategories);
   const [departments, setDepartments] = useState<Department[]>(templateDepartment);
   const [municipalities, setMunicipalities] = useState<Municipality[]>(templateMunicipality);
-  const [value, setValue] = useState<number[]>([0, 10000]);
+  const [value, setValue] = useState<string>('ASC');
+
+  function changeOrder (event: React.ChangeEvent<HTMLInputElement>){
+    setValue((event.target as HTMLInputElement).value);
+  }
 
   function placeIcon(){
     if(anchorEl){
@@ -123,9 +123,14 @@ function Filter({
     }
   }
 
-  const handleChange = (event: any, newValue: number | number[]) => {
-    setValue(newValue as number[]);
-  };
+  function clearForm(e: React.FocusEvent<HTMLFormElement>){
+    e.target.select_department.value = 0;
+    e.target.select_municipality.value = 0;
+    e.target.select_category.value=0;
+    e.target.minPrice.value = "";
+    e.target.maxPrice.value = "";
+    setValue("ASC");
+  }
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -230,18 +235,30 @@ function getMunicipalities(dep: number){
  */
 function getProductsWithFilter(e: React.FocusEvent<HTMLFormElement>){
     e.preventDefault();
+    
+    let department = e.target.select_department.value;
+    let municipality = e.target.select_municipality.value;
+    let category = e.target.select_category.value;
+    let minPrice = e.target.minPrice.value;
+    let maxPrice = e.target.maxPrice.value;
+
+    department = department !== "0"? department : undefined;
+    municipality = municipality !== "0"? municipality : undefined;
+    category = category !== "0"? category : undefined;
+    minPrice = minPrice !== ""? minPrice : undefined;
+    maxPrice = maxPrice !== ""? maxPrice : undefined;
+
 
     const filter = {
-      Department: e.target.select_department.value,
-      Municipality: e.target.select_municipality.value,
-      Category: e.target.select_category.value,
-      minPrice: e.target.minPrice.value,
-      maxPrice: e.target.maxPrice.value,
-      order: e.target.select_order.option
+      Department: department,
+      Municipality: municipality,
+      Category: category,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
+      order: value
+    };
 
-    }
-
-    console.log(filter)
+    //console.log(filter)
 
     /**
      * Para obtener el valor del textfield/input:
@@ -272,6 +289,24 @@ function getProductsWithFilter(e: React.FocusEvent<HTMLFormElement>){
      * -De encontrarse una lista vacia, mostrar un texto indicando que no sé encontraron
      * productos con el criterio anterior.
      */
+
+      fetch('http://localhost:4000/filters/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(filter)
+      }).then(response => {
+        if(response.status < 400){
+          response.json().then( jsonResponse => {
+            //console.log(jsonResponse);
+            setProducts(jsonResponse.message)
+          });
+        }
+      }).catch(e=>{
+        console.log(e);
+      });
 }
 
 function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
@@ -309,7 +344,7 @@ function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
             />
             
           </form>*/}
-          <form onSubmit={getProductsWithFilter}>
+          <form onSubmit={getProductsWithFilter} onReset={clearForm}>
             <TextField
             id="select_category"
             label="Categoria"
@@ -321,7 +356,7 @@ function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
             SelectProps={{
                 native: true,
               }}
-            helperText="Seleccione una categoria"
+            //helperText="Seleccione una categoria"
             >
                 {categories.map((categoria)=>{
                     return(
@@ -343,7 +378,7 @@ function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
             SelectProps={{
                 native: true,
               }}
-            helperText="Seleccione un Departamento"
+            //helperText="Seleccione un Departamento"
             >
                 {departments.map((departamento: Department)=>{
                     return(
@@ -364,7 +399,7 @@ function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
             SelectProps={{
                 native: true,
               }}
-            helperText="Seleccione un Municipio"
+            //helperText="Seleccione un Municipio"
             >
                 {municipalities.map((mun: Municipality)=>{
                     return(
@@ -379,27 +414,30 @@ function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
               Rango de Precios
             </Typography>
 
-            <TextField 
-            placeholder = "Mínimo" 
-            id = "minPrice" 
-            type = "number"
-            style = {{
-              display: "inline",
-              width: "40%"
-            }}
-            className = {classes.inputs}>
-            </TextField>
+            <div>
 
-            <TextField 
-            placeholder= "Máximo" 
-            id = "maxPrice" 
-            type = "number" 
-            style = {{
-              display: "inline",
-              width: "40%"
-            }}
-            className = {classes.inputs}>
-            </TextField>
+              <TextField 
+              placeholder = "Mínimo" 
+              id = "minPrice" 
+              type = "number"
+              style = {{
+                display: "inline-flex",
+                width: '14ch'
+              }}
+              className = {classes.inputs}>
+              </TextField>
+
+              <TextField 
+              placeholder= "Máximo" 
+              id = "maxPrice" 
+              type = "number" 
+              style = {{
+                display: "inline-flex",
+                width: "14ch"
+              }}
+              className = {classes.inputs}>
+              </TextField>
+            </div>
 
             {/*<Slider
               value={value}
@@ -411,7 +449,7 @@ function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
 
             <FormControl id = "select_order" component="fieldset">
               <FormLabel component="legend">Orden</FormLabel>
-              <RadioGroup id = "option">
+              <RadioGroup id = "option" value={value} onChange={changeOrder}>
                 <FormControlLabel value="ASC" control={<Radio />} label="Asc"/>
                 <FormControlLabel value="DESC" control={<Radio />} label="Desc"/>
               </RadioGroup>
@@ -419,7 +457,8 @@ function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
 
             <div className={classes.grid_item}>
                 <Button
-                //onClick={}
+                //onClick={clearForm}
+                type="reset"
                 variant="contained"
                 color="primary"
                 className={classes.cancelar}

@@ -219,7 +219,7 @@ function SingleCategory({
             <Container component="main" maxWidth="md" className={classes.main}>
             <CssBaseline />
                 <div className={classes.paper}>
-                    <Filter setProducts={setProducts}/>
+                    {/*<Filter setProducts={setProducts}/>*/}
                     <Grid
                     container
                     >
