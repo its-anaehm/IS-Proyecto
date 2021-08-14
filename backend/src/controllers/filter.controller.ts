@@ -1,6 +1,6 @@
 import { Handler } from 'express';
 import Filter from '../models/Filter';
-import { FilterService } from '../services/filter.services';
+import { FilterService } from '../services/filter.service';
 
 export class FilterController
 {
