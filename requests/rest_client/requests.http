@@ -1,3 +1,4 @@
+### Register User
 POST http://localhost:4000/users/register HTTP/1.1
 Content-Type: application/json
 
@@ -9,7 +10,7 @@ Content-Type: application/json
     "password": "omentruco"
 }
 
-### Login
+### Login User
 POST http://localhost:4000/users/login HTTP/1.1
 Content-Type: application/json
 
@@ -18,7 +19,7 @@ Content-Type: application/json
     "password": "omentruco"
 }
 
-###
+### Register User
 POST http://localhost:4000/users/register HTTP/1.1
 Content-Type: application/json
 
@@ -30,7 +31,7 @@ Content-Type: application/json
     "password": "admin"
 }
 
-### Login
+### Login User
 POST http://localhost:4000/users/login HTTP/1.1
 Content-Type: application/json
 
@@ -39,7 +40,7 @@ Content-Type: application/json
     "password": "admin"
 }
 
-### Register an admin
+### Register User
 POST http://localhost:4000/users/register HTTP/1.1
 Content-Type: application/json
 
@@ -51,13 +52,35 @@ Content-Type: application/json
     "password": "lkezhn"
 }
 
-### Login
+### Login User
 POST http://localhost:4000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
     "email": "lkez@gmail.com",
     "password": "lkezhn"
+}
+
+### Register Administrator
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Ana",
+    "lastName": "Hernandez",
+    "email": "anacleto@gmail.com",
+    "phone": "9435-8799",
+    "role": "Administrador",
+    "password": "admin"
+}
+
+### Login Administrator
+POST http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "anacleto@gmail.com",
+    "password": "admin"
 }
 
 #------------------------ PÁGINA DE USUARIO ------------------------
@@ -128,12 +151,12 @@ Content-Type: application/json
 ### Obtiene la lista de deseo
 GET http://localhost:4000/home/wishlist HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2Mjc1MDMzMjQsImV4cCI6MTY2MzQ5OTcyNH0.A5QVQAI_GzGRFZNhpZ0OoE4nPOIkkdzW8uGhLP4CmEo
+Authorization: aqui va el token
 
 ### Se añade el producto a la lista de deseo (se tiene que hacer un request del id del producto)
 GET http://localhost:4000/home/subscribe/1 HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2Mjc1MDMzMjQsImV4cCI6MTY2MzQ5OTcyNH0.A5QVQAI_GzGRFZNhpZ0OoE4nPOIkkdzW8uGhLP4CmEo
+Authorization: aqui va el token
 
 ### Se añade el producto a la lista de deseo (se tiene que hacer un request del id del producto) (Hacerlo por postman) 
 GET http://localhost:4000/products/ HTTP/1.1
@@ -147,7 +170,7 @@ Authorization: aqui va el token
 ### Elimina del Wishlist
 GET http://localhost:4000/home/removeSub/1 HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2Mjc1MDMzMjQsImV4cCI6MTY2MzQ5OTcyNH0.A5QVQAI_GzGRFZNhpZ0OoE4nPOIkkdzW8uGhLP4CmEo
+Authorization: aqui va el token
 
 
 ###
