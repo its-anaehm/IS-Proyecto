@@ -19,6 +19,7 @@ import UserObj from './interfaces/UserObj';
 import SingleCategory from './vistas/SingleCategory';
 import SingleProduct from './vistas/SingleProduct';
 import CategoryObj from './interfaces/CategoryObj';
+import AdminProfile from './vistas/AdminProfile';
 
 let templateCategories: CategoryObj[] = [{
   id: 0,
@@ -144,6 +145,9 @@ function App() {
           </Route>
           <Route path="/user-profile">
             <UserProfile auth={auth} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+          </Route>
+          <Route path="/admin-profile">
+            <AdminProfile auth={auth} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
           </Route>
           <Route path="/categories/:id" children={<SingleCategory auth={auth}/>} />
           <Route path="/products/:id" children={<SingleProduct auth={auth} categories={categories} currentUser={currentUser}/>} />

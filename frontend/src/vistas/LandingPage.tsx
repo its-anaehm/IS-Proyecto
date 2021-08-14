@@ -8,6 +8,7 @@ import { Button } from "@material-ui/core";
 import UserObj from "../interfaces/UserObj";
 import UserHome from '../componentes/UserHome';
 import GuestHome from '../componentes/GuestHome';
+import AdminHome from '../componentes/AdminHome';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -34,12 +35,14 @@ function LandingPage({
 ){
     const classes = useStyles();
 
+    const rol = localStorage.getItem("USR_R");
+
     return(
         <>
             <Container component="main" maxWidth="lg" className={classes.main}>
             <CssBaseline />
                 <div className={classes.paper}>
-                    {auth ? <UserHome currentUser={currentUser}/> : <GuestHome/>}
+                    {auth ? (rol == "Administrador" ? <AdminHome currentUser={currentUser}/> : <UserHome currentUser={currentUser}/>) : <GuestHome/>}
                 </div>
             </Container>
         </>

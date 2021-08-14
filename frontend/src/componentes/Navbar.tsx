@@ -109,6 +109,8 @@ function Navbar({
     }
 
     function showMenu(){
+        const rol = localStorage.getItem("USR_R")
+
         if(auth){
             return(
                 <Menu
@@ -129,6 +131,11 @@ function Navbar({
                             Mi Cuenta
                         </Link>
                     </MenuItem>
+                    {rol == "Administrador" && <MenuItem className={classes.menu_items}>
+                        <Link to="/admin-profile" className={classes.menu_items}>
+                            Menú Administrador
+                        </Link>
+                    </MenuItem>}
                     <MenuItem onClick={signOut} className={classes.menu_items}>Cerrar Sesión</MenuItem>
                 </Menu>
             );

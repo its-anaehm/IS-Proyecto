@@ -93,6 +93,7 @@ function Login({
           });
         }
       } ).catch(error => console.log(error));
+      
     }
 
     function verifyData(e: React.FocusEvent<HTMLFormElement>){
@@ -109,8 +110,8 @@ function Login({
             setLoginErr(true);
           }else{
             response.json().then(jsonResponse => {
-              //console.log(jsonResponse.token);
               localStorage.setItem("USR_TKN", jsonResponse.token);
+              localStorage.setItem("USR_R", jsonResponse.rol);
               setAuth(true);
               saveUserInfo(jsonResponse.token);
               setRedirect(true);
