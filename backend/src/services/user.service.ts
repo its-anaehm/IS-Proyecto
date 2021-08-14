@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 
+import sendEmail from "../utils/emailSender";
 import User from "../models/User";
+import Receiver from "../models/Receiver";
 import { db } from "../config/database";
 import { JWT } from "../utils/jwt";
 
@@ -175,5 +177,22 @@ export class UserService{
         const [ row ] = await db.query(`SELECT Producto.id, Producto.Nombre AS 'published', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date', Imagen.Nombre AS 'image' FROM Producto JOIN Usuario ON Producto.fk_id_usuario = Usuario.id JOIN Imagen on Imagen.fk_id_producto = Producto.id WHERE Producto.fk_id_usuario = ?`, [id]);
         let jsonProductDetails = JSON.parse(JSON.stringify(row));
         return jsonProductDetails;
+    }
+
+    public static sendEmailToUsers = async () =>{
+        console.log("Sending emails");
+        const [row] = await db.query(`
+            SELECT Usuario.id, Usuario.Nombre AS firstName, Usuario.Apellido AS lastName, Usuario.Email AS email, COUNT(Producto.id) AS numeroProductos  FROM Usuario
+            JOIN Suscripcion_Categoria ON Usuario.id = Suscripcion_Categoria.fk_id_usuario 
+            JOIN Producto ON Producto.fk_id_categoria = Suscripcion_Categoria.fk_id_categoria WHERE YEARWEEK(Producto.Fecha_Publicacion) = YEARWEEK(NOW() - INTERVAL 1 WEEK)
+            GROUP BY Usuario.id;
+        `);
+
+        const jsonInfo: Array<Receiver> = JSON.parse(JSON.stringify(row));
+        
+        for(let i = 0; i < jsonInfo.length; i++){
+            sendEmail(jsonInfo[i]);
+        }
+        console.log("Emails sended");
     }
 }
