@@ -1,5 +1,5 @@
 DROP DATABASE IF EXISTS Websted ;
-CREATE DATABASE Websted CHARACTER SET utf8;
+CREATE DATABASE Websted CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 USE Websted;
 
@@ -10,7 +10,8 @@ CREATE TABLE Usuario(
     Email VARCHAR(50) UNIQUE NOT NULL,
     Telefono VARCHAR(20) NOT NULL,
     Rol ENUM('Administrador', 'Usuario') DEFAULT 'Usuario',
-    Contrasena VARCHAR(150) NOT NULL
+    Contrasena VARCHAR(150) NOT NULL,
+    Estado INT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE Departamento(
@@ -33,7 +34,8 @@ CREATE TABLE Categoria(
     id INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(40) NOT NULL,
     Imagen VARCHAR(70) NOT NULL,
-    Num_Visita  INT NOT NULL DEFAULT 0
+    Num_Visita  INT NOT NULL DEFAULT 0,
+    Estado INT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE Producto(
@@ -160,3 +162,21 @@ CREATE TABLE Suscripcion_Categoria(
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+CREATE TABLE Calificacion{
+    fk_id_calificador INT NOT NULL,
+    fk_id_calificado INT NOT NULL,
+    calificacion DECIMAL(1,1),
+
+    FOREIGN KEY (fk_id_calificador)
+        REFERENCES Usuario(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    
+    FOREIGN KEY (fk_id_calificado)
+        REFERENCES Usuario(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+    
+}
