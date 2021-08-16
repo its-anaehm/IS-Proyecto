@@ -50,7 +50,7 @@ export class UserController{
         if(req.user.role === 'guest'){
             return res.send(401).send({message: 'Unauthorized user'})
         }
-        const userInfo = await UserService.getUser(req.user.id)
+        const userInfo = await UserService.getUser(Number(req.params.id))
         return res.status(200).send(userInfo)
     }
     /**

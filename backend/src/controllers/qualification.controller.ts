@@ -8,7 +8,7 @@ export default class QualificationController{
         const quallificator = req.user.id;
         const qualificationInfo: Calification = req.body;
         if(quallificator !== Number(qualificationInfo.qualifiedUser)){
-            const response = QualificationService.addQualification(quallificator, qualificationInfo.qualifiedUser, qualificationInfo.qualification)
+            const response = await QualificationService.addQualification(quallificator, qualificationInfo.qualifiedUser, qualificationInfo.qualification)
             if(response){
                 return res.status(200).send({message: "Qualification added"});
             }
