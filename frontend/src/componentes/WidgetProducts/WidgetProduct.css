@@ -1,0 +1,8 @@
+.WidgetProduct{
+    width: 525px;
+    -webkit-box-shadow: 0px 0px 7px -1px #455D7A; 
+    box-shadow: 0px 0px 7px -1px #455D7A;
+    padding: 20px;
+    margin-left: 10px;
+    border-radius: 10px;
+}

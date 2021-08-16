@@ -1,0 +1,8 @@
+.AdminView{
+    flex: 4;
+}
+
+.AdminViewWidget{
+    display: flex;
+    margin: 20px;
+}

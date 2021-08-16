@@ -20,6 +20,12 @@ import SingleCategory from './vistas/SingleCategory';
 import SingleProduct from './vistas/SingleProduct';
 import CategoryObj from './interfaces/CategoryObj';
 import AdminProfile from './vistas/AdminProfile';
+import Statistics from './vistas/Statistics';
+import Sales from './vistas/Sales';
+import Complaint from './vistas/Complaint';
+import Advertisements from './vistas/Advertisements';
+import Setting from './vistas/Setting';
+import { SignalCellularConnectedNoInternet0Bar } from '@material-ui/icons';
 
 let templateCategories: CategoryObj[] = [{
   id: 0,
@@ -110,13 +116,12 @@ function App() {
       console.log(e);
     });
   }
- 
+
   useEffect(() => {
     getCategories();
   }, []);
 
   //JUAN
-
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -148,6 +153,21 @@ function App() {
           </Route>
           <Route path="/admin-profile">
             <AdminProfile auth={auth} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+          </Route>
+          <Route path="/Statistics">
+            <Statistics/>
+          </Route>
+          <Route path="/Sales">
+            <Sales/>
+          </Route>
+          <Route path="/complaint">
+            <Complaint/>
+          </Route>
+          <Route path="/Advertisements">
+            <Advertisements/>
+          </Route>
+          <Route path="/Setting">
+            <Setting/>
           </Route>
           <Route path="/categories/:id" children={<SingleCategory auth={auth}/>} />
           <Route path="/products/:id" children={<SingleProduct auth={auth} categories={categories} currentUser={currentUser}/>} />

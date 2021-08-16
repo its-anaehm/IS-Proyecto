@@ -12,20 +12,20 @@ import AdminHome from '../componentes/AdminHome';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     },
     main:{
         marginLeft: "5%",
         marginRight: "15%"
     }
-  }));
+}));
 
   interface LandingPageProps {
-      auth: boolean,
-      currentUser: UserObj
+    auth: boolean,
+    currentUser: UserObj
   }
 
 function LandingPage({

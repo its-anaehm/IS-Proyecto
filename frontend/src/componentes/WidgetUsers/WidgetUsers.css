@@ -1,0 +1,62 @@
+.WidgetUsers{
+    width: 525px;
+    -webkit-box-shadow: 0px 0px 7px -1px #455D7A; 
+    box-shadow: 0px 0px 7px -1px #455D7A;
+    padding: 20px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+.widgetUserTitle{
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.widgetUserList{
+    margin: 0;
+    padding: 7px;
+    list-style: none;
+}
+
+.widgeUsertIcon{
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    object-fit: cover;
+}
+
+.widgetUserListItem{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0px;
+}
+
+.widgetUserInfo{
+    display: flex;
+    flex-direction: column;
+}
+
+.widgetUserName{
+    font-weight: 600;
+}
+
+.widgetUserDenuncia{
+    font-weight: 300;
+}
+
+.buttom{
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 7px;
+    padding: 7px 10px;
+    background-color: #a2b4c9;
+    color: rgb(34, 34, 34);
+    cursor: pointer;
+}
+
+.widgetVSIcon{
+    font-size: 16px;
+    margin-right: 5px;
+}
