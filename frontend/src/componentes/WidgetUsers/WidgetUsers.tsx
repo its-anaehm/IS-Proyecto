@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function WidgetUsers(){
     return (
         <div className="WidgetUsers">
-            <Link to="/complaint" className="widgetUserTitle">Denuncias de Usuarios</Link>
+            <Link to="/catalogue" className="widgetUserTitle">Denuncias de Usuarios</Link>
             <ul className="widgetUserList">
                 <li className="widgetUserListItem">
                     <Person className="widgeUsertIcon"/>
