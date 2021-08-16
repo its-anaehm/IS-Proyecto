@@ -1,4 +1,4 @@
-import Estadisticas from "../Estadísticas/Estadisticas";
+import Estadisticas from "../StadisticsWiew/Estadisticas";
 import Info from "../Información/Info";
 import WidgetProduct from "../WidgetProducts/WidgetProduct";
 import WidgetUsers from "../WidgetUsers/WidgetUsers";
