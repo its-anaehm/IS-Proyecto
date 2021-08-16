@@ -10,7 +10,8 @@ CREATE TABLE Usuario(
     Email VARCHAR(50) UNIQUE NOT NULL,
     Telefono VARCHAR(20) NOT NULL,
     Rol ENUM('Administrador', 'Usuario') DEFAULT 'Usuario',
-    Contrasena VARCHAR(150) NOT NULL
+    Contrasena VARCHAR(150) NOT NULL,
+    Estado INT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE Departamento(
@@ -33,7 +34,8 @@ CREATE TABLE Categoria(
     id INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(40) NOT NULL,
     Imagen VARCHAR(70) NOT NULL,
-    Num_Visita  INT NOT NULL DEFAULT 0
+    Num_Visita  INT NOT NULL DEFAULT 0,
+    Estado INT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE Producto(
