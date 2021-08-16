@@ -7,6 +7,7 @@ import CategoryRoutes from './category.routes';
 import CommentRoutes from './coments.routes';
 import DepartmentRoutes from './department.routes';
 import QualificationRoutes from './qualification.routes';
+import ComplaintsRoutes from './complaints.routes';
 
 const router = Router()
 
@@ -18,5 +19,6 @@ router.use('/departments', DepartmentRoutes);
 router.use('/category', CategoryRoutes);
 router.use('/comments', CommentRoutes);
 router.use("/qualification", QualificationRoutes);
+router.use('/complaints',ComplaintsRoutes);
 
 export default router;
