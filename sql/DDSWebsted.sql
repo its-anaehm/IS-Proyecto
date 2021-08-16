@@ -176,5 +176,5 @@ CREATE TABLE Calificacion(
     FOREIGN KEY (fk_id_calificado)
         REFERENCES Usuario(id)
         ON DELETE CASCADE
-        ON UPDATE CASCADE,   
+        ON UPDATE CASCADE   
 );
