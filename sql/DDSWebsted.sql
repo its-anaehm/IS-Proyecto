@@ -163,7 +163,7 @@ CREATE TABLE Suscripcion_Categoria(
         ON UPDATE CASCADE
 );
 
-CREATE TABLE Calificacion{
+CREATE TABLE Calificacion(
     fk_id_calificador INT NOT NULL,
     fk_id_calificado INT NOT NULL,
     calificacion DECIMAL(1,1),
@@ -176,7 +176,5 @@ CREATE TABLE Calificacion{
     FOREIGN KEY (fk_id_calificado)
         REFERENCES Usuario(id)
         ON DELETE CASCADE
-        ON UPDATE CASCADE,
-
-    
-}
+        ON UPDATE CASCADE,   
+);
