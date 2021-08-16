@@ -1,5 +1,5 @@
 DROP DATABASE IF EXISTS Websted ;
-CREATE DATABASE Websted CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE DATABASE Websted CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 USE Websted;
 

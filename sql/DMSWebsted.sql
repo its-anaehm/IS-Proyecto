@@ -333,3 +333,5 @@ INSERT INTO Municipio (fk_id_departamento, Nombre) VALUES
     (18, "Sulaco"),
     (18, "Victoria"),
     (18, "Yorito");
+
+SET NAMES utf8mb4;
