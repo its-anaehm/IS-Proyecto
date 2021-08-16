@@ -63,7 +63,7 @@ function StadisticsNewUsers (){
                     <Legend />
                     <XAxis dataKey="name" stroke="#233142"></XAxis>
                     <YAxis/>
-                    <Line type="monotone" dataKey="Usuarios" stroke="#fe9144" activeDot={{ r: 8 }} />
+                    <Line type="monotone" dataKey="Usuarios" stroke="#fe9144" activeDot={{ r: 4 }} />
                 </LineChart>
             </ResponsiveContainer>
         </div>

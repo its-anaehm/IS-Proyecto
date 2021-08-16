@@ -88,7 +88,7 @@ function Estadisticas() {
                     <Legend />
                     <XAxis dataKey="name" stroke="#233142"></XAxis>
                     <YAxis/>
-                    <Line type="monotone" dataKey="Ingresos" stroke="#008F29" activeDot={{ r: 8 }} />
+                    <Line type="monotone" dataKey="Ingresos" stroke="#008F29" activeDot={{ r: 4 }} />
                     <Line type="monotone" dataKey="Egresos" stroke="#F95959" />
                 </LineChart>
             </ResponsiveContainer>

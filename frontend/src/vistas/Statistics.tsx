@@ -6,6 +6,7 @@ import Estadisticas from "../componentes/StadisticsWiew/Estadisticas";
 import StadisticsNewUsers from "../componentes/StadisticsWiew/StadisticsNewUsers";
 import StadisticsNewProducts from "../componentes/StadisticsWiew/StadisticsNewProducts";
 import "./Stadistics.css";
+import StadisticsCategory from "../componentes/StadisticsWiew/StadisticsCategory";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -25,7 +26,7 @@ function Statistics(){
                 <CssBaseline />
                 <div className={classes.paper}>
                     <h2>
-                        Estadísticas.
+                        Estadísticas
                     </h2>
                 </div>
             </Container>
@@ -37,6 +38,7 @@ function Statistics(){
                             <StadisticsNewProducts />
                         </div>
                         <div className="infoItem2">
+                            <StadisticsCategory/>
                         </div>
                     </div>
                     <StadisticsNewUsers />

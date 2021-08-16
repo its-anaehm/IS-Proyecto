@@ -1,11 +1,15 @@
 .container{
     display: flex;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .StadisticsView{
     flex: 1;
     margin-right: 28px;
+}
+
+.InfoWrapper{
+    margin-top: 40px;
 }
 
 .infoItem2{
