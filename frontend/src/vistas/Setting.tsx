@@ -6,6 +6,8 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Typography from '@material-ui/core/Typography';
 import { useState } from "react";
+import "./Settings.css";
+import CategoryList from "../componentes/Listas/Categorias";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -66,13 +68,19 @@ function Setting(){
                                 </ToggleButton>
                             </ToggleButtonGroup>
                         </Grid>
-
                         <Grid
                         item
                         lg={12}
                         md={12}
                         >
-                            {currentView==="PRODUCTS"? <><Typography>Vista Producto</Typography></> : <><Typography>Vista Categorías</Typography></>}
+                            {currentView==="PRODUCTS"? <> 
+                            <Typography>
+                                
+                            </Typography>
+                            </> : <>
+                            <Typography>
+                                <CategoryList/>
+                            </Typography></>}
                         </Grid>
                     </Grid>
                 </div>
