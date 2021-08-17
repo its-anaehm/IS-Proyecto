@@ -73,7 +73,7 @@ function Login({
     }
 
     function saveUserInfo(token: string){
-      fetch(requestURL, {
+      fetch("http://localhost:4000/users/my_details", {
         method: 'GET',
         headers: {'Content-Type': 'application/json','Accept': 'application/json', 'Authorization':token}
       }).then( response => {
@@ -100,7 +100,7 @@ function Login({
         e.preventDefault();
     
         let data: LoginForm = {"email": e.target.email.value,"password": e.target.password.value};
-    
+
         fetch(requestURL, {
           method: 'POST',
           headers: {'Content-Type': 'application/json','Accept': 'application/json'},

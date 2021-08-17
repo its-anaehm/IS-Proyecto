@@ -349,7 +349,10 @@ function SingleProduct({
                                     align="left"
                                     className={classes.productText}
                                     >
-                                        <strong>Publicado por:</strong>{` ${productInfo.owner}`}
+                                        <strong>Publicado por:</strong>
+                                        <Link to={`/other-user-profile/2`}>
+                                            {` ${productInfo.owner}`}
+                                        </Link>
                                     </Typography>
 
                                     <Typography

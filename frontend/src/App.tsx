@@ -25,6 +25,7 @@ import Sales from './vistas/Sales';
 import Complaint from './vistas/Complaint';
 import Advertisements from './vistas/Advertisements';
 import Setting from './vistas/Setting';
+import OtherUserProfile from './vistas/OtherUserProfile';
 import { SignalCellularConnectedNoInternet0Bar } from '@material-ui/icons';
 
 let templateCategories: CategoryObj[] = [{
@@ -150,6 +151,9 @@ function App() {
           </Route>
           <Route path="/user-profile">
             <UserProfile auth={auth} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+          </Route>
+          <Route path="/other-user-profile/:id">
+            <OtherUserProfile auth={auth}/>
           </Route>
           <Route path="/admin-profile">
             <AdminProfile auth={auth} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
