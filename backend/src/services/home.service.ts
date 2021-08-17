@@ -42,4 +42,12 @@ export class HomeService
     {
         const [row] = await db.query('DELETE FROM Lista_Deseo WHERE fk_id_usuario = ? AND fk_id_producto = ?', [user_id, product_id]);
     }
+    public static showSuscriptionFromSpecificUser = async (user_id: Number) =>
+    {
+        const [row] = await db.query('SELECT Lista_Deseo.fk_id_producto AS "id", Producto.Nombre AS "name", Producto.Precio AS "price" FROM Lista_Deseo JOIN Usuario ON Lista_Deseo.fk_id_usuario = Usuario.id JOIN Producto ON Lista_Deseo.fk_id_producto = Producto.id WHERE Lista_Deseo.fk_id_usuario = ?', [user_id]);
+        console.log(row);
+        let jsonWishlist: Array<Product> = JSON.parse(JSON.stringify(row));
+        jsonWishlist = await ProductService.getProductsImages(jsonWishlist);
+        return jsonWishlist;
+    }
 }

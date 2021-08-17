@@ -10,4 +10,6 @@ routes.get('/wishlist', verifyToken , HomeController.verifyWishlist);
 routes.get('/subscribe/:id', verifyToken, HomeController.getSubscribed);
 
 routes.get('/removeSub/:id', verifyToken, HomeController.removeFromWishlist);
+
+routes.post('/specificWishlist/:id', verifyToken, HomeController.specificWishlist);
 export default routes;
