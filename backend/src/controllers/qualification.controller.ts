@@ -1,16 +1,26 @@
 import { Handler } from 'express';
 import QualificationService from '../services/qualification.service';
-import Calification from '../models/Qualification';
+import Qualification from '../models/Qualification';
 
 export default class QualificationController{
 
     public static addQualification : Handler = async (req, res) => {
-        const quallificator = req.user.id;
-        const qualificationInfo: Calification = req.body;
-        if(quallificator !== Number(qualificationInfo.qualifiedUser)){
-            const response = await QualificationService.addQualification(quallificator, qualificationInfo.qualifiedUser, qualificationInfo.qualification)
-            if(response){
-                return res.status(200).send({message: "Qualification added"});
+        const qualificator = req.user.id;
+        const qualificationInfo: Qualification = req.body;
+        
+        let existsQualification = await QualificationService.existsQualification(qualificator, qualificationInfo.qualifiedUser)
+
+        if(qualificator !== Number(qualificationInfo.qualifiedUser)){
+            if(!existsQualification){
+                const qualification = await QualificationService.addQualification(qualificator, qualificationInfo)
+                if(qualification){
+                    return res.status(200).send({message: "Qualification added"});
+                }
+            }else{
+                const qualification = await QualificationService.updateQualification(qualificator, qualificationInfo)
+                if(qualification){
+                    return res.status(200).send({message: "Qualification added"});
+                }
             }
         }
         res.status(401).send({message:"Unauthorized user"});
@@ -20,7 +30,9 @@ export default class QualificationController{
         if(req.user.role !== 'guest'){
             const user_id = req.params.id;
             const qualification = await QualificationService.getUserQuallification(user_id);
-            return res.status(200).send(qualification);
+            const comments = await QualificationService.getQualificationComments(user_id);
+
+            return res.status(200).send({qualification, comments});
         }
 
         res.status(401).send({message: "Unauthorized user"})

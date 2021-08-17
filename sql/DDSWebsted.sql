@@ -166,7 +166,9 @@ CREATE TABLE Suscripcion_Categoria(
 CREATE TABLE Calificacion(
     fk_id_calificador INT NOT NULL,
     fk_id_calificado INT NOT NULL,
-    calificacion DECIMAL(1,1),
+    calificacion DECIMAL(2,1),
+    comentario VARCHAR(500) NOT NULL,
+    fecha_comentario DATETIME DEFAULT NOW(),
 
     FOREIGN KEY (fk_id_calificador)
         REFERENCES Usuario(id)

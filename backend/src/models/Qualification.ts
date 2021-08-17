@@ -1,5 +1,6 @@
 
-export default interface Calification{
+export default interface Qualification{
     qualifiedUser: string,
-    qualification: string
+    qualification: String,
+    comment: string
 }
