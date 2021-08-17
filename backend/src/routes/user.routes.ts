@@ -10,7 +10,7 @@ const routes = Router()
  */
 routes.get('/page=:page',verifyToken, UserController.getUsersInfo)
 /** Obtener la información de un usuario */
-routes.get('/:id',verifyToken, UserController.getUserInfo)
+routes.post('/:id',verifyToken, UserController.getUserInfo)
 /** Obtener la información del usuario que realiza la petición */
 routes.get('/my_details',verifyToken, UserController.getMyInfo)
 /** Obtiene la lista de los productos que ha publicado un usuario */
