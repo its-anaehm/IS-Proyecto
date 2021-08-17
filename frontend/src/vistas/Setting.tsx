@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { useState } from "react";
 import "./Settings.css";
 import CategoryList from "../componentes/Listas/Categorias";
+import ProductsList from "../componentes/Listas/Productos";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -75,7 +76,7 @@ function Setting(){
                         >
                             {currentView==="PRODUCTS"? <> 
                             <Typography>
-                                
+                                <ProductsList/>
                             </Typography>
                             </> : <>
                             <Typography>

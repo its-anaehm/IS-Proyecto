@@ -2,17 +2,18 @@ import "./Categorias.css";
 import { DataGrid } from '@material-ui/data-grid';
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { CategoryRows } from "./Data";
+import { ProductRows } from "./Data";
 import { useState } from "react";
 
-function CategoryList() {
+function ProductsList() {
 
-    const [data, setData] = useState(CategoryRows)
+    const [data, setData] = useState(ProductRows)
 
     const columns = [
         { field: 'id', headerName: 'ID', type: 'number', width: 120 },
-        { field: 'CategoryName', headerName: 'Nombre de la Categoria', width: 300, editable: true },
-        { field: 'Product', headerName: 'Total de Productos', type: 'number', width: 300, editable: true },
+        { field: 'ProductName', headerName: 'Nombre del Producto', width: 300, editable: true },
+        { field: 'Departamento', headerName: 'Departamento', width: 200, editable: true },
+        { field: 'Precio', headerName: 'Precio', type: 'number', width: 300, editable: true },
         { 
             field: 'Desabilitar', 
             headerName: 'Dar de Baja', 
@@ -42,4 +43,4 @@ function CategoryList() {
     );
 }
 
-export default CategoryList;
+export default ProductsList;

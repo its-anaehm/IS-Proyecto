@@ -22,7 +22,7 @@ function Complaint(){
                 <CssBaseline />
                 <div className={classes.paper}>
                     <h2>
-                        Denuncias.
+                        Denuncias
                     </h2>
                 </div>
             </Container>

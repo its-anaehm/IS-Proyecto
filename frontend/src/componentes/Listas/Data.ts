@@ -20,3 +20,16 @@ export const ComplaintRows = [
     {id: 5, Denounced: 'Luisa', Whistleblower: 'Luis', Reason: 'Producto dañado'},
     {id: 6, Denounced: 'Orlando', Whistleblower: 'Mario', Reason: 'Estafa'},
 ];
+
+export const ProductRows = [
+    { id: 1, ProductName: 'Celular', Departamento: 'Ocotepeque', Precio: 4000,  Desabilitar: 'si'},
+    { id: 2, ProductName: 'Televisor', Departamento: 'La Paz', Precio: 7000,  Desabilitar: 'si'},
+    { id: 3, ProductName: 'Comida para perro', Departamento: 'Olancho', Precio: 400,  Desabilitar: 'si'},
+    { id: 4, ProductName: 'Balon de Futbol', Departamento: 'Francisco Morazán', Precio: 300,  Desabilitar: 'si'},
+    { id: 5, ProductName: 'Sofá de Vaca', Departamento: 'Cortés', Precio: 2500,  Desabilitar: 'si'},
+    { id: 6, ProductName: 'Lampara', Departamento: 'Colón', Precio: 1000,  Desabilitar: 'si'},
+    { id: 7, ProductName: 'Sofá', Departamento: 'Atlantida', Precio: 2000,  Desabilitar: 'si'},
+    { id: 8, ProductName: 'Cuaderno', Departamento: 'Gracias a Dios', Precio: 20,  Desabilitar: 'si'},
+    { id: 9, ProductName: 'Tablet', Departamento: 'Santa Bárbara', Precio: 3000,  Desabilitar: 'si'},
+    { id: 10, ProductName: 'Lápiz', Departamento: 'Lempira', Precio: 10,  Desabilitar: 'si'},
+];
