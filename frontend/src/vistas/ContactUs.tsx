@@ -3,7 +3,7 @@ import Container from "@material-ui/core/Container";
 import { makeStyles } from '@material-ui/core/styles';
 import "./ContactUs.css";
 import React, {useState} from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Field, ErrorMessage } from 'formik';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
