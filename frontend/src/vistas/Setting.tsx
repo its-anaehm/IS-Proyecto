@@ -1,7 +1,12 @@
-import { CssBaseline } from "@material-ui/core";
+import { CssBaseline, Grid } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from '@material-ui/core/styles';
 import Sidebar from "../componentes/sidebar/sidebar";
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import Typography from '@material-ui/core/Typography';
+import { useState } from "react";
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -14,6 +19,11 @@ const useStyles = makeStyles((theme) => ({
 
 function Setting(){
     const classes = useStyles();
+    const [currentView, setCurrentView] = useState<string| null>("PRODUCTS");
+
+    function changeView(e: React.MouseEvent<HTMLElement>, view: string | null){
+        setCurrentView(view);
+    }
 
     return(
         <>
@@ -27,7 +37,47 @@ function Setting(){
             </Container>
             <div className="container">
                 <Sidebar/>
+                <div style={{flex: 1, marginRight: "1000px"}}>
+                    <Grid
+                    container
+                    >
+                        <Grid
+                        item
+                        style={{
+                            justifyItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                        >
+                            <ToggleButtonGroup
+                            value={currentView}
+                            exclusive
+                            onChange={changeView}
+                            aria-label="view-toggle"
+                            >
+                                <ToggleButton value={"PRODUCTS"}>
+                                    <Typography variant="button">
+                                        Productos
+                                    </Typography>
+                                </ToggleButton>
+                                <ToggleButton value={"CATEGORIES"}>
+                                    <Typography variant="button">
+                                        Categorias
+                                    </Typography>
+                                </ToggleButton>
+                            </ToggleButtonGroup>
+                        </Grid>
+
+                        <Grid
+                        item
+                        lg={12}
+                        md={12}
+                        >
+                            {currentView==="PRODUCTS"? <><Typography>Vista Producto</Typography></> : <><Typography>Vista Categorías</Typography></>}
+                        </Grid>
+                    </Grid>
+                </div>
             </div>
+            
         </>
     );
 }
