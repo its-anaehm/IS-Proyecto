@@ -80,6 +80,16 @@ export default class ProductService{
         
         return productList
     }
+
+    public static getAllProductsNoPageLimit = async () => {
+        const [row] = await db.query(`SELECT id, fk_id_categoria AS category, fk_id_departamento AS department, fk_id_municipio AS municipy, Nombre AS name, Precio AS price, Descripcion AS details, Disponibilidad FROM Producto LIMIT 5`)
+        // SELECT Producto.id, Producto.Nombre AS 'name', Departamento.Nombre AS 'departmento', Producto.Precio AS 'price' FROM Producto JOIN Departamento ON Producto.fk_id_departamento = Departamento.id
+        
+        let productList : Array<Product> = (JSON.parse(JSON.stringify(row)))
+        productList = await ProductService.getProductsImages(productList)
+        
+        return productList
+    }
     
     public static updateVisits = async (id: string) => {
         let [row] = await db.query("UPDATE Producto SET Num_Visita = Num_Visita + 1 WHERE Producto.id = ?", [id])

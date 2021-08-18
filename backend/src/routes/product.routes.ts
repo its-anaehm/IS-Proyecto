@@ -21,4 +21,6 @@ routes.put('/:id/:type', verifyToken, ProductController.deleteProduct)
 
 routes.post('/getAllProducts', ProductController.getProductsNoPage)
 
+routes.post('/getAllProductsLimit', ProductController.getProductsNoPageLimit)
+
 export default routes;
