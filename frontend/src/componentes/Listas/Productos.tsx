@@ -3,34 +3,28 @@ import { DataGrid } from '@material-ui/data-grid';
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import ProductObj from "../../interfaces/ProductObj";
+import ProductAdminObj from "../../interfaces/ProductAdminObj";
 import { Redirect } from "react-router-dom";
 import placeholder from "../../img/item-placeholder.png";
 
-let templateProducts: ProductObj[] = [{
+let templateProducts: ProductAdminObj[] = [{
     id: 0,
-    owner: "Juan Orlando",
-    department: "Honduras de alla",
-    municipy: "Tela",
     name: "Baleada",
-    price: "13",
-    details: "Baleada con queso y horchata",
-    images: [`${placeholder}`],
-    date: "ayer",
-    vendorID: 0
+    department: "Honduras de alla",
+    price: "13"
 }];
 
 
 function ProductsList() {
 
-    const [products, setProducts] = useState<ProductObj[] | []>(templateProducts);
+    const [products, setProducts] = useState<ProductAdminObj[] | []>(templateProducts);
 
     useEffect(() => {
         getProducts();
     }, []);
 
     function getProducts(){
-        fetch('http://localhost:4000/products/productInfo ',{
+        fetch('http://localhost:4000/products/getAllProducts',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,7 +35,7 @@ function ProductsList() {
             if(response.status < 400){
                 response.json().then(jsonResponse => {
                     console.log(jsonResponse)
-                    setProducts(jsonResponse.message);
+                    setProducts(jsonResponse);
                 })
             }
         }).catch(e=>{
@@ -70,6 +64,8 @@ function ProductsList() {
             } 
         },
     ];
+
+    console.log(products)
 
     const rows: any = []
     {products.map((row) => (
