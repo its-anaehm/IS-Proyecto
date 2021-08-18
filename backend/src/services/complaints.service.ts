@@ -10,9 +10,19 @@ export class ComplaintsService
     }
     public static listComplaints = async() =>
     {
-        const [row] = await db.query(`SELECT * FROM Denuncia`);
+        let fullQuery: any = []
+        const [row] = await db.query(`SELECT Denuncia.id, Denuncia.fk_id_denunciador, CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'Nombre Denunciador', DATE_FORMAT(Denuncia.Fecha_denuncia, '%y-%m-%d') AS 'date', Tipo_Denuncia, Denuncia.Estado FROM Denuncia JOIN Usuario ON Denuncia.fk_id_denunciador = Usuario.id`);
+
+        const [rowTwo] = await db.query(`SELECT Denuncia.fk_id_acusado, CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'Nombre Acusado' FROM Denuncia JOIN Usuario ON Denuncia.fk_id_acusado = Usuario.id`);
+
+
         let jsonListComplaints = JSON.parse(JSON.stringify(row));
-        return jsonListComplaints;
+        let jsonListComplaintsTwo = JSON.parse(JSON.stringify(rowTwo));
+
+        fullQuery.push(jsonListComplaints);
+        fullQuery.push(jsonListComplaintsTwo);
+
+        return fullQuery;
     }
     public static listComplaintsLimit = async() =>
     {

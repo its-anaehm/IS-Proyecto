@@ -255,12 +255,12 @@ Content-Type: application/json
 ### Denunciar a un usuario. Parametros: Acusador/Acusado/TipoDenuncia
 POST http://localhost:4000/complaints/1/2/1 HTTP/1.1
 Content-Type: application/json
-Authorization: aqui va el token
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjkzMTczNTksImV4cCI6MTY2NTMxMzc1OX0.GTmb3aKR6NPGI4L3lFcgfAIaRu6og3HgzRNhDh3WzUs
 
 ### Listado de todas las denuncias
 GET http://localhost:4000/complaints/listcomplaint HTTP/1.1
 Content-Type: application/json
-Authorization: aqui va el token
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjkzMTczNTksImV4cCI6MTY2NTMxMzc1OX0.GTmb3aKR6NPGI4L3lFcgfAIaRu6og3HgzRNhDh3WzUs
 
 ### Listado de todas las denuncias con Limite de cinco
 GET http://localhost:4000/complaints/listcomplaintLimit HTTP/1.1
