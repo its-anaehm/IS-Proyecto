@@ -34,13 +34,13 @@ function Setting(){
                 <CssBaseline />
                 <div className={classes.paper}>
                     <h2>
-                        Configuración.
+                        Configuración
                     </h2>
                 </div>
             </Container>
             <div className="container">
                 <Sidebar/>
-                <div style={{flex: 1, marginRight: "1000px"}}>
+                <div className="ListConteiner">
                     <Grid
                     container
                     >

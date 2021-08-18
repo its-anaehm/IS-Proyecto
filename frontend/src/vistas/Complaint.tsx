@@ -6,12 +6,12 @@ import ComplaintList from "../componentes/Listas/ComplaintList"
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     }
-  }));
+}));
 
 function Complaint(){
     const classes = useStyles();

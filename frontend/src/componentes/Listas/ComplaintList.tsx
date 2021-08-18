@@ -12,8 +12,8 @@ function ComplaintList() {
 
     const columns = [
         { field: 'id', headerName: 'ID', type: "number"},
-        { field: 'Denounced', headerName: 'Denunciado', width: 160 },
-        { field: 'Whistleblower', headerName: 'Denunciante', width: 160},
+        { field: 'Denounced', headerName: 'Denunciado', width: 200 },
+        { field: 'Whistleblower', headerName: 'Denunciante', width: 200},
         { field: 'Reason', headerName: 'Mótivo', width: 200, editable: true },
         { 
             field: 'Desabilitar', 
@@ -25,7 +25,7 @@ function ComplaintList() {
                         <Link to={"/other-user-profile/"+params.row.id} className="elementos">
                             <button className="CategoryList2">Mostrar</button>
                         </Link>
-                        <Visibility className="widgetVSIcon"/>
+                        <Visibility className="CategoryListIcon"/>
                     </>
                 )
             } 

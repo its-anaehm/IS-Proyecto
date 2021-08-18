@@ -12,8 +12,8 @@ function ProductsList() {
     const columns = [
         { field: 'id', headerName: 'ID', type: 'number', width: 120 },
         { field: 'ProductName', headerName: 'Nombre del Producto', width: 300, editable: true },
-        { field: 'Departamento', headerName: 'Departamento', width: 200, editable: true },
-        { field: 'Precio', headerName: 'Precio', type: 'number', width: 300, editable: true },
+        { field: 'Departamento', headerName: 'Departamento', width: 180, editable: true },
+        { field: 'Precio', headerName: 'Precio', type: 'number', width: 200, editable: true },
         { 
             field: 'Desabilitar', 
             headerName: 'Dar de Baja', 
