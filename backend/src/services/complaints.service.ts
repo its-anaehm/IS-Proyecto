@@ -11,9 +11,9 @@ export class ComplaintsService
     public static listComplaints = async() =>
     {
         let fullQuery: any = []
-        const [row] = await db.query(`SELECT Denuncia.id, Denuncia.fk_id_denunciador, CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'Nombre Denunciador', DATE_FORMAT(Denuncia.Fecha_denuncia, '%y-%m-%d') AS 'date', Tipo_Denuncia, Denuncia.Estado FROM Denuncia JOIN Usuario ON Denuncia.fk_id_denunciador = Usuario.id`);
+        const [row] = await db.query(`SELECT Denuncia.id, Denuncia.fk_id_denunciador, CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'NombreDenunciador', DATE_FORMAT(Denuncia.Fecha_denuncia, '%y-%m-%d') AS 'date', Tipo_Denuncia, Denuncia.Estado FROM Denuncia JOIN Usuario ON Denuncia.fk_id_denunciador = Usuario.id`);
 
-        const [rowTwo] = await db.query(`SELECT Denuncia.fk_id_acusado, CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'Nombre Acusado' FROM Denuncia JOIN Usuario ON Denuncia.fk_id_acusado = Usuario.id`);
+        const [rowTwo] = await db.query(`SELECT Denuncia.fk_id_acusado, CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'NombreAcusado' FROM Denuncia JOIN Usuario ON Denuncia.fk_id_acusado = Usuario.id`);
 
 
         let jsonListComplaints = JSON.parse(JSON.stringify(row));
