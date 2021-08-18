@@ -109,8 +109,14 @@ export default class ProductService{
         return jsonCategoryProducts;
     }
 
-    public static deleteProduct = async(id: string) => {
-        await db.query('UPDATE Producto SET Disponibilidad = "Vendido" WHERE Producto.id = ?', [id])       
+    public static deleteProduct = async(id: string, type: Number) => {
+        if(type == 0)
+        {
+            await db.query(`UPDATE Producto SET Disponibilidad = 'Retirado' WHERE Producto.id = ?`, [id, type])       
+        }
+        else if(type == 1)
+        {
+            await db.query(`UPDATE Producto SET Disponibilidad = 'Vendido' WHERE Producto.id = ?`, [id, type])     
+        }
     }
-
 }

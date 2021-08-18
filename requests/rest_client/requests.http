@@ -5,7 +5,7 @@ Content-Type: application/json
 {
     "firstName": "Daniel",
     "lastName": "Arteaga",
-    "email": "omen@gmail.com",
+    "email": "xdarktheboss@gmail.com",
     "phone": "8975-8799",
     "password": "omentruco"
 }
@@ -15,7 +15,7 @@ POST http://localhost:4000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "omen@gmail.com",
+    "email": "xdarktheboss@gmail.com",
     "password": "omentruco"
 }
 
@@ -26,7 +26,7 @@ Content-Type: application/json
 {
     "firstName": "Andrea",
     "lastName": "Hernandez",
-    "email": "andrea_her@gmail.com",
+    "email": "hernandez.anaevelin@gmail.com",
     "phone": "3245-8578",
     "password": "admin"
 }
@@ -36,7 +36,7 @@ POST http://localhost:4000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "andrea_her@gmail.com",
+    "email": "hernandez.anaevelin@gmail.com",
     "password": "admin"
 }
 
@@ -61,6 +61,48 @@ Content-Type: application/json
     "password": "lkezhn"
 }
 
+### Register User
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Josue",
+    "lastName": "Izaguirre",
+    "email": "josue.izaguirre@siacerp.com",
+    "phone": "9435-8799",
+    "password": "josuecrack"
+}
+
+### Login User
+POST http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "josue.izaguirre@siacerp.com",
+    "password": "josuecrack"
+}
+
+### Register User
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Juan",
+    "lastName": "Boquin",
+    "email": "juan.boquin@unah.hn",
+    "phone": "9435-8799",
+    "password": "juancito"
+}
+
+### Login User
+POST http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "juan.boquin@unah.hn",
+    "password": "juancito"
+}
+
 ### Register Administrator
 POST http://localhost:4000/users/register HTTP/1.1
 Content-Type: application/json
@@ -68,7 +110,7 @@ Content-Type: application/json
 {
     "firstName": "Ana",
     "lastName": "Hernandez",
-    "email": "anacleto@gmail.com",
+    "email": "aeherm0999@outlook.com",
     "phone": "9435-8799",
     "role": "Administrador",
     "password": "admin"
@@ -79,7 +121,7 @@ POST http://localhost:4000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "anacleto@gmail.com",
+    "email": "aeherm0999@outlook.com",
     "password": "admin"
 }
 
@@ -146,7 +188,6 @@ Authorization: aqui va el token
 GET http://localhost:4000/products/page=1 HTTP/1.1
 Content-Type: application/json
 
-
 ### Retorna  la información de **todos** los productos publicados (Sin registrar)
 POST http://localhost:4000/products/productInfo/page=1 HTTP/1.1
 Content-Type: application/json
@@ -154,6 +195,11 @@ Content-Type: application/json
 ### Get all categories
 GET http://localhost:4000/category/ HTTP/1.1
 Content-Type: application/json
+
+### Dar de baja/Vendido un producto. Parametros: 0 -> Retirado, 1 - > Vendido
+PUT http://localhost:4000/products/1/0 HTTP/1.1
+Content-Type: application/json
+Authorization: aqui va el token
 
 #------------------------ LISTA DE DESEO ------------------------
 
