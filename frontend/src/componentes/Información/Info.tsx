@@ -1,5 +1,5 @@
 import "./Info.css";
-import { ArrowDownward, ArrowUpward } from "@material-ui/icons"
+import { ArrowDownward, ArrowUpward, Remove } from "@material-ui/icons"
 
 function Info(){
     return (
@@ -8,9 +8,9 @@ function Info(){
             <div className="infoItem">
                 <span className="infoTitle">Ingresos</span>
                 <div className="infoMoneyContainer">
-                    <span className="infoMoney">Lps. 2.415</span>
+                    <span className="infoMoney">Lps. 0.00</span>
                     <span className="infoMoneyRate">
-                        -11.4 <ArrowDownward className="infoIcon negative"/>
+                        0% <Remove className="infoIconDif"/>
                     </span>
                 </div>
                 <span className="infoSub">Comparando con el Mes anterior</span>
@@ -26,7 +26,7 @@ function Info(){
                 <span className="infoSub">Comparando con el Mes anterior</span>
             </div>
             <div className="infoItem">
-                <span className="infoTitle">Costos</span>
+                <span className="infoTitle">Perdidas</span>
                 <div className="infoMoneyContainer">
                     <span className="infoMoney">Lps. 2,000</span>
                     <span className="infoMoneyRate">

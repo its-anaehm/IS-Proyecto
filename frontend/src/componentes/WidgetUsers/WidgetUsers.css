@@ -10,6 +10,10 @@
 .widgetUserTitle{
     font-size: 20px;
     font-weight: 500;
+    color: #455D7A;
+    text-decoration: none;
+    position: relative;
+    font-family: "Arimo";
 }
 
 .widgetUserList{
@@ -59,4 +63,10 @@
 .widgetVSIcon{
     font-size: 16px;
     margin-right: 5px;
+}
+
+.MostrarC{
+    color: #233142;
+    text-decoration: none;
+    position: relative;
 }

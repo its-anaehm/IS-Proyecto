@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Arimo&display=swap');
+
 .sidebar{
     flex: 1;
     height: calc(100vh - 50px);
@@ -16,8 +18,8 @@
 }
 
 .sidebarTitle{
-    font-size: 13px;
-    font-family: sans-serif;
+    font-size: 17px;
+    font-family: "Arimo";
     color: #233142;
 }
 
@@ -32,6 +34,10 @@
     display: flex;
     align-items: center;
     border-radius: 10px;
+    color: #233142;
+    text-decoration: none;
+    margin: 1rem;
+    position: relative;
 }
 
 .sidebarListItem.active, .sidebarListItem:hover{
@@ -59,5 +65,18 @@
 }
 
 .menu_items{
-    text-decoration: 'none';
+    color: #233142;
+    text-decoration: none;
+    position: relative;
+    font-family: "Arimo";
+}
+
+.ButtomLINK{
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    color: black;
+    cursor: pointer;
+    margin-right: 10px;
+    background-color: #E3E3E3;
 }

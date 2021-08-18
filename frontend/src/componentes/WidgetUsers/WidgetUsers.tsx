@@ -1,21 +1,8 @@
 import { Person, Visibility } from "@material-ui/icons";
 import "./WidgetUsers.css";
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-    menu_items:{
-        textDecoration: 'none',
-        '&:visited':{
-            color: theme.palette.background.paper
-        },
-        color: theme.palette.background.paper
-    }
-  }));
-
 
 function WidgetUsers(){
-    const classes = useStyles();
     return (
         <div className="WidgetUsers">
             <Link to="/complaint" className="widgetUserTitle">Denuncias de Usuarios</Link>
@@ -28,7 +15,7 @@ function WidgetUsers(){
                     </div>
                     <button className="buttom">
                         <Visibility className="widgetVSIcon"/>
-                        <Link to="/other-user-profile/1" className={classes.menu_items}>
+                        <Link to="/other-user-profile/1" className="MostrarC">
                             Mostrar
                         </Link>
                     </button>

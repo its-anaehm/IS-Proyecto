@@ -5,7 +5,7 @@ import { Store, Visibility } from "@material-ui/icons";
 function WidgetProduct(){
     return (
         <div className="WidgetProduct">
-            <Link to="/complaint" className="WidgetProductTitle">Productos</Link>
+            <Link to="/catalogue" className="WidgetProductTitle">Productos</Link>
             <ul className="WidgetProductList">
                 <li className="WidgetProductListItem">
                     <Store className="WidgetProducttIcon"/>
@@ -15,7 +15,9 @@ function WidgetProduct(){
                     </div>
                     <button className="buttom">
                         <Visibility className="widgetVSIcon"/>
-                        Mostrar
+                        <Link to="/other-user-profile/1" className="MostrarC">
+                            Mostrar
+                        </Link>
                     </button>
                 </li>
             </ul>
