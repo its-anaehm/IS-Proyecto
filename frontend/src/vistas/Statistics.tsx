@@ -7,6 +7,7 @@ import StadisticsNewUsers from "../componentes/StadisticsWiew/StadisticsNewUsers
 import StadisticsNewProducts from "../componentes/StadisticsWiew/StadisticsNewProducts";
 import "./Stadistics.css";
 import StadisticsCategory from "../componentes/StadisticsWiew/StadisticsCategory";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -17,11 +18,16 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Statistics(){
+interface StatisticsProps{
+    isAdmin: boolean
+}
+
+function Statistics(props: StatisticsProps){
     const classes = useStyles();
 
     return(
         <>
+             {!props.isAdmin ? <Redirect to="/"/> : undefined}
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>

@@ -3,6 +3,7 @@ import Container from "@material-ui/core/Container";
 import { makeStyles } from '@material-ui/core/styles';
 import Sidebar from "../componentes/sidebar/sidebar";
 import ComplaintList from "../componentes/Listas/ComplaintList"
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -13,11 +14,16 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Complaint(){
+interface ComplaintProps{
+    isAdmin: boolean
+}
+
+function Complaint(props: ComplaintProps){
     const classes = useStyles();
 
     return(
         <>
+            {!props.isAdmin ? <Redirect to="/"/> : undefined}
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>

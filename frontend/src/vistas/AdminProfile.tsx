@@ -5,6 +5,7 @@ import UserObj from "../interfaces/UserObj";
 import Sidebar from "../componentes/sidebar/sidebar";
 import AdminView from "../componentes/AdminView/AdminView";
 import "./AdminP.css";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -18,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
 interface UserProfileProps{
     auth: boolean,
     currentUser: UserObj,
-    setCurrentUser: (user: UserObj)=>void
+    setCurrentUser: (user: UserObj)=>void,
+    isAdmin: boolean
 }
 
 function AdminProfile(props: UserProfileProps){
@@ -26,6 +28,7 @@ function AdminProfile(props: UserProfileProps){
     
     return(
         <>
+            {!props.isAdmin ? <Redirect to="/"/> : undefined}
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>

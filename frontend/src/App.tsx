@@ -88,6 +88,14 @@ function App() {
     }
   });
 
+  const [isAdmin, setIsAdmin] = useState<boolean>(()=>{
+    if(localStorage.getItem("USR_R") === "Administrador"){
+      return true;
+    }else{
+      return false;
+    }
+  });
+
   //Estado del usuario actual
   const [currentUser, setCurrentUser] = useState<UserObj>(()=>{
     if(localStorage.getItem("USR") !== null){
@@ -132,7 +140,7 @@ function App() {
             <LandingPage auth={auth} currentUser={currentUser}/>
           </Route>
           <Route path="/login">
-            <Login auth={auth} setAuth={setAuth} setCurrentUser={setCurrentUser} />
+            <Login auth={auth} setAuth={setAuth} setCurrentUser={setCurrentUser} setIsAdmin={setIsAdmin} />
           </Route>
           <Route path="/register">
             <Register/>
@@ -156,19 +164,16 @@ function App() {
             <OtherUserProfile auth={auth}/>
           </Route>
           <Route path="/admin-profile">
-            <AdminProfile auth={auth} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+            <AdminProfile auth={auth} currentUser={currentUser} setCurrentUser={setCurrentUser} isAdmin={isAdmin}/>
           </Route>
           <Route path="/Statistics">
-            <Statistics/>
+            <Statistics isAdmin={isAdmin}/>
           </Route>
           <Route path="/Sales">
-            <Sales/>
+            <Sales isAdmin={isAdmin}/>
           </Route>
           <Route path="/complaint">
-            <Complaint/>
-          </Route>
-          <Route path="/Advertisements">
-            <Advertisements/>
+            <Complaint isAdmin={isAdmin}/>
           </Route>
           <Route path="/Setting">
             <Setting/>
@@ -176,7 +181,7 @@ function App() {
           <Route path="/categories/:id" children={<SingleCategory auth={auth}/>} />
           <Route path="/products/:id" children={<SingleProduct auth={auth} categories={categories} currentUser={currentUser}/>} />
         </Switch>
-        <Navbar auth={auth} setAuth={setAuth} currentUser={currentUser} />
+        <Navbar auth={auth} setAuth={setAuth} currentUser={currentUser} setIsAdmin={setIsAdmin}/>
       </main>    
     </ThemeProvider>
   );

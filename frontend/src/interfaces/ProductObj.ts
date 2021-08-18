@@ -8,7 +8,8 @@ interface ProductObj{
     price?: string,
     images: string[],
     date?: string,
-    details?:string
+    details?:string,
+    vendorID?: number
 }
 
 

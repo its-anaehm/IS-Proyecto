@@ -54,12 +54,14 @@ interface LoginProps{
   auth: boolean,
   setAuth: (auth:boolean) => void,
   setCurrentUser: (user: UserObj)=> void
+  setIsAdmin: (isAdmin: boolean)=> void
 }
 
 function Login({
   auth,
   setAuth,
-  setCurrentUser
+  setCurrentUser,
+  setIsAdmin
 }:LoginProps) {
     const classes = useStyles();
     const requestURL: string = 'http://localhost:4000/users/login';
@@ -112,6 +114,13 @@ function Login({
             response.json().then(jsonResponse => {
               localStorage.setItem("USR_TKN", jsonResponse.token);
               localStorage.setItem("USR_R", jsonResponse.rol);
+
+              if(jsonResponse.rol === "Administrador"){
+                setIsAdmin(true);
+              }else{
+                setIsAdmin(false);
+              }
+              
               setAuth(true);
               saveUserInfo(jsonResponse.token);
               setRedirect(true);
