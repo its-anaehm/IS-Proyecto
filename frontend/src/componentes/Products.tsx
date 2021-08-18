@@ -54,7 +54,8 @@ let templateProducts: ProductObj[] = [{
     price: "13",
     details: "Baleada con queso y horchata",
     images: [`${placeholder}`],
-    date: "ayer"
+    date: "ayer",
+    vendorID: 0
 }];
 
 function Products(){

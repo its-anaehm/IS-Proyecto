@@ -1,0 +1,9 @@
+.container{
+    display: flex;
+    margin-top: 10px;
+}
+
+.SalesView{
+    flex: 1;
+    margin-right: 28px;
+}

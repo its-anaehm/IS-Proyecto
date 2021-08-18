@@ -44,12 +44,6 @@ function Sidebar() {
                                 Denuncias
                             </Link>
                         </li>
-                        <li className="sidebarListItem">
-                            <QueuePlayNextOutlined className="sidebarIcon"/>
-                            <Link to="/Advertisements" className="menu_items">
-                                Anuncios
-                            </Link>
-                        </li>
                         <li className="sidebarListItem"> 
                             <Settings className="sidebarIcon"/>
                             <Link to="/Setting" className="menu_items">

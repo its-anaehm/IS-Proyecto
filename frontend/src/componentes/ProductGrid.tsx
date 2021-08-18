@@ -1,10 +1,14 @@
 import ProductObj from "../interfaces/ProductObj";
 import Typography from '@material-ui/core/Typography';
-import ImageList from '@material-ui/core/ImageList';
-import ImageListItem from '@material-ui/core/ImageListItem';
-import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,11 +40,12 @@ const useStyles = makeStyles((theme) => ({
       //height: "80%",
       borderRadius: 15,
       marginBottom: 10
+  },
+  root: {
+    maxWidth: 345,
+    backgroundColor: 'lightgray'
   }
 }));
-
-
-const colors = ["#20A0EB", "#99E265", "#FFBD4A", "#F95959", "#A3A847"];
 
 interface ProductGridProps{
   products: ProductObj[]
@@ -51,94 +56,45 @@ function ProductGrid({
 }:ProductGridProps){
   const classes = useStyles();
   return(
-    <ImageList
-      cols={5}
-      className={classes.imageList}
-      //rowHeight={200}
-      >
-        {products.map((cat: ProductObj) => (
-          <ImageListItem
-          key={cat.id}
-          className={classes.imageItem}
-          style={{
-              backgroundColor: colors[parseInt(`${cat.id}`)%colors.length ]
-          }}
-          >
-              <Link
-              to={`/Products/${cat.id}`}
-              style={{
-                textDecoration:"none",
-                //display:"flex",
-                //justifyItems:
-              }}
-              >
-                
-                  <img
-                  src={`http://localhost:4000/uploads/${cat.images[0]}`}
-                  alt={cat.name}
-                  style={{
-                      //height: 530,
-                      height: "35%",
-                      //width: "80%",
-                      padding: 5,
-                      //paddingBottom: 10,
-                      borderRadius: 15
-                  }}
-                  ></img>
-                  <Typography
-                  variant="button"
-                  //display="inline"
-                  style={{
-                      textAlign:"center",
-                      fontWeight: "bold",
-                      color: "black",
-                      textDecoration: "none"
-                  }}
-                  >
-                      {cat.name}
+    <div
+    style={{
+      marginTop: 15
+    }}
+    >
+      <Grid container lg={10} spacing={4}>
+        {products.map((producto: ProductObj)=>(
+          <Grid item lg={4}>
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  alt={producto.name}
+                  height="140"
+                  image={`http://localhost:4000/uploads/${producto.images[0]}`}
+                  title={producto.name}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    {producto.name}
                   </Typography>
-                  
-                    <Typography
-                    variant="body2"
-                    style={{
-                      textDecoration: "none"
-                    }}
-                    >
-                      {`${cat.municipy}, ${cat.department}`}
-                    </Typography>
-                  <div
-                  style={{
-                    padding:5,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyItems: 'space-between'
-                  }}
-                  >
-                    <Typography
-                    variant="body2"
-                    display="inline"
-                    align="left"
-                    style={{
-                      textDecoration: "none"
-                    }}
-                    >
-                      {cat.date}
-                    </Typography>
-                    <Typography
-                    variant="overline"
-                    display="inline"
-                    align="right"
-                    style={{
-                      textDecoration: "none"
-                    }}
-                    >
-                      {`LPS.${cat.price}`}
-                    </Typography>
-                  </div>
-              </Link>
-          </ImageListItem>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    {`${producto.municipy}, ${producto.department}`}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+              <CardActions>
+                <Button size="small" color="primary">
+                  {`LPS.${producto.price}`}
+                </Button>
+                <Button size="small" color="primary">
+                  {producto.date}
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
         ))}
-      </ImageList>
+      </Grid>
+    </div>
   );
 }
 

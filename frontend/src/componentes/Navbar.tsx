@@ -59,13 +59,15 @@ const useStyles = makeStyles((theme) => ({
 interface NavbarProps{
     auth: boolean,
     setAuth: (auth: boolean)=>void,
-    currentUser: UserObj
+    currentUser: UserObj,
+    setIsAdmin: (isAdmin: boolean)=>void
 }
 
 function Navbar({
     auth,
     setAuth,
-    currentUser
+    currentUser,
+    setIsAdmin
 }:NavbarProps){
     const classes = useStyles();
     const [opened, setOpened] = useState<null | HTMLElement>(null);
@@ -86,6 +88,8 @@ function Navbar({
     function signOut(){
         localStorage.removeItem("USR_TKN");
         localStorage.removeItem("USR");
+        localStorage.removeItem("USR_R");
+        setIsAdmin(false);
         setAuth(false);
         setRedirect(true);
         closeMenu();
@@ -131,7 +135,7 @@ function Navbar({
                             Mi Cuenta
                         </Link>
                     </MenuItem>
-                    {rol == "Administrador" && <MenuItem className={classes.menu_items}>
+                    {rol === "Administrador" && <MenuItem className={classes.menu_items}>
                         <Link to="/admin-profile" className={classes.menu_items}>
                             Menú Administrador
                         </Link>
