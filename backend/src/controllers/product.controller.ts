@@ -11,12 +11,10 @@ export default class ProductController{
 
     public static getAllProducts: Handler = async (req, res) => {
         
-        const productList = await ProductService.getAllProducts()
-        for( let product of productList){
-            product.department = await DepartmentService.getDepartment(product.department)
-            product.municipy = await MunicipyService.getMunicipy(product.municipy)
-        }
-        res.send(productList)
+        const page = req.params.page
+        const productList = await ProductService.getAllProducts(page)
+    
+        res.status(200).send(productList)
     }
 
     public static getOneProduct: Handler = async (req,res) => {
@@ -60,7 +58,8 @@ export default class ProductController{
     {
         try
         {
-            const productInfo = await ProductService.getAllProductsInfo();
+            const page = req.params.page
+            const productInfo = await ProductService.getAllProductsInfo(page);
             res.status(200).send({message: productInfo});
         }
         catch(err)
