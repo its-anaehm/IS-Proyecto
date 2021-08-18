@@ -258,37 +258,6 @@ function getProductsWithFilter(e: React.FocusEvent<HTMLFormElement>){
       order: value
     };
 
-    //console.log(filter)
-
-    /**
-     * Para obtener el valor del textfield/input:
-     *     e.target."id_input".value
-     * 
-     * Falta:
-     * - Realizar conexón con el backend
-     * 
-     * 
-     * - Enviar en un formato asi:
-     *   {
-     *    Department: "",
-     *    Municipality: "",
-     *    Category: "",
-     *    minPrice: "", //precio minimo
-     *    maxPrice: "", //precio maximo,
-     *    order: "DESC" //descendiente por defect o puede ser ASC
-     *   }
-     * 
-     * 
-     * - El boton de aplicar envia los datos
-     * 
-     * - El boton de limpiar limpia todo el filtro y coloca los prodctos por defecto
-     * 
-     * - Al obtener una respuesta del servidor ( fetch.then( response.json().then() ) ),
-     * enviar los productos a la función "setProducts()" la cual ha sido pasada como propiedad del componente
-     * 
-     * -De encontrarse una lista vacia, mostrar un texto indicando que no sé encontraron
-     * productos con el criterio anterior.
-     */
 
       fetch('http://localhost:4000/filters/', {
         method: 'POST',

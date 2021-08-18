@@ -187,7 +187,7 @@ function OtherUserProfile({
 
 	
 	function getPublishedProducts(){
-		fetch("http://localhost:4000/users/published", {
+		fetch(`http://localhost:4000/users/publishedSpecific/${id}`, {
 				method: 'POST',
 				headers: {
 						'Content-Type': 'application/json',
@@ -219,8 +219,8 @@ function OtherUserProfile({
 
 
 	function getWishlist(){
-		fetch("http://localhost:4000/home/wishlist", {
-				method: 'GET',
+		fetch(`http://localhost:4000/home/specificWishlist/${id}`, {
+				method: 'POST',
 				headers: {
 						'Content-Type': 'application/json',
 						'Accept': 'application/json',
