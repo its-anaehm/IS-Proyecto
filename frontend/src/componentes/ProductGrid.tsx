@@ -63,35 +63,37 @@ function ProductGrid({
     >
       <Grid container lg={10} spacing={4}>
         {products.map((producto: ProductObj)=>(
-          <Grid item lg={4}>
-            <Card className={classes.root}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  alt={producto.name}
-                  height="140"
-                  image={`http://localhost:4000/uploads/${producto.images[0]}`}
-                  title={producto.name}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {producto.name}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    {`${producto.municipy}, ${producto.department}`}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button size="small" color="primary">
-                  {`LPS.${producto.price}`}
-                </Button>
-                <Button size="small" color="primary">
-                  {producto.date}
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
+            <Grid item lg={4}>
+              <Link to={`/products/${producto.id}`}  className={classes.root}>
+              <Card className={classes.root}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    alt={producto.name}
+                    height="140"
+                    image={`http://localhost:4000/uploads/${producto.images[0]}`}
+                    title={producto.name}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {producto.name}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                      {`${producto.municipy}, ${producto.department}`}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button size="small" color="primary">
+                    {`LPS.${producto.price}`}
+                  </Button>
+                  <Button size="small" color="primary">
+                    {producto.date}
+                  </Button>
+                </CardActions>
+              </Card>
+              </Link>
+            </Grid>
         ))}
       </Grid>
     </div>
