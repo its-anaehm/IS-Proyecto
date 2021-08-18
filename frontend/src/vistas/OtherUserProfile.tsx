@@ -358,7 +358,17 @@ function OtherUserProfile({
 																			variant="h4"
 																			>
 																					{`${user.Nombre} ${user.Apellido}`}
+                                                                                    
 																			</Typography>
+                                                                            {rol == "Usuario" &&
+                                                                            <Button 
+                                                                            type="submit"
+                                                                            variant="contained"
+                                                                            color="primary"
+                                                                            className={classes.desestimar}
+                                                                            >
+                                                                                Denunciar
+                                                                            </Button>}
 																	</Grid>
 															</Grid>
                                                             {rol == "Administrador" &&
