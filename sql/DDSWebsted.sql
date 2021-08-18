@@ -104,12 +104,22 @@ CREATE TABLE Venta(
         ON UPDATE CASCADE
 );
 
+/*
+1: Actitud Negativa
+2: Abuso Verbal/Textual
+3: Estafador
+4: Información Falsa
+5: Vendedor menor de 18 años
+6: Publicación de información de contacto de otro usuario
+7: No hay intención de completar la venta
+8: Producto Indebido
+ */
 CREATE TABLE Denuncia(
     id INT AUTO_INCREMENT PRIMARY KEY,
     fk_id_denunciador INT NOT NULL,
     fk_id_acusado INT NOT NULL,
     Fecha_denuncia DATETIME DEFAULT NOW(),
-    Tipo_Denuncia ENUM('1','2'),
+    Tipo_Denuncia ENUM('1','2','3','4','5','6','7','8'),
     Estado ENUM('Aprobado','Desestimado', 'Pendiente') DEFAULT 'Pendiente',
 
     FOREIGN KEY (fk_id_denunciador)
