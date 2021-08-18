@@ -19,4 +19,6 @@ routes.post('/', verifyToken, ProductController.addProduct)
 /** Eliminar un producto */
 routes.put('/:id/:type', verifyToken, ProductController.deleteProduct)
 
+routes.post('/getAllProducts', ProductController.getProductsNoPage)
+
 export default routes;

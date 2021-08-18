@@ -17,6 +17,12 @@ export default class ProductController{
         res.status(200).send(productList)
     }
 
+    public static getProductsNoPage: Handler = async (req, res) => {
+        
+        const productList = await ProductService.getAllProductsNoPage()
+        res.status(200).send(productList)
+    }
+
     public static getOneProduct: Handler = async (req,res) => {
         const product = await ProductService.getProduct(req.params.id)
         res.status(200).send(product);

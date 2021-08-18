@@ -70,6 +70,13 @@ export default class ProductService{
         
         return productList
     }
+
+    public static getAllProductsNoPage = async () => {
+        const [row] = await db.query(`SELECT Producto.id, Producto.Nombre AS 'name', Departamento.Nombre AS 'departmento', Producto.Precio AS 'price' FROM Producto JOIN Departamento ON Producto.fk_id_departamento = Departamento.id`)
+        
+        let productList = JSON.parse(JSON.stringify(row))
+        return productList
+    }
     
     public static updateVisits = async (id: string) => {
         let [row] = await db.query("UPDATE Producto SET Num_Visita = Num_Visita + 1 WHERE Producto.id = ?", [id])
