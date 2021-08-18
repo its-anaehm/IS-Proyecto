@@ -24,6 +24,7 @@ DELIMITER $$
                     Producto.Descripcion AS details, 
                     DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS date, 
                     Categoria.id AS category, 
+                    Producto.fk_id_usuario AS vendorID,
                     Departamento.Nombre AS department, 
                     Municipio.Nombre AS municipy 
                     FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id 
@@ -36,6 +37,7 @@ DELIMITER $$
                     CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS owner, 
                     Producto.Nombre AS name, 
                     Producto.Descripcion AS details, 
+                    Producto.fk_id_usuario AS vendorID,
                     FORMAT(Producto.Precio,2) AS price, 
                     DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS date, 
                     Categoria.id AS category, 
