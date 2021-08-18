@@ -2,6 +2,7 @@ import { CssBaseline } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from '@material-ui/core/styles';
 import Sidebar from "../componentes/sidebar/sidebar";
+import ProductState from "../componentes/Listas/ProductState";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -21,12 +22,13 @@ function Advertisements(){
                 <CssBaseline />
                 <div className={classes.paper}>
                     <h2>
-                        Anuncios.
+                        Productos
                     </h2>
                 </div>
             </Container>
             <div className="container">
                 <Sidebar/>
+                <ProductState />
             </div>
         </>
     );
