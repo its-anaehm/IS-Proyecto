@@ -1,5 +1,6 @@
 interface ParamInterface{
-    id: string
+    id: string,
+    motivo?: string
 }
 
 export default ParamInterface;

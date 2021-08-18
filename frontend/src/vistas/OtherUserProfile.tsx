@@ -97,6 +97,7 @@ function OtherUserProfile({
 }:UserProfileProps){
 	const classes = useStyles();
 	const { id } = useParams<ParamInterface>();
+	const { motivo } = useParams<ParamInterface>();
 	const [showErr, setShowErr] = useState<boolean>(false);
 	const [success, setSuccess] = useState<boolean>(false);
 	const [errMessage, setErrMessage] = useState<string>("");
@@ -360,7 +361,7 @@ function OtherUserProfile({
 																					{`${user.Nombre} ${user.Apellido}`}
                                                                                     
 																			</Typography>
-                                                                            {rol == "Usuario" &&
+                                                                            {motivo == "0" &&
                                                                             <Button 
                                                                             type="submit"
                                                                             variant="contained"
@@ -371,13 +372,12 @@ function OtherUserProfile({
                                                                             </Button>}
 																	</Grid>
 															</Grid>
-                                                            {rol == "Administrador" &&
+                                                            {rol == "Administrador" && (motivo !== "0" &&
                                                             <div className="WidgetUsers">
                                                                 <ul className="widgetUserList">
                                                                     <li className="widgetUserListItem">
                                                                         <div className="widgetUserInfo">
-                                                                            <span className="widgetUserName">Omen Truco</span>
-                                                                            <span className="widgetUserDenuncia">Motivo de Denuncia</span>
+                                                                            <span className="widgetUserDenuncia">{motivo}</span>
                                                                             <div>
                                                                                 <Button 
                                                                                 type="submit"
@@ -399,7 +399,7 @@ function OtherUserProfile({
                                                                         </div>
                                                                     </li>
                                                                 </ul>
-                                                            </div>}
+                                                            </div>)}
 													</div>
 											</Grid>
 											<Grid

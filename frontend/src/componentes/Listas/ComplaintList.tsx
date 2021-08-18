@@ -55,13 +55,13 @@ function ComplaintList() {
         { field: 'Whistleblower', headerName: 'Denunciante', width: 200},
         { field: 'Reason', headerName: 'Mótivo', width: 200, editable: true },
         { 
-            field: 'Desabilitar', 
-            headerName: 'Desabilitar', 
+            field: 'Mostrar', 
+            headerName: 'Mostrar', 
             width: 200,
             renderCell: (params: any) => {
                 return (
                     <>
-                        <Link to={"/other-user-profile/"+params.row.id} className="elementos">
+                        <Link to={"/other-user-profile/"+params.row.id+"/"+params.row.Reason} className="elementos">
                             <button className="CategoryList2">Mostrar</button>
                         </Link>
                         <Visibility className="CategoryListIcon"/>
