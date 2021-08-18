@@ -41,6 +41,7 @@ export class CategoryService
 
     public static getCategoryName = async(id: string) => {
         const [row] = await db.query("SELECT  Nombre FROM Categoria WHERE Categoria.id = ?", [id]);
+        await db.query("UPDATE Categoria SET Num_Visita = Num_Visita + 1 WHERE Categoria.id = ?", [id])
         return JSON.parse(JSON.stringify(row))[0]["Nombre"];
     }
 }
