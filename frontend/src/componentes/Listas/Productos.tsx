@@ -65,8 +65,6 @@ function ProductsList() {
         },
     ];
 
-    console.log(products)
-
     const rows: any = []
     {products.map((row) => (
         rows.push ({ id: row.id, ProductName: row.name, Departamento: row.department, Precio: row.price,  Desabilitar: 'si'} )
