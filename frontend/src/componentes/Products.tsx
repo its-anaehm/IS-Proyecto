@@ -67,7 +67,7 @@ function Products(){
   }, []);
 
   function getProducts(){
-    fetch('http://localhost:4000/products/productInfo ',{
+    fetch('http://localhost:4000/products/productInfo/page=1',{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ function Products(){
     ).then( response => {
       if(response.status < 400){
         response.json().then(jsonResponse => {
-          //console.log()
+          console.log(jsonResponse)
           setProducts(jsonResponse.message);
         })
       }

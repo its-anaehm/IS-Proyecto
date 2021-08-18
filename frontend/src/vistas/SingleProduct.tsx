@@ -41,7 +41,8 @@ let templateProduct: ProductObj = {
     price: "5000.00",
     details: "Sofá de vaca elegante y a precio comodo.",
     images: ["cowch.jpg"],
-    date: "2021-07-18"
+    date: "2021-07-18",
+    vendorID: 0
 };
 
 let templateComments: CommentObj[] = [
@@ -350,10 +351,12 @@ function SingleProduct({
                                     className={classes.productText}
                                     >
                                         <strong>Publicado por:</strong>
-                                        <Link to={`/other-user-profile/2`}>
+                                        <Link to={`/other-user-profile/${productInfo.vendorID}`}>
                                             {` ${productInfo.owner}`}
                                         </Link>
                                     </Typography>
+
+                                    {console.log(productInfo.vendorID)}
 
                                     <Typography
                                     variant="body2"
