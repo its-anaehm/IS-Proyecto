@@ -8,6 +8,7 @@ const routes = Router();
 routes.post('/:acusserid/:acussedid/:complainttype', verifyToken, ComplaintController.makeComplaint);
 routes.get('/listcomplaint', verifyToken, ComplaintController.listComplaint);
 routes.get('/listcomplaintlimit', verifyToken, ComplaintController.listComplaintLimit);
+routes.post('/getSpecificComplaint/:id', verifyToken, ComplaintController.getComplaintSpecific);
 routes.put('/verifyComplaint/:state/:id', verifyToken, ComplaintController.verifyComplaint);
 
 export default routes;

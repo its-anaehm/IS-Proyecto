@@ -22,6 +22,12 @@ export class ComplaintsService
         let jsonListComplaintsLimit = JSON.parse(JSON.stringify(row));
         return jsonListComplaintsLimit;
     }
+    public static getSpecificComplaint = async(user_id: Number) =>
+    {
+        const [row] = await db.query(`SELECT id,fk_id_denunciador,fk_id_acusado, DATE_FORMAT(Denuncia.Fecha_denuncia, '%y-%m-%d') AS 'date' , Tipo_Denuncia, Estado FROM Denuncia WHERE fk_id_denunciador = ?`, [user_id]);
+        let jsonListComplaintsLimit = JSON.parse(JSON.stringify(row));
+        return jsonListComplaintsLimit;
+    }
     public static verifyComplaint = async(state_id: string, complaint_id: string) =>
     {
         //Aprobado: 1, Desestimado: 0

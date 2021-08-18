@@ -48,6 +48,18 @@ export class ComplaintController
             res.status(400).send({message: err});
         }
     }
+    public static getComplaintSpecific: Handler = async(req,res) =>
+    {
+        try
+        {
+            const listComplaintLimit = await ComplaintsService.getSpecificComplaint(Number(req.params.id));
+            res.status(200).send({message: listComplaintLimit});
+        }
+        catch(err)
+        {
+            res.status(400).send({message: err});
+        }
+    }
     public static verifyComplaint: Handler = async(req,res) =>
     {
         try
