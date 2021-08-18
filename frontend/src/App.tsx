@@ -178,6 +178,9 @@ function App() {
           <Route path="/Setting">
             <Setting/>
           </Route>
+          <Route path="/advertisements">
+            <Advertisements />
+          </Route>
           <Route path="/categories/:id" children={<SingleCategory auth={auth}/>} />
           <Route path="/products/:id" children={<SingleProduct auth={auth} categories={categories} currentUser={currentUser}/>} />
         </Switch>

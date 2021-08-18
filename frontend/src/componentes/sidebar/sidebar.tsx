@@ -1,5 +1,5 @@
 import "./sidebar.css"
-import {LineStyle, Timeline, TrendingUp, PermIdentity, Storefront, NewReleasesOutlined, QueuePlayNextOutlined, Settings} from "@material-ui/icons"
+import {LineStyle, Timeline, TrendingUp, PermIdentity, Storefront, NewReleasesOutlined, RestorePage, Settings} from "@material-ui/icons"
 import { Link, Redirect } from 'react-router-dom';
 
 function Sidebar() {
@@ -35,6 +35,12 @@ function Sidebar() {
                         <li className="sidebarListItem">
                             <Storefront className="sidebarIcon"/> 
                             <Link to="/catalogue" className="menu_items">
+                                Catálogo
+                            </Link>
+                        </li>
+                        <li className="sidebarListItem">
+                            <RestorePage className="sidebarIcon"/>
+                            <Link to="/advertisements" className="menu_items">
                                 Productos
                             </Link>
                         </li>
