@@ -179,6 +179,13 @@ export class UserService{
         return jsonProductDetails;
     }
 
+    public static publishedProductsFromSpecificUser = async (user_id: Number) =>
+    {
+        const [ row ] = await db.query(`SELECT Producto.id, Producto.Nombre AS 'published', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date', Imagen.Nombre AS 'image' FROM Producto JOIN Usuario ON Producto.fk_id_usuario = Usuario.id JOIN Imagen on Imagen.fk_id_producto = Producto.id WHERE Producto.fk_id_usuario = ?`, [user_id]);
+        let jsonProductDetails = JSON.parse(JSON.stringify(row));
+        return jsonProductDetails;
+    }
+
     public static sendEmailToUsers = async () =>{
         console.log("Sending emails");
         const [row] = await db.query(`

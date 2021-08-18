@@ -24,4 +24,5 @@ routes.put('/:id', verifyToken, UserController.updateUserInfo)
 /** Eliminar un usuario */
 routes.delete('/:id', verifyToken, UserController.deleteUser)
 
+routes.post('/publishedSpecific/:id',verifyToken, UserController.getPublishedProductsFromSpecificUser);
 export default routes;

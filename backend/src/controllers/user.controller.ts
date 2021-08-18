@@ -188,5 +188,17 @@ export class UserController{
             res.status(400).send({message: err})
         }
     }
+    public static getPublishedProductsFromSpecificUser: Handler = async(req, res) =>
+    {
+        try
+        {
+            const published = await UserService.publishedProductsFromSpecificUser(Number(req.params.id));
+            res.status(200).send({message: published});
+        }
+        catch(err)
+        {
+            res.status(400).send({message: err})
+        }
+    }
 
 }

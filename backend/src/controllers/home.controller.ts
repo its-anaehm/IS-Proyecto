@@ -16,7 +16,6 @@ export class HomeController
             res.status(400).send({message: err});
         }
     }
-
     public static getSubscribed: Handler = async (req,res) =>
     {
         try
@@ -45,6 +44,19 @@ export class HomeController
         }
         catch(err)
         {
+            res.status(400).send({message: err});
+        }
+    }
+    public static specificWishlist: Handler = async (req, res) =>
+    {
+        try
+        {
+            const wishlist = await HomeService.showSuscriptionFromSpecificUser(Number(req.params.id));
+            res.status(200).send({message: wishlist});
+        }
+        catch(err)
+        {
+            console.log(err);
             res.status(400).send({message: err});
         }
     }

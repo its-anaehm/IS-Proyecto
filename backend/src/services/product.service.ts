@@ -91,8 +91,7 @@ export default class ProductService{
     public static getAllProductsInfo = async (page: string) =>
     {
         const [ row ] = await db.query(`CALL pagination(${page}, 20, 2)`);
-        let jsonProductDetails: Array<Product> = JSON.parse(JSON.stringify(row))[0];
-        console.log(jsonProductDetails)
+        let jsonProductDetails: Array<Product> = JSON.parse(JSON.stringify(row));
         jsonProductDetails = await ProductService.getAllProductsImages(jsonProductDetails);
         return jsonProductDetails;
     }
