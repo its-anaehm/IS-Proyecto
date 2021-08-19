@@ -13,8 +13,9 @@ export default class ProductController{
         
         const page = req.params.page
         const productList = await ProductService.getAllProducts(page)
+        const productCount = await ProductService.getAllProductsCount();
     
-        res.status(200).send({message: productList})
+        res.status(200).send({message: productList, productCount})
     }
 
     public static getProductsNoPage: Handler = async (req, res) => {
@@ -78,7 +79,8 @@ export default class ProductController{
         {
             const page = req.params.page
             const productInfo = await ProductService.getAllProductsInfo(page);
-            res.status(200).send({message: productInfo});
+            const productCount = await ProductService.getProductsCount();
+            res.status(200).send({message: productInfo, productCount});
         }
         catch(err)
         {

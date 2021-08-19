@@ -28,7 +28,17 @@ export default class ProductService{
         return product
     }
     
+    public static getAllProductsCount = async () => {
+        let [ row ] = await db.query("SELECT COUNT(*) AS count FROM Producto;");
+        return JSON.parse(JSON.stringify(row))[0]["count"];
+    }
     
+
+    public static getProductsCount = async () => {
+        let [ row ] = await db.query('SELECT COUNT(*) AS count FROM Producto WHERE Producto.Disponibilidad = "Disponible";');
+        return JSON.parse(JSON.stringify(row))[0]["count"];
+    }
+
     public static getAllProductsImages = async ( productList: Array<Product>) => {
         for(let product of productList){
             product.images = []
