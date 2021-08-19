@@ -64,6 +64,7 @@ function Products(){
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [filterMode, setFilterMode] = useState<boolean>(false);
   const [allProducts, setAllProducts] = useState<ProductObj[]>(templateProducts);
+  const [totalPage, setTotalPage] = useState<number>(1);
 
   useEffect(() => {
     getProducts();
@@ -74,8 +75,8 @@ function Products(){
     if(filterMode){
         setProducts(getProductsOnPage(page));
     }else{
-        fetch(`http://localhost:4000/products/page=${page}`,{
-            method: 'GET',
+        fetch(`http://localhost:4000/products/productInfo/page=${page}`,{
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -121,7 +122,9 @@ function Products(){
       if(response.status < 400){
         response.json().then(jsonResponse => {
           //console.log(jsonResponse)
-          setProducts(jsonResponse.message);
+          let numPag = Math.ceil(jsonResponse.productCount/10);
+          setTotalPage(numPag);
+          console.log(jsonResponse.productCount)
         })
       }
     } ).catch(e=>{
@@ -149,7 +152,7 @@ function Products(){
       :
        <ProductGrid
        products={products}
-       productPages={Math.ceil( (products.length)/10 )}
+       productPages={totalPage}
        currentPage={currentPage}
        changePage={getProductsFromPages}
        /> 
