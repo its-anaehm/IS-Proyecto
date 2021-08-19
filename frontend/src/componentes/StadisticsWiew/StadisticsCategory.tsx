@@ -4,23 +4,23 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 function StadisticsCategory(){
     const data = [
         {
-            name: 'Estudio y Oficina',
-            Categoria: 7500,
-        },
-        {
-            name: 'Mascotas',
-            Categoria: 9500,
-        },
-        {
             name: 'Tecnología',
-            Categoria: 5000,
+            Categoria: 22035,
+        },
+        {
+            name: 'Moda',
+            Categoria: 15146,
         },
         {
             name: 'Hogar',
-            Categoria: 3200,
+            Categoria: 12791,
+        },
+        {
+            name: 'Bioseguridad',
+            Categoria: 12338,
         },
     ];
-    
+
     return(
         <div className="Stadistics2">
             <h3 className="StadisticsT">Categorias más Visitadas</h3>

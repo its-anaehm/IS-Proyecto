@@ -5,19 +5,19 @@ function StadisticsNewProducts(){
     const data = [
         {
             name: 'Julio',
-            Productos: 7500,
+            Productos: 17593,
         },
         {
             name: 'Octubre',
-            Productos: 5000,
+            Productos: 22820,
         },
         {
             name: 'Enero',
-            Productos: 10000,
+            Productos: 13048,
         },
         {
             name: 'Abril',
-            Productos: 3200,
+            Productos: 17364,
         },
     ];
     

@@ -5,51 +5,51 @@ function StadisticsNewUsers (){
     const data = [
         {
             name: 'Agosto',
-            Usuarios: 3000,
+            Usuarios: 979,
         },
         {
             name: 'Septiembre',
-            Usuarios: 2000,
+            Usuarios: 6658,
         },
         {
             name: 'Octubre',
-            Usuarios: 2780,
+            Usuarios: 7248,
         },
         {
             name: 'Noviembre',
-            Usuarios: 1890,
+            Usuarios: 4129,
         },
         {
             name: 'Diciembre',
-            Usuarios: 2390,
+            Usuarios: 6762,
         },
         {
             name: 'Enero',
-            Usuarios: 3490,
+            Usuarios: 5943,
         },
         {
             name: 'Febrero',
-            Usuarios: 6500,
+            Usuarios: 5289,
         },
         {
             name: 'Marzo',
-            Usuarios: 3700,
+            Usuarios: 9646,
         },
         {
             name: 'Abril',
-            Usuarios: 4300,
+            Usuarios: 4518,
         },
         {
             name: 'Mayo',
-            Usuarios: 1580,
+            Usuarios: 2290,
         },
         {
             name: 'Junio',
-            Usuarios: 2590,
+            Usuarios: 2746,
         },
         {
             name: 'Julio',
-            Usuarios: 4000,
+            Usuarios: 7496,
         },
     ];
     
