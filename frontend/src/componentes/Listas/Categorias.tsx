@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import { CategoryRows } from "./Data";
 import { useEffect, useState } from "react";
 import CategoryObj from "../../interfaces/CategoryObj";
+import DeleteCategory from "../../componentes/DeleteCategory";
 
 let templateCategories: CategoryObj[] = [{
     id: 0,
     Nombre: "Categoria",
     Imagen: "",
-    Num_Visita: 0
+    Num_Visita: 0,
+    Estado: 0
   }];
 
 function CategoryList() {
@@ -40,21 +42,36 @@ function CategoryList() {
         });
     }
 
+    function removeFromListed(id:number){
+		fetch(`http://localhost:4000/category/removeCategory/${id}`, {
+				method: 'GET',
+				headers: {
+						'Content-Type': 'application/json',
+						'Accept': 'application/json',
+						'Authorization': `${localStorage.getItem("USR_TKN")}`
+				}
+		}).then(response =>{
+			if(response.status < 400){
+					//setFav(false);
+					getCategories();
+			}
+	}).catch(e=>{
+			console.log(e)
+		});
+	}
+
     const columns = [
         { field: 'id', headerName: 'ID', type: 'number', width: 120 },
         { field: 'CategoryName', headerName: 'Nombre de la Categoria', width: 300, editable: true },
         { field: 'Vistas', headerName: 'Vistas', type: 'number', width: 300, editable: true },
         { 
             field: 'Desabilitar', 
-            headerName: 'Dar de Baja', 
-            width: 200,
+            headerName: ' ', 
+            width: 110,
             renderCell: (params: any) => {
                 return (
                     <>
-                        <Link to={"/user/"+params.row.id} className="elementos">
-                            <button className="CategoryList2">Eliminar</button>
-                            <DeleteOutline className="CategoryListIcon"/>
-                        </Link>
+                        <DeleteCategory paramsid={params.id} category={categories} removeFunction={removeFromListed}/>
                     </>
                 )
             } 
