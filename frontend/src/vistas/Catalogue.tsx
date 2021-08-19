@@ -1,7 +1,7 @@
 import { CssBaseline, Grid } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from '@material-ui/core/styles';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Typography from '@material-ui/core/Typography';
@@ -21,11 +21,13 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 interface CatalogueProps{
-    categories: CategoryObj[]
+    categories: CategoryObj[],
+    getCategories: ()=>void
 }
 
 function Catalogue({
-    categories
+    categories,
+    getCategories
 }:CatalogueProps){
     const classes = useStyles();
     const [currentView, setCurrentView] = useState<string| null>("PRODUCTS");
@@ -33,6 +35,10 @@ function Catalogue({
     function changeView(e: React.MouseEvent<HTMLElement>, view: string | null){
         setCurrentView(view);
     }
+
+    useEffect(() => {
+		getCategories();
+	}, [])
 
     return(
         <>
