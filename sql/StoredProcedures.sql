@@ -13,7 +13,7 @@ DELIMITER $$
             IF minRecord = 0 THEN
                 SELECT id, fk_id_categoria AS category, fk_id_departamento AS department, fk_id_municipio AS municipy, FORMAT(Precio,2) AS price, Nombre AS name, descripcion AS details, Disponibilidad AS productStatus FROM Producto LIMIT num_limit;
             ELSE
-                SELECT id, fk_id_categoria AS category, fk_id_departamento AS department, fk_id_municipio AS municipy, FORMAT(Precio,2) AS price, Nombre AS name, descripcion AS details, Disponibilidad AS productStatus FROM Producto WHERE ID > (SELECT a.ID FROM (SELECT * FROM Producto LIMIT minRecord) AS a ORDER BY a.ID DESC LIMIT 1) LIMIT num_limit;
+                SELECT id, fk_id_categoria AS category, fk_id_departamento AS department, fk_id_municipio AS municipy, FORMAT(Precio,2) AS price, Nombre AS name, descripcion AS details, Disponibilidad AS productStatus FROM Producto WHERE ID > (SELECT a.id FROM (SELECT * FROM Producto LIMIT minRecord) AS a ORDER BY a.id DESC LIMIT 1) LIMIT num_limit;
             END IF;
         ELSE
             IF minRecord = 0 THEN
@@ -47,7 +47,7 @@ DELIMITER $$
                     JOIN Municipio ON Producto.fk_id_municipio = Municipio.id 
                     JOIN Departamento ON Producto.fk_id_departamento = Departamento.id 
                     JOIN Usuario ON Producto.fk_id_usuario = Usuario.id
-                WHERE Producto.Disponibilidad = "Disponible" AND ID > (SELECT a.ID FROM (SELECT * FROM Producto LIMIT minRecord) AS a ORDER BY a.ID DESC LIMIT 1) LIMIT num_limit;
+                WHERE Producto.Disponibilidad = "Disponible" AND ID > (SELECT a.id FROM (SELECT * FROM Producto LIMIT minRecord) AS a ORDER BY a.id DESC LIMIT 1) LIMIT num_limit;
             END IF;
         END IF;
     END$$
