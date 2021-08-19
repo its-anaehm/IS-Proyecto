@@ -2,6 +2,8 @@ import { CssBaseline } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from "material-ui/styles/typography";
+import AboutInfo from "../componentes/AboutUsInfo/AboutInfo";
+import AdminProfile from "./AdminProfile";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -20,11 +22,11 @@ function AboutUs(){
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
-                    <h2>
-                        Vista de "Acerca De".
-                    </h2>
                 </div>
             </Container>
+            <div className="container">
+                <AboutInfo/>
+            </div>
         </>
     );
 }
