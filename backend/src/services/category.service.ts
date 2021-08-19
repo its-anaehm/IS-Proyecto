@@ -1,4 +1,6 @@
 import { db } from "../config/database";
+import { Request } from "express";
+import File from "../models/ImageFile";
 
 export class CategoryService
 {
@@ -54,5 +56,18 @@ export class CategoryService
         const [row] = await db.query(`SELECT id, Nombre, Num_Visita, Estado FROM Categoria WHERE Estado = '1'`);
         let jsonCategoryConfig = JSON.parse(JSON.stringify(row));
         return jsonCategoryConfig;
+    }
+    public static addCategory = async(category_name: string, image: string[]) =>
+    {
+        const [row] = await db.query(`INSERT INTO Categoria(Nombre,Imagen) VALUES (?,?)`, [category_name, image[0]]);
+    }
+    public static getImages = (files : Request["files"]) => {
+        let images : Array<string> = []
+        let requestImages : Array<File> = JSON.parse(JSON.stringify(files))["categoryImage"] || []
+        
+        requestImages.map( file => {
+            images.push(file["filename"])
+        })
+        return images;
     }
 }

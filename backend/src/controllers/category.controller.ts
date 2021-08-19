@@ -70,4 +70,15 @@ export class CategoryController
         let category = await CategoryService.categoryConfig()
         res.status(200).send({message: category})
     }
+    public static addCategory : Handler = async (req, res) => {
+        if(req.user.role !== 'guest'){
+            const category = req.body.Nombre
+            const images = CategoryService.getImages(req.files)
+    
+            let idCategory = await CategoryService.addCategory(category,images)
+
+            return res.send({message:'Category added', id: idCategory})
+        }
+        res.status(400).send({message: 'Invalid user'})
+    }
 }

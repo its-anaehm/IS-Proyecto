@@ -19,4 +19,6 @@ routes.get('/removeCategory/:id', verifyToken, CategoryController.removeCategory
 
 routes.get('/categoryConfig', CategoryController.getCategoryConfig);
 
+routes.post('/addCategory', verifyToken, CategoryController.addCategory);
+
 export default routes;
