@@ -98,7 +98,7 @@ function Setting(){
 
         e.preventDefault();
 
-        let requestURL: string = 'Aquí el URL para nueva categoría';
+        let requestURL: string = 'http://localhost:4000/category/addCategory';
 
         const formData: FormData = new FormData();
 
@@ -108,10 +108,35 @@ function Setting(){
             setErrMessage("Es necesario que suba una imagen del producto.");
         }else{
             setFormErr(false);
-            formData.append('name', e.target.category_name.value);
+            formData.append('Nombre', e.target.category_name.value);
             formData.append('categoryImage', categoryImage as Blob );
 
             console.log(formData);
+
+            fetch(requestURL, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'multipart/form-data',
+                    'Authorization':`${localStorage.getItem("USR_TKN")}`
+                },
+                body: formData
+              }).then(response => {
+                  console.log("Entre: "+response.status)
+                  if( response.status >= 400){
+                      setErrMessage("");
+                      setFormErr(true);
+                  }else{
+                      //console.log(response);
+                      response.json().then(jsonResponse => {
+                            console.log(jsonResponse);
+                            e.target.category_name.value = "";
+                            quitarImagen();
+                      });
+                  }
+              }).catch(error => {
+                  setErrMessage("");
+                  setFormErr(true);
+              });
         }
     }
 

@@ -274,8 +274,17 @@ function UserProfile({
 		}).then( response =>{
 				if(response.status < 400){
 						response.json().then( jsonResponse => {
-								//console.log(jsonResponse);
+							if(jsonResponse.qualification){
 								setQualification(parseFloat(`${jsonResponse.qualification.qualification}`));
+								//colocar set Comentarios aqui
+								//Se obtienen los comentarios de la respuesta json
+								
+								//let comments = jsonResponse.comments;
+								//setComments(jsonResponse.comments);
+							}else{
+								setQualification(parseFloat(jsonResponse.message))
+								
+							}
 								
 						} );
 				}

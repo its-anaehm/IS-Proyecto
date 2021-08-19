@@ -160,52 +160,10 @@ function UserHome({
     const [value, setValue] = useState<string>('ASC');
     const [products, setProducts] = useState<ProductObj[]>(templateProducts);
     const [showGrid, setShowGrid] = useState<boolean>(false);
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [filterMode, setFilterMode] = useState<boolean>(false);
-    const [allProducts, setAllProducts] = useState<ProductObj[]>(templateProducts);
 
     function changeOrder (event: React.ChangeEvent<HTMLInputElement>){
         setValue((event.target as HTMLInputElement).value);
       }
-
-      function getProductsFromPages(page: number){
-        if(filterMode){
-            setProducts(getProductsOnPage(page));
-        }else{
-            fetch(`http://localhost:4000/products/page=${page}`,{
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                }
-            }
-            ).then( response => {
-                if(response.status < 400){
-                    response.json().then(jsonResponse => {
-                        //console.log(jsonResponse)
-                        setProducts(jsonResponse.message);
-                        })
-                    }
-                } ).catch(e=>{
-                    console.log(e);
-            });
-        }
-        
-      }
-
-    function getProductsOnPage(page_curr: number): ProductObj[]{
-        let result: ProductObj[];
-        let min: number = (page_curr*10)-10;
-        let max: number = (page_curr*10);
-
-        if(max+1 > allProducts.length){
-            result = allProducts.slice(min);
-        }else{
-            result = allProducts.slice(min,max-1);
-        }
-
-        return result;
-    }
 
     function clearForm(e: React.FocusEvent<HTMLFormElement>){
         e.target.select_department.value = 0;
@@ -214,8 +172,7 @@ function UserHome({
         e.target.minPrice.value = "";
         e.target.maxPrice.value = "";
         setValue("ASC");
-        setFilterMode(false);
-        setCurrentPage(1);
+
         setShowGrid(false);
     }
 
@@ -349,12 +306,8 @@ function UserHome({
           }).then(response => {
             if(response.status < 400){
               response.json().then( jsonResponse => {
-                setAllProducts(jsonResponse.message);
-
-                setCurrentPage(1);
-                let newProducts: ProductObj[] = getProductsOnPage(currentPage);
-                setFilterMode(true);
-                setProducts(newProducts);
+                //console.log(jsonResponse);
+                setProducts(jsonResponse.message)
               });
             }
           }).catch(e=>{
@@ -424,7 +377,6 @@ function UserHome({
         getCategories();
         getDepartments();
         getMunicipalities(1);
-        getProductsFromPages(1);
         //console.log(suscribedCat);
     }, [])
 
@@ -434,17 +386,7 @@ function UserHome({
             container
             lg = {9}
             >
-                { products.length === 0
-                ?
-                <Typography style={{paddingTop: '100px', alignContent: 'right'}} variant="h4">Ningún producto coincide con los criterios.</Typography>
-                :
-                <ProductGrid
-                products={products}
-                productPages={Math.ceil( (products.length)/10 )}
-                currentPage={currentPage}
-                changePage={getProductsFromPages}
-                /> 
-                }
+                { products.length === 0? <Typography style={{paddingTop: '100px', alignContent: 'right'}} variant="h4">Ningún producto coincide con los criterios.</Typography>: <ProductGrid products={products} /> }
             </Grid>
         );
     }

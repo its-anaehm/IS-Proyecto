@@ -59,59 +59,15 @@ let templateProducts: ProductObj[] = [{
 }];
 
 function Products(){
-  //const classes = useStyles();
+  const classes = useStyles();
   const [products, setProducts] = useState<ProductObj[] | []>(templateProducts);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [filterMode, setFilterMode] = useState<boolean>(false);
-  const [allProducts, setAllProducts] = useState<ProductObj[]>(templateProducts);
-  const [totalPage, setTotalPage] = useState<number>(1);
 
   useEffect(() => {
     getProducts();
-    getProductsFromPages(1);
   }, []);
 
-  function getProductsFromPages(page: number){
-    if(filterMode){
-        setProducts(getProductsOnPage(page));
-    }else{
-        fetch(`http://localhost:4000/products/productInfo/page=${page}`,{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            }
-        }
-        ).then( response => {
-            if(response.status < 400){
-                response.json().then(jsonResponse => {
-                    //console.log(jsonResponse)
-                    setProducts(jsonResponse.message);
-                    })
-                }
-            } ).catch(e=>{
-                console.log(e);
-        });
-    }
-    
-  }
-
-  function getProductsOnPage(page_curr: number): ProductObj[]{
-    let result: ProductObj[];
-    let min: number = (page_curr*10)-10;
-    let max: number = (page_curr*10);
-
-    if(max+1 > allProducts.length){
-        result = allProducts.slice(min);
-    }else{
-        result = allProducts.slice(min,max-1);
-    }
-
-    return result;
-  }
-
   function getProducts(){
-    fetch('http://localhost:4000/products/productInfo/page=1',{
+    fetch('http://localhost:4000/products/getAllProductsConfig',{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -121,10 +77,8 @@ function Products(){
     ).then( response => {
       if(response.status < 400){
         response.json().then(jsonResponse => {
-          //console.log(jsonResponse)
-          let numPag = Math.ceil(jsonResponse.productCount/10);
-          setTotalPage(numPag);
-          console.log(jsonResponse.productCount)
+          console.log(jsonResponse)
+          setProducts(jsonResponse);
         })
       }
     } ).catch(e=>{
@@ -139,24 +93,9 @@ function Products(){
       width: '100%'
     }}
     >
-      <Filter
-      setProducts={setProducts}
-      setCurrentPage={setCurrentPage}
-      setAllProducts={setAllProducts}
-      getProductsOnPage={getProductsOnPage}
-      setFilterMode={setFilterMode}
-      filterMode={filterMode}
-      currentPage={currentPage}/>
-      { products.length === 0?
-       <Typography style={{paddingTop: '100px', alignContent: 'right'}} variant="h4">Ningún producto coincide con los criterios.</Typography>
-      :
-       <ProductGrid
-       products={products}
-       productPages={totalPage}
-       currentPage={currentPage}
-       changePage={getProductsFromPages}
-       /> 
-       }
+      <Filter setProducts={setProducts}/>
+      { products.length === 0? <Typography style={{paddingTop: '100px', alignContent: 'right'}} variant="h4">Ningún producto coincide con los criterios.</Typography>: <ProductGrid products={products} /> }
+      
     </div>
   );
 }

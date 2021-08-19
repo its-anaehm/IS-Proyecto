@@ -108,7 +108,7 @@ function App() {
 
   //JUAN
   function getCategories(){
-    fetch('http://localhost:4000/category/ ',{
+    fetch('http://localhost:4000/category/',{
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -155,7 +155,7 @@ function App() {
             <ContactUs/>
           </Route>
           <Route path="/catalogue">
-            <Catalogue categories={categories}/>
+            <Catalogue categories={categories} getCategories={getCategories}/>
           </Route>
           <Route path="/user-profile">
             <UserProfile auth={auth} currentUser={currentUser} setCurrentUser={setCurrentUser}/>

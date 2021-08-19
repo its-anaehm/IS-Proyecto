@@ -97,23 +97,11 @@ let templateMunicipality: Municipality[] = [{
   Nombre: "Departamento"
 }];
 interface FilterProps{
-  setProducts: (productos: ProductObj[])=>void,
-  setCurrentPage: (Page: number)=>void,
-  currentPage: number,
-  setAllProducts: (productos: ProductObj[])=>void,
-  getProductsOnPage: (cur_page: number) => ProductObj[],
-  filterMode: boolean,
-  setFilterMode: (mode:boolean)=>void
+  setProducts: (productos: ProductObj[])=>void
 }
 
 function Filter({
-  setProducts,
-  setCurrentPage,
-  currentPage,
-  setAllProducts,
-  getProductsOnPage,
-  filterMode,
-  setFilterMode
+  setProducts
 }:FilterProps){
   const classes = useStyles();
   //const [showing, setShowing] = useState<boolean>(false);
@@ -142,8 +130,6 @@ function Filter({
     e.target.minPrice.value = "";
     e.target.maxPrice.value = "";
     setValue("ASC");
-    setFilterMode(false);
-    setCurrentPage(1);
   }
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -284,12 +270,7 @@ function getProductsWithFilter(e: React.FocusEvent<HTMLFormElement>){
         if(response.status < 400){
           response.json().then( jsonResponse => {
             //console.log(jsonResponse);
-                setAllProducts(jsonResponse.message);
-
-                setCurrentPage(1);
-                let newProducts: ProductObj[] = getProductsOnPage(currentPage);
-                setFilterMode(true);
-                setProducts(newProducts);
+            setProducts(jsonResponse.message)
           });
         }
       }).catch(e=>{
