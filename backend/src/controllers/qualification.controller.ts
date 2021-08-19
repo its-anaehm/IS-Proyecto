@@ -35,7 +35,7 @@ export default class QualificationController{
 
             if(qualification == null || qualification == undefined || qualification == '')
             {
-                return res.status(200).send({message: 'No Qualification'});
+                return res.status(200).send({message: 0});
             }
             else
             {
