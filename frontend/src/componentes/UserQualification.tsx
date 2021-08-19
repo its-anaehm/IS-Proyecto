@@ -162,7 +162,7 @@ function UserQualification({
           flexDirection: 'column'
         }}
         >
-          {comments.map( (comment)=>(
+          {comments !== undefined && comments.map( (comment)=>(
             <Grid
             item
             className={classes.commentArea}

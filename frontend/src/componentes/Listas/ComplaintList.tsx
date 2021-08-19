@@ -20,6 +20,7 @@ function ComplaintList() {
     }];
     
         const [complaint, setComplaint] = useState<ComplaintObj[] | []>(templateProducts);
+        const [id_acusado, setIDAcusado] = useState<number>(0);
     
         useEffect(() => {
             getComplaint();
@@ -50,8 +51,9 @@ function ComplaintList() {
 
 
     const columns = [
-        { field: 'id', headerName: 'ID', type: "number"},
+        { field: 'id', headerName: 'ID', type: "hidden"},
         { field: 'Denounced', headerName: 'Denunciado', width: 200 },
+        { field: 'id_Denounced', headerName: 'id', type: 'hidden'},
         { field: 'Whistleblower', headerName: 'Denunciante', width: 200},
         { field: 'Reason', headerName: 'Mótivo', width: 200, editable: true },
         { 
@@ -61,7 +63,7 @@ function ComplaintList() {
             renderCell: (params: any) => {
                 return (
                     <>
-                        <Link to={"/other-user-profile/"+params.row.id+"/"+params.row.Reason} className="elementos">
+                        <Link to={"/other-user-profile/"+params.row.id_Denounced+"/"+params.row.Reason} className="elementos">
                             <button className="CategoryList2">Mostrar</button>
                         </Link>
                         <Visibility className="CategoryListIcon"/>
@@ -73,7 +75,7 @@ function ComplaintList() {
 
     const rows: any = []
     {complaint.map((row) => (
-        rows.push ({ id: row.id, Denounced: row.NombreAcusado, Whistleblower: row.NombreDenunciador, Reason: row.Tipo_Denuncia} )
+        rows.push ({ id: row.id, Denounced: row.NombreAcusado, id_Denounced: row.fk_id_acusado, Whistleblower: row.NombreDenunciador, Reason: row.Tipo_Denuncia} )
     ))};
 
     return (

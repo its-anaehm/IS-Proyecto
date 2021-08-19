@@ -113,7 +113,7 @@ function OtherUserProfile({
 	const classes = useStyles();
 	const { id, motivo } = useParams<ParamInterface>();
 	const [user, setUser] = useState<UserObj>(userPlaceholder);
-  const rol = localStorage.getItem("USR_R");
+  	const rol = localStorage.getItem("USR_R");
 	const [qualification, setQualification] = useState<number>(0);
 	const [usrComments, setComments] = useState<CommentObj[] | []>([{
     contenido: ""
@@ -158,14 +158,18 @@ function OtherUserProfile({
 					if(response.status < 400){
 						//console.log(response);
 							response.json().then( jsonResponse => {
-									console.log(jsonResponse);
-									setQualification(parseFloat(`${jsonResponse.message}`));
+									if(jsonResponse.qualification){
+										setQualification(parseFloat(`${jsonResponse.qualification.qualification}`));
 
-									//colocar set Comentarios aqui
-									//Se obtienen los comentarios de la respuesta json
-									
-									//let comments = jsonResponse.comments;
-									setComments(jsonResponse.comments);
+										//colocar set Comentarios aqui
+										//Se obtienen los comentarios de la respuesta json
+										
+										//let comments = jsonResponse.comments;
+										setComments(jsonResponse.comments);
+									}else{
+										setQualification(parseFloat(jsonResponse.message))
+										
+									}
 				
 							} );
 					}
@@ -174,21 +178,55 @@ function OtherUserProfile({
 			});
 		}
 
+	function ReasonForComplaint(){
+		if(motivo == "1"){
+			return "Actitud Negativa"
+		}if(motivo == "2"){
+			return "Abuso Verbal/Textual"
+		}if(motivo == "3"){
+			return "Estafador"
+		}if(motivo == "4"){
+			return "Información Falsa"
+		}if(motivo == "5"){
+			return "Vendedor menor de 18 años"
+		}if(motivo == "6"){
+			return "Publicación de información de contacto de otro usuario"
+		}if(motivo == "7"){
+			return "No hay intención de completar la venta"
+		}if(motivo == "8"){
+			return "Producto Indebido"
+		}else{
+			return "0"
+		}
+	}
+
+	function Aprobar(){
+		console.log("Si entro a Aprobar");
+	}
+
+	function Desestimar(){
+		console.log("Si entro a desestimar");
+	}
+
 	useEffect(() => {
         Information();
-				getUserScore();
+		getUserScore();
+		ReasonForComplaint();
 	}, [])
 
 	function reportUser(){
 		//Aqui se reporta al usuario en cuestión
+		console.log("Aquí: "+id)
+		console.log("Current: "+currentUser.ID)
+		console.log("Mótivo: "+reportValue)
 		if(reportValue === '0'){
 			setNoSelection(true);
 			return
 		}else{
 
 			setNoSelection(false);
-
-			fetch(`http://localhost:4000/complaints/${currentUser.ID}/${id}/${reportValue}`, {
+			console.log("Si entre")
+			fetch(`http://localhost:4000/complaints/${currentUser.ID}/${id}/${Number(reportValue)}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -197,6 +235,7 @@ function OtherUserProfile({
       },
       //body: JSON.stringify(data)
     }).then( response => {
+		console.log("Status: "+response.status)
       if(response.status < 400){
         //Si todo sale bien, se cierra la ventana modal y no se le permite volver a denunciar a este usuario
 				setClicked(true);
@@ -296,6 +335,7 @@ function OtherUserProfile({
 													Se ha informado de su denuncia y un administrador procesará la misma.
 												</Typography>
 											}
+											{currentUser.ID !== Number(id) &&
 											<Button 
 											type="submit"
 											variant="contained"
@@ -308,7 +348,7 @@ function OtherUserProfile({
 											}}
 											>
 												Denunciar
-											</Button>
+											</Button>}
 											<Modal
 											open={viewModal}
 											onClose={()=>{setViewModal(false)}}
@@ -378,17 +418,18 @@ function OtherUserProfile({
 											</>
 										}
 										{rol === "Administrador" && (motivo !== "0" &&
-										<div className="WidgetUsers">
+										<div className="WidgetUsers"> 
 												<ul className="widgetUserList">
 														<li className="widgetUserListItem">
 																<div className="widgetUserInfo">
-																		<span className="widgetUserDenuncia">{motivo}</span>
+																		<span className="widgetUserDenuncia">{'Mótivo: '+ReasonForComplaint()}</span>
 																		<div>
 																				<Button 
 																				type="submit"
 																				variant="contained"
 																				color="primary"
 																				className={classes.aprobar}
+																				onClick = { ()=>{Aprobar();}}
 																				>
 																						Aprobar
 																				</Button>
@@ -397,7 +438,8 @@ function OtherUserProfile({
 																				variant="contained"
 																				color="primary"
 																				className={classes.desestimar}
-	>
+																				onClick = { ()=>{Desestimar();}}
+																				>
 																						Desestimar
 																				</Button>
 																		</div>
@@ -411,11 +453,11 @@ function OtherUserProfile({
 										justifyItems: 'center',
 										display: 'grid'
 									}}
-									>
+									>	{currentUser.ID !== Number(id) && <>
 										<Typography variant="h5">
 											Calificar
 										</Typography>
-										<UserQualification comments={usrComments} getUserScore={getUserScore} qualifiedUser={parseInt(id)}/>
+										<UserQualification comments={usrComments} getUserScore={getUserScore} qualifiedUser={parseInt(id)}/> </>}
 									</Grid>
 								</Grid>
 							</div>

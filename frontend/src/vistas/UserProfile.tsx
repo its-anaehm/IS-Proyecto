@@ -275,7 +275,7 @@ function UserProfile({
 				if(response.status < 400){
 						response.json().then( jsonResponse => {
 								//console.log(jsonResponse);
-								setQualification(parseFloat(`${jsonResponse.message}`));
+								setQualification(parseFloat(`${jsonResponse.qualification.qualification}`));
 								
 						} );
 				}
