@@ -27,12 +27,20 @@ export default class QualificationController{
     }
 
     public static getUserQualification : Handler = async(req, res) => {
-        if(req.user.role !== 'guest'){
+        if(req.user.role !== 'guest')
+        {
             const user_id = req.params.id;
             const qualification = await QualificationService.getUserQuallification(user_id);
             const comments = await QualificationService.getQualificationComments(user_id);
 
-            return res.status(200).send({qualification, comments});
+            if(qualification == null || qualification == undefined || qualification == '')
+            {
+                return res.status(200).send({message: 'No Qualification'});
+            }
+            else
+            {
+                return res.status(200).send({qualification, comments});
+            }
         }
 
         res.status(401).send({message: "Unauthorized user"})
