@@ -201,7 +201,7 @@ function UserHome({
         if(max+1 > allProducts.length){
             result = allProducts.slice(min);
         }else{
-            result = allProduct.slice(min,max-1);
+            result = allProducts.slice(min,max-1);
         }
 
         return result;

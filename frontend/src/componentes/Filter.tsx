@@ -98,7 +98,7 @@ let templateMunicipality: Municipality[] = [{
 }];
 interface FilterProps{
   setProducts: (productos: ProductObj[])=>void,
-  setCurrentPage: (currentPage: number)=>void,
+  setCurrentPage: (Page: number)=>void,
   currentPage: number,
   setAllProducts: (productos: ProductObj[])=>void,
   getProductsOnPage: (cur_page: number) => ProductObj[],

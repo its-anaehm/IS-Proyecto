@@ -61,7 +61,7 @@ let templateProducts: ProductObj[] = [{
 function Products(){
   //const classes = useStyles();
   const [products, setProducts] = useState<ProductObj[] | []>(templateProducts);
-  const [currentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [filterMode, setFilterMode] = useState<boolean>(false);
   const [allProducts, setAllProducts] = useState<ProductObj[]>(templateProducts);
 
@@ -103,7 +103,7 @@ function Products(){
     if(max+1 > allProducts.length){
         result = allProducts.slice(min);
     }else{
-        result = allProduct.slice(min,max-1);
+        result = allProducts.slice(min,max-1);
     }
 
     return result;
@@ -138,7 +138,7 @@ function Products(){
     >
       <Filter
       setProducts={setProducts}
-      setCurrentPage={currentPage}
+      setCurrentPage={setCurrentPage}
       setAllProducts={setAllProducts}
       getProductsOnPage={getProductsOnPage}
       setFilterMode={setFilterMode}
