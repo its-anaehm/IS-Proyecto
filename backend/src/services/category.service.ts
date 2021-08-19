@@ -44,4 +44,9 @@ export class CategoryService
         await db.query("UPDATE Categoria SET Num_Visita = Num_Visita + 1 WHERE Categoria.id = ?", [id])
         return JSON.parse(JSON.stringify(row))[0]["Nombre"];
     }
+    public static removeCategory = async(id: string) =>
+    {
+        const [row] = await db.query("UPDATE Producto SET Disponibilidad = 'Retirado' WHERE fk_id_categoria = ?", [id]);
+        const [rowTwo] = await db.query("UPDATE Categoria SET Estado = 0 WHERE id = ?", [id]);
+    }
 }
