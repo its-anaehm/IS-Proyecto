@@ -1,9 +1,12 @@
 import CommentObj from "../interfaces/CommentObj";
-import { Button, Grid, InputAdornment } from "@material-ui/core";
+import { Button, Grid} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import UserObj from "../interfaces/UserObj";
+import Rating, { IconContainerProps } from '@material-ui/lab/Rating';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+import Box from '@material-ui/core/Box';
+import { useState } from "react";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,47 +51,45 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-interface CommentSectionProps{
-  comments: CommentObj[],
-  getComments: ()=>void,
-  currentUser: UserObj,
-  productID: string
+interface UserQualificationProps{
+  comments: CommentObj[] | [],
+  getUserScore: ()=>void,
+  qualifiedUser: number
 }
 
-function CommentSection({
+function UserQualification({
   comments,
-  getComments,
-  currentUser,
-  productID
-}:CommentSectionProps){
+  getUserScore,
+  qualifiedUser
+}:UserQualificationProps){
   const classes = useStyles();
-
+  const [qualification, setQualification] = useState<number>(0);
   
   function postComment(e: React.FocusEvent<HTMLFormElement>){
     e.preventDefault();
 
-    if(e.target.comment_content.value === ""){
-      return;
-    }else{
-      
-          fetch(`http://localhost:4000/comments/publish/${currentUser.ID}/${productID}`,{
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-              'Authorization': `${localStorage.getItem("USR_TKN")}`
-            },
-            body: JSON.stringify({"comment": `${e.target.comment_content.value}`})
-          }
-          ).then(response=>{
-            if(response.status<400){
-              getComments();
-            }
-          }).catch(e=>{
-            console.log(e);
-          });
-
+    let data = {
+      "qualifiedUser": qualifiedUser,
+      "qualification": qualification,
+      "comment": `${e.target.comment_content.value}`
     }
+
+    //console.log("corrio aqui");
+    fetch('http://localhost:4000/qualification/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `${localStorage.getItem("USR_TKN")}`
+      },
+      body: JSON.stringify(data)
+    }).then( response => {
+      if(response.status < 400){
+        //Si todo sale bien, se actualizan los comentarios del usuario
+        e.target.comment_content.value = "";
+        getUserScore();
+      }
+    } ).catch(error => console.log(error));
 
   }
 
@@ -100,6 +101,25 @@ function CommentSection({
         width: '100%'
       }}
       >
+        <Box
+        component="fieldset"
+        mb={3}
+        borderColor="transparent"
+        style={{
+          display: 'grid',
+          justifyItems: 'center'
+        }}
+        >
+          <Rating
+            name="customized-empty"
+            defaultValue={qualification}
+            precision={0.5}
+            emptyIcon={<StarBorderIcon fontSize="inherit" />}
+            onChange={(event, newValue) => {
+              setQualification(parseFloat(`${newValue}`));
+            }}
+          />
+        </Box>
         <form
         onSubmit={postComment}
         style={{
@@ -155,10 +175,10 @@ function CommentSection({
                 <Typography
                 variant="button"
                 >
-                  <strong>{comment.usuario}</strong>               <em>{comment.fecha}</em>
+                  <strong>Anónimo</strong>
                 </Typography>
                 <Typography>
-                  {comment.contenido}
+                  {comment.comment}
                 </Typography>
               </div>
             </Grid>
@@ -170,4 +190,4 @@ function CommentSection({
 }
 
 
-export default CommentSection;
+export default UserQualification;

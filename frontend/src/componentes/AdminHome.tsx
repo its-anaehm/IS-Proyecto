@@ -160,6 +160,27 @@ function UserHome({
     const [value, setValue] = useState<string>('ASC');
     const [products, setProducts] = useState<ProductObj[]>(templateProducts);
     const [showGrid, setShowGrid] = useState<boolean>(false);
+    const [currentPage] = useState<number>(1);
+
+    function getProductsFromPages(page: number){
+        fetch(`http://localhost:4000/products/page=${page}`,{
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          }
+        }
+        ).then( response => {
+          if(response.status < 400){
+            response.json().then(jsonResponse => {
+              //console.log(jsonResponse)
+              //setProducts(jsonResponse.message);
+            })
+          }
+        } ).catch(e=>{
+          console.log(e);
+        });
+      }
 
     function changeOrder (event: React.ChangeEvent<HTMLInputElement>){
         setValue((event.target as HTMLInputElement).value);
@@ -377,6 +398,7 @@ function UserHome({
         getCategories();
         getDepartments();
         getMunicipalities(1);
+        getProductsFromPages(1);
         //console.log(suscribedCat);
     }, [])
 
@@ -386,7 +408,17 @@ function UserHome({
             container
             lg = {9}
             >
-                { products.length === 0? <Typography style={{paddingTop: '100px', alignContent: 'right'}} variant="h4">Ningún producto coincide con los criterios.</Typography>: <ProductGrid products={products} /> }
+                { products.length === 0
+                ?
+                <Typography style={{paddingTop: '100px', alignContent: 'right'}} variant="h4">Ningún producto coincide con los criterios.</Typography>
+                :
+                <ProductGrid
+                products={products}
+                productPages={Math.ceil( (products.length)/10 )}
+                currentPage={currentPage}
+                changePage={getProductsFromPages}
+                /> 
+                }
             </Grid>
         );
     }

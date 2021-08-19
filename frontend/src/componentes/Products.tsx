@@ -59,12 +59,34 @@ let templateProducts: ProductObj[] = [{
 }];
 
 function Products(){
-  const classes = useStyles();
+  //const classes = useStyles();
   const [products, setProducts] = useState<ProductObj[] | []>(templateProducts);
+  const [currentPage] = useState<number>(1);
 
   useEffect(() => {
     getProducts();
+    getProductsFromPages(1);
   }, []);
+
+  function getProductsFromPages(page: number){
+    fetch(`http://localhost:4000/products/page=${page}`,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    }
+    ).then( response => {
+      if(response.status < 400){
+        response.json().then(jsonResponse => {
+          //console.log(jsonResponse)
+          //setProducts(jsonResponse.message);
+        })
+      }
+    } ).catch(e=>{
+      console.log(e);
+    });
+  }
 
   function getProducts(){
     fetch('http://localhost:4000/products/productInfo/page=1',{
@@ -77,7 +99,7 @@ function Products(){
     ).then( response => {
       if(response.status < 400){
         response.json().then(jsonResponse => {
-          console.log(jsonResponse)
+          //console.log(jsonResponse)
           setProducts(jsonResponse.message);
         })
       }
@@ -94,8 +116,16 @@ function Products(){
     }}
     >
       <Filter setProducts={setProducts}/>
-      { products.length === 0? <Typography style={{paddingTop: '100px', alignContent: 'right'}} variant="h4">Ningún producto coincide con los criterios.</Typography>: <ProductGrid products={products} /> }
-      
+      { products.length === 0?
+       <Typography style={{paddingTop: '100px', alignContent: 'right'}} variant="h4">Ningún producto coincide con los criterios.</Typography>
+      :
+       <ProductGrid
+       products={products}
+       productPages={Math.ceil( (products.length)/10 )}
+       currentPage={currentPage}
+       changePage={getProductsFromPages}
+       /> 
+       }
     </div>
   );
 }

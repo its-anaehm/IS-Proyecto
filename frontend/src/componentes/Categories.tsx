@@ -8,10 +8,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 import Typography from '@material-ui/core/Typography';
 
-
-const colors = ["#20A0EB", "#99E265", "#FFBD4A", "#F95959", "#A3A847"];
-
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -70,7 +66,7 @@ function Categories({
           key={cat.Imagen}
           className={classes.imageItem}
           style={{
-              backgroundColor: colors[parseInt(`${cat.id}`)%colors.length ]
+              backgroundColor: '#ccd5cb'
           }}
           >
               <Link to={`/Categories/${cat.id}`} style={{textDecoration:"none"}}>

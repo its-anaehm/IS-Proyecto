@@ -6,15 +6,26 @@ import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import UserObj from "../interfaces/UserObj";
 import usrImg from "../img/user.png";
+import Button from "@material-ui/core/Button";
+import { useParams } from 'react-router-dom';
+import ParamInterface from '../interfaces/ParamInterface';
+//import { CommentSharp, Person, Visibility } from "@material-ui/icons";
+import Rating from '@material-ui/lab/Rating';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+//import Box from '@material-ui/core/Box';
+import UserQualification from "../componentes/UserQualification";
+import CommentObj from "../interfaces/CommentObj";
+import Modal from '@material-ui/core/Modal';
 import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import Button from "@material-ui/core/Button";
-import ProductObj from "../interfaces/ProductObj";
-import CardScrollable from "../componentes/CardScrollable";
-import { Link, useParams } from 'react-router-dom';
-import ParamInterface from '../interfaces/ParamInterface';
-import { Person, Visibility } from "@material-ui/icons";
+import React from 'react';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,11 +40,26 @@ const useStyles = makeStyles((theme) => ({
         color: '#233142',
         fontWeight: 'bold'
     },
-    cards:{
-        width: '100%',
-        backgroundColor: 'lightgray',
-        borderRadius: 8,
-        paddingRight: 7
+    card:{
+			maxWidth: 500,
+			height: '90%',
+			position: 'absolute',
+			display: 'block',
+			overflow: 'scroll',
+			top: '5%'
+	  },
+		submit: {
+      //width: "30%",
+      margin: theme.spacing(1, 0, 2),
+      backgroundColor: theme.palette.background.paper,
+      color: theme.palette.secondary.main,
+      borderColor: theme.palette.secondary.main,
+      border: "4px solid",
+      fontWeight: "bold",
+      '&:hover':{
+          backgroundColor: theme.palette.secondary.main,
+          color: theme.palette.background.paper,
+        }
     },
     inputs:{
         margin: theme.spacing(1)
@@ -41,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     desestimar: {
         //width: "30%",
         margin: theme.spacing(1),
-        backgroundColor: 'lightgray',
+        backgroundColor: '#e3e3e3',
         color: theme.palette.secondary.main,
         borderColor: theme.palette.secondary.main,
         border: "4px solid",
@@ -63,19 +89,14 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.background.paper,
             }
-        },
+    },
+
   }));
 
 interface UserProfileProps{
-    auth: boolean
+    auth: boolean,
+		currentUser: UserObj
 }
-
-let templateProducts:ProductObj[] =[{
-	id:0,
-	name: "producto",
-	price: "0.00",
-	images: ["item-placeholder.png"]
-}];
 
 let userPlaceholder: UserObj = {
 	ID: 0,
@@ -85,26 +106,26 @@ let userPlaceholder: UserObj = {
 	Telefono: "telefono"
   };
 
-interface Published{
-	id: number,
-	published: string,
-	date: string,
-	image: string
-}
-
 function OtherUserProfile({
-	auth
+	auth,
+	currentUser
 }:UserProfileProps){
 	const classes = useStyles();
-	const { id } = useParams<ParamInterface>();
-	const { motivo } = useParams<ParamInterface>();
-	const [showErr, setShowErr] = useState<boolean>(false);
-	const [success, setSuccess] = useState<boolean>(false);
-	const [errMessage, setErrMessage] = useState<string>("");
-	const [publishedProducts, setPublished] = useState<ProductObj[]>(templateProducts);
-	const [wishlist, setWishlist] = useState<ProductObj[] | []>(templateProducts);
+	const { id, motivo } = useParams<ParamInterface>();
 	const [user, setUser] = useState<UserObj>(userPlaceholder);
-    const rol = localStorage.getItem("USR_R")
+  const rol = localStorage.getItem("USR_R");
+	const [qualification, setQualification] = useState<number>(0);
+	const [usrComments, setComments] = useState<CommentObj[] | []>([{
+    contenido: ""
+  }]);
+	const [clicked, setClicked] = useState<boolean>(false);
+	const [viewModal, setViewModal] = useState<boolean>(false);
+	const [reportValue, setReportValue] = useState<string>('0');
+	const [noSelection, setNoSelection] = useState<boolean>(false);
+
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setReportValue((event.target as HTMLInputElement).value);
+  };
 
     function Information(){
         fetch(`http://localhost:4000/users/user/${id}`,{
@@ -125,186 +146,65 @@ function OtherUserProfile({
         });
     }
 
-	function updateUserData(e: React.FocusEvent<HTMLFormElement>){
-			e.preventDefault();
-			let requestURL:string = `http://localhost:4000/users/${user.ID}`;
-
-			if( e.target.phone.value !== "" && !(`${e.target.phone.value}`.match(/\d{4}(\-)?\d{4}/))  ){
-					setSuccess(false);
-					setErrMessage("El teléfono ingresado no es válido.");
-					setShowErr(true);
-
-			}else{
-					setErrMessage("");
-					setShowErr(false);
-
-					let nombre = e.target.userFName.value;
-					let lName = e.target.userLName.value;
-					let telefono = e.target.phone.value;
-
-					let data = {
-							firstName: nombre === "" ? user.Nombre : nombre,
-							lastName: lName==="" ? user.Apellido : lName,
-							email: user.Email,
-							phone: telefono === "" ? user.Telefono : telefono
+		function getUserScore(){
+			fetch(`http://localhost:4000/qualification/${id}`, {
+					method: 'GET',
+					headers: {
+							'Content-Type': 'application/json',
+							'Accept': 'application/json',
+							'Authorization': `${localStorage.getItem("USR_TKN")}`
 					}
+			}).then( response =>{
+					if(response.status < 400){
+						//console.log(response);
+							response.json().then( jsonResponse => {
+									console.log(jsonResponse);
+									setQualification(parseFloat(`${jsonResponse.qualification.qualification}`));
 
-					//console.log(data);
-					
-					fetch(requestURL, {
-							method: 'PUT',
-							headers: {
-									'Content-Type': 'application/json',
-									'Accept': 'application/json',
-									'Authorization': `${localStorage.getItem("USR_TKN")}`
-							},
-							body: JSON.stringify(data)
-						}).then( response => {
-							if(response.status >= 400){
-									setSuccess(false);
-									setShowErr(true);
-							}else{
-									setSuccess(true);
-									response.json().then((jsonResponse) => {
-											let newUser: UserObj = {
-													ID: jsonResponse.id,
-													Nombre: `${jsonResponse.Nombre}`,
-													Apellido: `${jsonResponse.Apellido}`,
-													Email: `${jsonResponse.Email}`,
-													Telefono: `${jsonResponse.Telefono}`
-											};
-											setUser(newUser);
-											localStorage.setItem("USR", JSON.stringify(newUser));
-									});
-							}
-						} ).catch(error => {
-							setSuccess(false);
-							setShowErr(true);
-						});
-			}
-
-			
-
-	}
-
-	
-	function getPublishedProducts(){
-		fetch(`http://localhost:4000/users/publishedSpecific/${id}`, {
-				method: 'POST',
-				headers: {
-						'Content-Type': 'application/json',
-						'Accept': 'application/json',
-						'Authorization': `${localStorage.getItem("USR_TKN")}`
-				}
-		}).then( response =>{
-				if(response.status < 400){
-						response.json().then( jsonResponse => {
-								let result: ProductObj[] = jsonResponse.message.map( (product: Published):ProductObj => {
-									return {
-										id: product.id,
-										name: product.published,
-										images: [product.image],
-										date: product.date
-									}
-								});
-
-								setPublished(result);
-								
-						} )
-				}
-		} ).catch(error => {
-				console.log(error);
-		});
-
-	}
-
-
-
-	function getWishlist(){
-		fetch(`http://localhost:4000/home/specificWishlist/${id}`, {
-				method: 'POST',
-				headers: {
-						'Content-Type': 'application/json',
-						'Accept': 'application/json',
-						'Authorization': `${localStorage.getItem("USR_TKN")}`
-				}
-		}).then( response =>{
-				if(response.status < 400){
-						response.json().then( jsonResponse => {
-								console.log(jsonResponse);
-
-								const productos: ProductObj[] = jsonResponse.message;
-
-
-								setWishlist(productos);
-						} );
-				}
-		} ).catch(error => {
-				console.log(error);
-		});
-	}
-
-
-	function showError(){
-			let message:string = "Ha surgido un error.";
-
-			if(errMessage === ""){
-					setErrMessage(message);
-			}
-
-			return(
-			<h3 style={{color: "red"}}>{errMessage}</h3>
-			);
-	}
-
-	function showSuccess(){
-			return(
-					<h3 style={{color: "green"}}>Los cambios se han guardado con éxito.</h3>
-			)
-	}
-
-	function removeFromWishList(id:number){
-		fetch(`http://localhost:4000/home/removeSub/${id}`,{
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `${localStorage.getItem("USR_TKN")}`
-            }}
-        ).then(response =>{
-            if(response.status < 400){
-                //setFav(false);
-                getWishlist();
-            }
-        }).catch(e=>{
-            console.log(e);
-        });
-	}
-
-	function removeFromListed(id:number){
-		fetch(`http://localhost:4000/products/${id}`, {
-				method: 'DELETE',
-				headers: {
-						'Content-Type': 'application/json',
-						'Accept': 'application/json',
-						'Authorization': `${localStorage.getItem("USR_TKN")}`
-				}
-		}).then(response =>{
-			if(response.status < 400){
-					//setFav(false);
-					getPublishedProducts();
-			}
-	}).catch(e=>{
-			console.log(e)
-		});
-	}
+									//colocar set Comentarios aqui
+									//Se obtienen los comentarios de la respuesta json
+									
+									//let comments = jsonResponse.comments;
+									setComments(jsonResponse.comments);
+				
+							} );
+					}
+			} ).catch(error => {
+					console.log(error);
+			});
+		}
 
 	useEffect(() => {
-        
-		getPublishedProducts();
-		getWishlist();
         Information();
+				getUserScore();
 	}, [])
+
+	function reportUser(){
+		//Aqui se reporta al usuario en cuestión
+		if(reportValue === '0'){
+			setNoSelection(true);
+			return
+		}else{
+
+			setNoSelection(false);
+
+			fetch(`http://localhost:4000/complaints/${currentUser.ID}/${id}/${reportValue}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `${localStorage.getItem("USR_TKN")}`
+      },
+      //body: JSON.stringify(data)
+    }).then( response => {
+      if(response.status < 400){
+        //Si todo sale bien, se cierra la ventana modal y no se le permite volver a denunciar a este usuario
+				setClicked(true);
+      }
+    } ).catch(error => console.log(error));
+		}
+
+	}
 	
 	return(
 			<>
@@ -313,278 +213,211 @@ function OtherUserProfile({
 					<Container component="main" maxWidth="md">
 							<CssBaseline />
 							<div className={classes.paper}>
+								<Grid container lg={12} spacing={3}>
+									<Grid item lg={12} className={classes.colorClass}>
+									 <div
+										style={{
+												maxWidth: '100%',
+												maxHeight: '100%',
+												display: 'flex',
+												justifyContent: 'center',
+												paddingTop: '2%'
+										}}
+										>
+												<Grid
+												container
+												md={12}
+												justifyContent="center"
+												style={{
+														justifyItems: 'center',
+														display: 'grid'
+												}}        
+												>
+														<Grid
+														item
+														md={12}
+														>
+																<img src={usrImg} alt="Icono de usuario." />
+														</Grid>
+														<Grid
+														item
+														md={12}
+														style={{
+															display: 'grid',
+															justifyItems: 'center'
+														}}
+														>
+																<Typography
+																variant="h4"
+																>
+																		{`${user.Nombre} ${user.Apellido}`}
+																</Typography>
+																<Rating
+																	name="customized-empty"
+																	//defaultValue={qualification}
+																	value={qualification}
+																	precision={0.5}
+																	readOnly
+																	emptyIcon={<StarBorderIcon fontSize="inherit" />}
+																	style={{
+																		alignSelf: 'center'
+																	}}
+																/>
+																<Typography
+																variant="h6"
+																align="center"
+																>
+																		{`${user.Email}`}
+																</Typography>
+																<Typography
+																variant="h6"
+																align="center"
+																>
+																		{`${user.Telefono}`}
+																</Typography>
+														</Grid>
+												</Grid>
+										</div>
+									</Grid>
 									<Grid
-									container
-									spacing={5}
-									md={12}
+									item
+									lg={12}
+									className={classes.colorClass}
+									style={{
+										justifyItems: 'center',
+										display: 'grid'
+									}}
 									>
-											<Grid
-											item
-											md={12}
-											style={{
-													justifyItems: 'center',
-													display: 'grid',
-													paddingBottom: 0
+										{motivo === "0" &&
+											<>
+											{
+												clicked &&
+												<Typography variant="body1">
+													Se ha informado de su denuncia y un administrador procesará la misma.
+												</Typography>
+											}
+											<Button 
+											type="submit"
+											variant="contained"
+											color="primary"
+											className={classes.desestimar}
+											onClick={()=>{
+												if(!clicked){
+													setViewModal(true);
+												}
 											}}
 											>
-													<div
-													style={{
-															maxWidth: '100%',
-															maxHeight: '100%',
-															display: 'flex',
-															justifyContent: 'center',
-															paddingTop: '2%',
-                                                            width: '900px'
-													}}
-													>
-															<Grid
-															container
-															md={12}
-															justifyContent="center"
-															style={{
-																	justifyItems: 'center',
-																	display: 'grid'
-															}}        
-															>
-																	<Grid
-																	item
-																	md={12}
-																	>
-																			<img src={usrImg} alt="Icono de usuario." />
-																	</Grid>
-																	<Grid
-																	item
-																	md={12}
-																	>
-																			<Typography
-																			variant="h4"
-																			>
-																					{`${user.Nombre} ${user.Apellido}`}
-                                                                                    
-																			</Typography>
-                                                                            {motivo == "0" &&
-                                                                            <Button 
-                                                                            type="submit"
-                                                                            variant="contained"
-                                                                            color="primary"
-                                                                            className={classes.desestimar}
-                                                                            >
-                                                                                Denunciar
-                                                                            </Button>}
-																	</Grid>
-															</Grid>
-                                                            {rol == "Administrador" && (motivo !== "0" &&
-                                                            <div className="WidgetUsers">
-                                                                <ul className="widgetUserList">
-                                                                    <li className="widgetUserListItem">
-                                                                        <div className="widgetUserInfo">
-                                                                            <span className="widgetUserDenuncia">{motivo}</span>
-                                                                            <div>
-                                                                                <Button 
-                                                                                type="submit"
-                                                                                variant="contained"
-                                                                                color="primary"
-                                                                                className={classes.aprobar}
-                                                                                >
-                                                                                    Aprobar
-                                                                                </Button>
-                                                                                <Button 
-                                                                                type="submit"
-                                                                                variant="contained"
-                                                                                color="primary"
-                                                                                className={classes.desestimar}
-                                                                                >
-                                                                                    Desestimar
-                                                                                </Button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>)}
-													</div>
-											</Grid>
-											<Grid
-											item
-											md={12}
+												Denunciar
+											</Button>
+											<Modal
+											open={viewModal}
+											onClose={()=>{setViewModal(false)}}
+											aria-labelledby="simple-modal-title"
+												aria-describedby="simple-modal-description"
 											>
+												{
 													<div
+													className={classes.paper}
 													style={{
-															width: '100%',
-															height: '100%'
+														display: 'grid',
+														justifyItems: 'center'
 													}}
 													>
-															<Grid
-															container
-															md={12}
-															spacing={3}
-															//cols={3}
-															>
-																	{/*********Información del Usuario*********/}
-																	<Grid
-																	item
-																	md={4}
-																	>
-																			<Card
-																			className={classes.cards}
+															<Card className={classes.card}>
+																	<CardHeader
+																	title="Realizar denuncia:"
+																	/>
+																	<CardContent>
+																				{/*
+																				1: Actitud Negativa
+																				2: Abuso Verbal/Textual
+																				3: Estafador
+																				4: Información Falsa
+																				5: Vendedor menor de 18 años
+																				6: Publicación de información de contacto de otro usuario
+																				7: No hay intención de completar la venta
+																				8: Producto Indebido
+																				*/}
+																					<FormControl component="fieldset">
+																						<FormLabel component="legend">Motivo</FormLabel>
+																						<RadioGroup aria-label="reason" name="reason" value={reportValue} onChange={handleChange}>
+																							<FormControlLabel value='1' control={<Radio />} label="Actitud Negativa" />
+																							<FormControlLabel value="2" control={<Radio />} label="Abuso Verbal/Textual" />
+																							<FormControlLabel value="3" control={<Radio />} label="Estafador" />
+																							<FormControlLabel value="4" control={<Radio />} label="Información Falsa" />
+																							<FormControlLabel value="5" control={<Radio />} label="Vendedor menor de 18 años" />
+																							<FormControlLabel value="6" control={<Radio />} label="Publicación de información de contacto de otro usuario" />
+																							<FormControlLabel value="7" control={<Radio />} label="No hay intención de completar la venta" />
+																							<FormControlLabel value="8" control={<Radio />} label="Producto Indebido" />
+																						</RadioGroup>
+																					</FormControl>
+																					{noSelection && 
+																					<Typography color="error" variant="body1">
+																						Debe de seleccionar un motivo de denuncia.
+																					</Typography>
+																					}
+																	</CardContent>
+																	<CardActions>
+																			
+
+																			<Button
+																			fullWidth
+																			variant="contained"
+																			color="primary"
+																			className={classes.submit}
+																			onClick={reportUser}
 																			>
-																					<CardHeader
-																					title="Datos del Usuario"
-																					align= "Center"
-																					/>
-																					<CardContent>
-																							<form
-																							onSubmit={updateUserData}
-																							>
-																									<Typography variant="h6">
-																											Nombre
-																									</Typography>
-                                                                                                    {rol == "Administrador" ?
-																									<TextField
-																									id="userFName"
-																									fullWidth
-																									placeholder={user.Nombre}
-																									variant="outlined"
-																									className={classes.inputs}
-																									/> :
-                                                                                                    <TextField
-																									id="userFName"
-																									fullWidth
-																									value={user.Nombre}
-                                                                                                    area-readonly
-																									variant="outlined"
-																									className={classes.inputs}
-																									/>
-                                                                                                    }
-																									<Typography variant="h6">
-																											Apellido
-																									</Typography>
-                                                                                                    {rol == "Administrador" ? 
-																									<TextField
-																									id="userLName"
-																									fullWidth
-																									placeholder={user.Apellido}
-																									variant="outlined"
-																									className={classes.inputs}
-																									/>: 
-                                                                                                    <TextField
-																									id="userLName"
-																									fullWidth
-																									value={user.Apellido}
-                                                                                                    aria-readonly
-																									variant="outlined"
-																									className={classes.inputs}
-                                                                                                    />}
-																									<Typography variant="h6">
-																											Correo
-																									</Typography>
-																									<TextField
-																									id="email"
-																									fullWidth
-																									value={user.Email}
-																									variant="outlined"
-																									aria-readonly
-																									className={classes.inputs}
-																									/>
-																									<Typography variant="h6">
-																											Teléfono
-																									</Typography>
-                                                                                                    {rol == "Administrador" ? 
-																									<TextField
-																									id="phone"
-																									fullWidth
-																									placeholder={user.Telefono}
-																									variant="outlined"
-																									className={classes.inputs}
-																									/>: <>
-                                                                                                        <TextField
-                                                                                                        id="phone"
-                                                                                                        fullWidth
-                                                                                                        value={user.Telefono}
-                                                                                                        area-readonly
-                                                                                                        variant="outlined"
-                                                                                                        className={classes.inputs}
-                                                                                                        />
-                                                                                                        <br/><br/><br/><br/><br/>
-                                                                                                    </>
-                                                                                                    }
-                                                                                                    {rol == "Administrador" && 
-																									<Button
-																									type="submit"
-																									variant="contained"
-																									color="primary"
-																									className={classes.desestimar}
-																									>
-																											Actualizar Datos
-																									</Button>}
-																							</form>
-																							{ showErr ? showError(): undefined }
-																							{ success ? showSuccess(): undefined }
-																					</CardContent>
-																			</Card>
-																	</Grid>
+																					Realizar Denuncia
+																			</Button>
+																	</CardActions>
+															</Card>
 
-																	{/*********Historial de Publicaciones*********/}                                    
-																	<Grid
-																	item
-																	md={4}
-																	>
-																			<div
-																			style={{
-																					width: '100%',
-																					height: '100%'
-																					
-																			}}
-																			>   
-
-																					<Card className={classes.cards} >
-																							<CardHeader
-																							title="Historial de Publicaciones"
-																							align= "Center"
-																							
-																					/>
-																							<CardContent 
-																							style={{
-																									height: 508,
-																									overflowY: 'scroll'
-																							}}>
-																								<CardScrollable products={publishedProducts} removeFunction={removeFromListed}/>
-																							</CardContent>
-
-																					</Card>
-																			</div>
-																	</Grid>
-
-																	{/*********Favoritos*********/}
-																	<Grid
-																	item
-																	md={4}
-																	>
-																			<div
-																			style={{
-																					width: '100%',
-																					height: '100%',
-																			}}
-																			>   
-																					<Card className={classes.cards}>
-																							<CardHeader
-																							title="Favoritos"
-																							align= "Center"
-																					/>
-																							<CardContent 
-																							style={{
-																									height: 542,
-																									overflowY: 'scroll'
-																							}}>
-																								<CardScrollable products={wishlist} removeFunction={removeFromWishList}/>
-																							</CardContent>
-
-																					</Card>
-																			</div>
-																	</Grid>
-															</Grid>
-													</div>   
-											</Grid>
+													</div>
+											}
+											</Modal>
+											</>
+										}
+										{rol === "Administrador" && (motivo !== "0" &&
+										<div className="WidgetUsers">
+												<ul className="widgetUserList">
+														<li className="widgetUserListItem">
+																<div className="widgetUserInfo">
+																		<span className="widgetUserDenuncia">{motivo}</span>
+																		<div>
+																				<Button 
+																				type="submit"
+																				variant="contained"
+																				color="primary"
+																				className={classes.aprobar}
+																				>
+																						Aprobar
+																				</Button>
+																				<Button 
+																				type="submit"
+																				variant="contained"
+																				color="primary"
+																				className={classes.desestimar}
+	>
+																						Desestimar
+																				</Button>
+																		</div>
+																</div>
+														</li>
+												</ul>
+										</div>)}
 									</Grid>
+									<Grid item lg={12} className={classes.colorClass}
+									style={{
+										justifyItems: 'center',
+										display: 'grid'
+									}}
+									>
+										<Typography variant="h5">
+											Calificar
+										</Typography>
+										<UserQualification comments={usrComments} getUserScore={getUserScore} qualifiedUser={parseInt(id)}/>
+									</Grid>
+								</Grid>
 							</div>
 					</Container>
 			</>

@@ -12,7 +12,8 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Button from "@material-ui/core/Button";
 import ProductObj from "../interfaces/ProductObj";
 import CardScrollable from "../componentes/CardScrollable";
-
+import Rating, { IconContainerProps } from '@material-ui/lab/Rating';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -81,6 +82,7 @@ function UserProfile({
 	const [errMessage, setErrMessage] = useState<string>("");
 	const [publishedProducts, setPublished] = useState<ProductObj[]>(templateProducts);
 	const [wishlist, setWishlist] = useState<ProductObj[] | []>(templateProducts);
+	const [qualification, setQualification] = useState<number>(0);
 
 
 	function updateUserData(e: React.FocusEvent<HTMLFormElement>){
@@ -180,6 +182,7 @@ function UserProfile({
 	}
 
 
+
 	function getWishlist(){
 		fetch("http://localhost:4000/home/wishlist", {
 				method: 'GET',
@@ -203,6 +206,8 @@ function UserProfile({
 				console.log(error);
 		});
 	}
+	//JUAN
+
 
 	function showError(){
 			let message:string = "Ha surgido un error.";
@@ -240,11 +245,9 @@ function UserProfile({
         });
 	}
 
-	function removeFromListed(id:number, param:number){
-		console.log("Soy el id: "+id)
-		console.log("Soy el param: "+param)
-		fetch(`http://localhost:4000/products/${id}/${param}`, {
-				method: 'PUT',
+	function removeFromListed(id:number){
+		fetch(`http://localhost:4000/products/${id}`, {
+				method: 'DELETE',
 				headers: {
 						'Content-Type': 'application/json',
 						'Accept': 'application/json',
@@ -260,9 +263,31 @@ function UserProfile({
 		});
 	}
 
+	function getUserScore(){
+		fetch(`http://localhost:4000/qualification/${currentUser.ID}`, {
+				method: 'GET',
+				headers: {
+						'Content-Type': 'application/json',
+						'Accept': 'application/json',
+						'Authorization': `${localStorage.getItem("USR_TKN")}`
+				}
+		}).then( response =>{
+				if(response.status < 400){
+						response.json().then( jsonResponse => {
+								//console.log(jsonResponse);
+								setQualification(parseFloat(`${jsonResponse.qualification.qualification}`));
+								
+						} );
+				}
+		} ).catch(error => {
+				console.log(error);
+		});
+	}
+
 	useEffect(() => {
 		getPublishedProducts();
 		getWishlist();
+		getUserScore();
 	}, [])
 	
 	return(
@@ -313,12 +338,27 @@ function UserProfile({
 																	<Grid
 																	item
 																	md={12}
+																	style={{
+																		display: 'grid',
+																		justifyItems: 'center'
+																	}}
 																	>
 																			<Typography
 																			variant="h4"
 																			>
 																					{`${currentUser.Nombre} ${currentUser.Apellido}`}
 																			</Typography>
+																			<Rating
+																				name="customized-empty"
+																				//defaultValue={qualification}
+																				value={qualification}
+																				precision={0.5}
+																				readOnly
+																				emptyIcon={<StarBorderIcon fontSize="inherit" />}
+																				style={{
+																					alignSelf: 'center'
+																				}}
+																			/>
 																	</Grid>
 															</Grid>
 													</div>

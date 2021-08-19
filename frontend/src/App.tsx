@@ -161,7 +161,7 @@ function App() {
             <UserProfile auth={auth} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
           </Route>
           <Route path="/other-user-profile/:id/:motivo">
-            <OtherUserProfile auth={auth}/>
+            <OtherUserProfile auth={auth} currentUser={currentUser}/>
           </Route>
           <Route path="/admin-profile">
             <AdminProfile auth={auth} currentUser={currentUser} setCurrentUser={setCurrentUser} isAdmin={isAdmin}/>

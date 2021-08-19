@@ -10,6 +10,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import { FormatAlignJustify } from "@material-ui/icons";
+import Pagination from '@material-ui/lab/Pagination';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -51,13 +52,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface ProductGridProps{
-  products: ProductObj[]
+  products: ProductObj[],
+  productPages: number,
+  currentPage: number,
+  changePage: (page: number) => void
 }
 
 function ProductGrid({
-  products
+  products,
+  productPages,
+  currentPage,
+  changePage
 }:ProductGridProps){
   const classes = useStyles();
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    changePage(value);
+  };
+
   return(
     <div
     style={{
@@ -99,6 +110,16 @@ function ProductGrid({
             </Grid>
         ))}
       </Grid>
+      <div
+      style={{
+        display: 'grid',
+        width: '85%',
+        justifyItems: 'center',
+        paddingTop: 20
+      }}
+      >
+        <Pagination count={productPages} color="primary" page={currentPage} onChange={handleChange}/>
+      </div>
     </div>
   );
 }
