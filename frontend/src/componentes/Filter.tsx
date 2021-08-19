@@ -140,7 +140,7 @@ function Filter({
   const id = open ? 'simple-popper' : undefined;
 
   function getCategories(){
-    fetch("http://localhost:4000/category", {
+    fetch("http://localhost:4000/category/categoryConfig", {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -155,7 +155,7 @@ function Filter({
                   Nombre: "-------"
                 }];
 
-                jsonResponse.category.map( (cat:CategoryObj) => {
+                jsonResponse.message.map( (cat:CategoryObj) => {
                   newCategories.push(cat)
                 })
 

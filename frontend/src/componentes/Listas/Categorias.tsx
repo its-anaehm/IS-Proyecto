@@ -24,7 +24,7 @@ function CategoryList() {
     }, []);
 
     function getCategories(){
-        fetch('http://localhost:4000/category/ ',{
+        fetch('http://localhost:4000/category/categoryConfig ',{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ function CategoryList() {
         ).then( response => {
             if(response.status < 400){
                 response.json().then(jsonResponse => {
-                setCategories(jsonResponse.category)
+                setCategories(jsonResponse.message)
             })
         }
         } ).catch(e=>{
