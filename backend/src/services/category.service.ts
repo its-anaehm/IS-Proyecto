@@ -49,4 +49,10 @@ export class CategoryService
         const [row] = await db.query("UPDATE Producto SET Disponibilidad = 'Retirado' WHERE fk_id_categoria = ?", [id]);
         const [rowTwo] = await db.query("UPDATE Categoria SET Estado = 0 WHERE id = ?", [id]);
     }
+    public static categoryConfig = async() =>
+    {
+        const [row] = await db.query(`SELECT id, Nombre, Num_Visita, Estado FROM Categoria WHERE Estado = '1'`);
+        let jsonCategoryConfig = JSON.parse(JSON.stringify(row));
+        return jsonCategoryConfig;
+    }
 }

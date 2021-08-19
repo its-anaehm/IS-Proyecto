@@ -65,4 +65,9 @@ export class CategoryController
         await CategoryService.removeCategory(req.params.id)
         res.status(200).send({message: 'Category Removed'})
     }
+    public static getCategoryConfig: Handler = async (req, res) =>
+    {
+        let category = await CategoryService.categoryConfig()
+        res.status(200).send({message: category})
+    }
 }

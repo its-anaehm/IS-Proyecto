@@ -17,4 +17,6 @@ routes.get('/:id/unsuscribe', verifyToken, CategoryController.unsuscribeToCatego
 
 routes.get('/removeCategory/:id', verifyToken, CategoryController.removeCategory);
 
+routes.get('/categoryConfig', CategoryController.getCategoryConfig);
+
 export default routes;
