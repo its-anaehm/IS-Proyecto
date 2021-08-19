@@ -61,7 +61,7 @@ export default class ProductController{
     public static deleteProduct : Handler = async (req, res) => {
         if(req.user.role !== 'guest'){
             await ProductService.deleteProduct(req.params.id,Number(req.params.type))
-            res.status(200).send({message: 'Product deleted'})
+            return res.status(200).send({message: 'Product deleted'})
         }
         res.status(401).send('Unauthorized user')
     }

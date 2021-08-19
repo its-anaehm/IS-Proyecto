@@ -132,11 +132,13 @@ export default class ProductService{
     public static deleteProduct = async(id: string, type: Number) => {
         if(type == 0)
         {
-            await db.query(`UPDATE Producto SET Disponibilidad = 'Retirado' WHERE Producto.id = ?`, [id, type])       
+            await db.query(`UPDATE Producto SET Disponibilidad = 'Retirado' WHERE Producto.id = ?`, [id, type]);
+            return true;    
         }
         else if(type == 1)
         {
-            await db.query(`UPDATE Producto SET Disponibilidad = 'Vendido' WHERE Producto.id = ?`, [id, type])     
+            await db.query(`UPDATE Producto SET Disponibilidad = 'Vendido' WHERE Producto.id = ?`, [id, type]);
+            return true;     
         }
     }
 }
