@@ -79,7 +79,7 @@ function WidgetProduct(){
                                     <TableCell align="right" width="100">
                                         <button className="buttom">
                                             <Visibility className="widgetVSIcon"/>
-                                            <Link to="/other-user-profile/1" className="MostrarC">
+                                            <Link to={"/products/"+data.id} className="MostrarC">
                                                 Mostrar
                                             </Link>
                                         </button>                                        

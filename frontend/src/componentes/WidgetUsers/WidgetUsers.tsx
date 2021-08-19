@@ -51,6 +51,7 @@ function WidgetUsers(){
             });
         }
 
+
     return (
         
         <div className="WidgetUsers">
@@ -77,7 +78,7 @@ function WidgetUsers(){
                                     <TableCell align="right" width="100">
                                         <button className="buttom">
                                             <Visibility className="widgetVSIcon"/>
-                                            <Link to="/other-user-profile/1" className="MostrarC">
+                                            <Link to={"/other-user-profile/"+data.fk_id_acusado+"/"+data.Tipo_Denuncia} className="MostrarC">
                                                 Mostrar
                                             </Link>
                                         </button>                                        

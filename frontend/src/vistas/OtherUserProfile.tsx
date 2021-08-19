@@ -124,6 +124,7 @@ function OtherUserProfile({
             console.log(e);
         });
     }
+
 	function updateUserData(e: React.FocusEvent<HTMLFormElement>){
 			e.preventDefault();
 			let requestURL:string = `http://localhost:4000/users/${user.ID}`;
