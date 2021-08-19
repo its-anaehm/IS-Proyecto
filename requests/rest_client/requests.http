@@ -196,6 +196,10 @@ Content-Type: application/json
 POST http://localhost:4000/products/getAllProducts HTTP/1.1
 Content-Type: application/json
 
+### Get all products for config
+POST http://localhost:4000/products/getAllProductsConfig HTTP/1.1
+Content-Type: application/json
+
 ### Get all products Limit
 POST http://localhost:4000/products/getAllProductsLimit HTTP/1.1
 Content-Type: application/json

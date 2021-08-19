@@ -23,4 +23,6 @@ routes.post('/getAllProducts', ProductController.getProductsNoPage)
 
 routes.post('/getAllProductsLimit', ProductController.getProductsNoPageLimit)
 
+routes.post('/getAllProductsConfig', ProductController.getProductsNoPageConfig)
+
 export default routes;
