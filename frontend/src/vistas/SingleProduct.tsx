@@ -351,7 +351,7 @@ function SingleProduct({
                                     className={classes.productText}
                                     >
                                         <strong>Publicado por:</strong>
-                                        <Link to={`/other-user-profile/${productInfo.vendorID}/0`}>
+                                        <Link to={`/other-user-profile/${productInfo.vendorID}/0/0`}>
                                             {` ${productInfo.owner}`}
                                         </Link>
                                     </Typography>

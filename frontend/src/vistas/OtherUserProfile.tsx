@@ -3,7 +3,7 @@ import Container from "@material-ui/core/Container";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import UserObj from "../interfaces/UserObj";
 import usrImg from "../img/user.png";
 import Button from "@material-ui/core/Button";
@@ -111,7 +111,7 @@ function OtherUserProfile({
 	currentUser
 }:UserProfileProps){
 	const classes = useStyles();
-	const { id, motivo } = useParams<ParamInterface>();
+	const { id, motivo, id_denuncia } = useParams<ParamInterface>();
 	const [user, setUser] = useState<UserObj>(userPlaceholder);
   	const rol = localStorage.getItem("USR_R");
 	const [qualification, setQualification] = useState<number>(0);
@@ -122,6 +122,8 @@ function OtherUserProfile({
 	const [viewModal, setViewModal] = useState<boolean>(false);
 	const [reportValue, setReportValue] = useState<string>('0');
 	const [noSelection, setNoSelection] = useState<boolean>(false);
+	const [redirectLink, setRedirectLink] = useState<string>("/");
+	const [redirectHome, setRedirectHome] = useState<boolean>(false);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setReportValue((event.target as HTMLInputElement).value);
@@ -200,12 +202,50 @@ function OtherUserProfile({
 		}
 	}
 
-	function Aprobar(){
-		console.log("Si entro a Aprobar");
+	function Aprobar(Estado: number){
+		let requestURL:string = `http://localhost:4000/complaints/verifyComplaint/${Estado}/${id_denuncia}/${id}`;
+
+		fetch(requestURL,{
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+			'Authorization': `${localStorage.getItem("USR_TKN")}`
+		}
+		}
+		).then( response => {
+		if(response.status < 400){
+			response.json().then(jsonResponse => {
+				setRedirectLink(`/`);
+				setRedirectHome(true);
+			})
+		}
+		} ).catch(e=>{
+			console.log(e);
+		});
 	}
 
-	function Desestimar(){
-		console.log("Si entro a desestimar");
+	function Desestimar(Estado: number){
+		let requestURL:string = `http://localhost:4000/complaints/verifyComplaint/${Estado}/${id_denuncia}/${id}`;
+
+		fetch(requestURL,{
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+			'Authorization': `${localStorage.getItem("USR_TKN")}`
+		}
+		}
+		).then( response => {
+		if(response.status < 400){
+			response.json().then(jsonResponse => {
+				setRedirectLink(`/other-user-profile/${id}/0/0`);
+				setRedirectHome(true);
+			})
+		}
+		} ).catch(e=>{
+			console.log(e);
+		});
 	}
 
 	useEffect(() => {
@@ -248,6 +288,7 @@ function OtherUserProfile({
 	return(
 			<>
 					{auth ? undefined : <Redirect to="/"/>}
+					{redirectHome ? <Redirect to={redirectLink} /> : undefined}
 
 					<Container component="main" maxWidth="md">
 							<CssBaseline />
@@ -429,7 +470,7 @@ function OtherUserProfile({
 																				variant="contained"
 																				color="primary"
 																				className={classes.aprobar}
-																				onClick = { ()=>{Aprobar();}}
+																				onClick = { ()=>{Aprobar(1);}}
 																				>
 																						Aprobar
 																				</Button>
@@ -438,7 +479,7 @@ function OtherUserProfile({
 																				variant="contained"
 																				color="primary"
 																				className={classes.desestimar}
-																				onClick = { ()=>{Desestimar();}}
+																				onClick = { ()=>{Desestimar(0);}}
 																				>
 																						Desestimar
 																				</Button>

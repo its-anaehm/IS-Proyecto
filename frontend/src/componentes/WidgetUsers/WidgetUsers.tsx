@@ -78,7 +78,7 @@ function WidgetUsers(){
                                     <TableCell align="right" width="100">
                                         <button className="buttom">
                                             <Visibility className="widgetVSIcon"/>
-                                            <Link to={"/other-user-profile/"+data.fk_id_acusado+"/"+data.Tipo_Denuncia} className="MostrarC">
+                                            <Link to={"/other-user-profile/"+data.fk_id_acusado+"/"+data.Tipo_Denuncia+"/"+data.id} className="MostrarC">
                                                 Mostrar
                                             </Link>
                                         </button>                                        

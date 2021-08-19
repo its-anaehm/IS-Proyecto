@@ -63,7 +63,7 @@ function ComplaintList() {
             renderCell: (params: any) => {
                 return (
                     <>
-                        <Link to={"/other-user-profile/"+params.row.id_Denounced+"/"+params.row.Reason} className="elementos">
+                        <Link to={"/other-user-profile/"+params.row.id_Denounced+"/"+params.row.Reason+"/"+params.row.id} className="elementos">
                             <button className="CategoryList2">Mostrar</button>
                         </Link>
                         <Visibility className="CategoryListIcon"/>

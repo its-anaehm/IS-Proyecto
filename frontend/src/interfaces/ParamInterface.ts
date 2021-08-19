@@ -1,6 +1,7 @@
 interface ParamInterface{
     id: string,
-    motivo?: string
+    motivo?: string,
+    id_denuncia?: string
 }
 
 export default ParamInterface;

@@ -160,7 +160,7 @@ function App() {
           <Route path="/user-profile">
             <UserProfile auth={auth} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
           </Route>
-          <Route path="/other-user-profile/:id/:motivo">
+          <Route path="/other-user-profile/:id/:motivo/:id_denuncia">
             <OtherUserProfile auth={auth} currentUser={currentUser}/>
           </Route>
           <Route path="/admin-profile">
