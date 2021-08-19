@@ -62,6 +62,8 @@ function Products(){
   //const classes = useStyles();
   const [products, setProducts] = useState<ProductObj[] | []>(templateProducts);
   const [currentPage] = useState<number>(1);
+  const [filterMode, setFilterMode] = useState<boolean>(false);
+  const [allProducts, setAllProducts] = useState<ProductObj[]>(templateProducts);
 
   useEffect(() => {
     getProducts();
@@ -69,23 +71,42 @@ function Products(){
   }, []);
 
   function getProductsFromPages(page: number){
-    fetch(`http://localhost:4000/products/page=${page}`,{
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
+    if(filterMode){
+        setProducts(getProductsOnPage(page));
+    }else{
+        fetch(`http://localhost:4000/products/page=${page}`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        }
+        ).then( response => {
+            if(response.status < 400){
+                response.json().then(jsonResponse => {
+                    //console.log(jsonResponse)
+                    setProducts(jsonResponse.message);
+                    })
+                }
+            } ).catch(e=>{
+                console.log(e);
+        });
     }
-    ).then( response => {
-      if(response.status < 400){
-        response.json().then(jsonResponse => {
-          //console.log(jsonResponse)
-          //setProducts(jsonResponse.message);
-        })
-      }
-    } ).catch(e=>{
-      console.log(e);
-    });
+    
+  }
+
+  function getProductsOnPage(page_curr: number): ProductObj[]{
+    let result: ProductObj[];
+    let min: number = (page_curr*10)-10;
+    let max: number = (page_curr*10);
+
+    if(max+1 > allProducts.length){
+        result = allProducts.slice(min);
+    }else{
+        result = allProduct.slice(min,max-1);
+    }
+
+    return result;
   }
 
   function getProducts(){
@@ -115,7 +136,14 @@ function Products(){
       width: '100%'
     }}
     >
-      <Filter setProducts={setProducts}/>
+      <Filter
+      setProducts={setProducts}
+      setCurrentPage={currentPage}
+      setAllProducts={setAllProducts}
+      getProductsOnPage={getProductsOnPage}
+      setFilterMode={setFilterMode}
+      filterMode={filterMode}
+      currentPage={currentPage}/>
       { products.length === 0?
        <Typography style={{paddingTop: '100px', alignContent: 'right'}} variant="h4">Ningún producto coincide con los criterios.</Typography>
       :

@@ -159,27 +159,34 @@ function UserHome({
     const [municipalities, setMunicipalities] = useState<Municipality[]>(templateMunicipality);
     const [value, setValue] = useState<string>('ASC');
     const [products, setProducts] = useState<ProductObj[]>(templateProducts);
+    const [allProducts, setAllProducts] = useState<ProductObj[]>(templateProducts);
     const [showGrid, setShowGrid] = useState<boolean>(false);
-    const [currentPage] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [filterMode, setFilterMode] = useState<boolean>(false);
 
     function getProductsFromPages(page: number){
-        fetch(`http://localhost:4000/products/page=${page}`,{
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          }
+        if(filterMode){
+            setProducts(getProductsOnPage(page));
+        }else{
+            fetch(`http://localhost:4000/products/page=${page}`,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                }
+            }
+            ).then( response => {
+                if(response.status < 400){
+                    response.json().then(jsonResponse => {
+                        //console.log(jsonResponse)
+                        setProducts(jsonResponse.message);
+                        })
+                    }
+                } ).catch(e=>{
+                    console.log(e);
+            });
         }
-        ).then( response => {
-          if(response.status < 400){
-            response.json().then(jsonResponse => {
-              //console.log(jsonResponse)
-              //setProducts(jsonResponse.message);
-            })
-          }
-        } ).catch(e=>{
-          console.log(e);
-        });
+        
       }
 
     function changeOrder (event: React.ChangeEvent<HTMLInputElement>){
@@ -193,7 +200,8 @@ function UserHome({
         e.target.minPrice.value = "";
         e.target.maxPrice.value = "";
         setValue("ASC");
-
+        setFilterMode(false);
+        setCurrentPage(1);
         setShowGrid(false);
     }
 
@@ -328,12 +336,31 @@ function UserHome({
             if(response.status < 400){
               response.json().then( jsonResponse => {
                 //console.log(jsonResponse);
-                setProducts(jsonResponse.message)
+                setAllProducts(jsonResponse.message);
+
+                setCurrentPage(1);
+                let newProducts: ProductObj[] = getProductsOnPage(currentPage);
+                setFilterMode(true);
+                setProducts(newProducts);
               });
             }
           }).catch(e=>{
             console.log(e);
           });
+    }
+
+    function getProductsOnPage(page_curr: number): ProductObj[]{
+        let result: ProductObj[];
+        let min: number = (page_curr*10)-10;
+        let max: number = (page_curr*10);
+
+        if(max+1 > allProducts.length){
+            result = allProducts.slice(min);
+        }else{
+            result = allProduct.slice(min,max-1);
+        }
+
+        return result;
     }
     
     function changeDepartment(event: React.ChangeEvent<HTMLInputElement>){
