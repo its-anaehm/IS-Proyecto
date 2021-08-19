@@ -14,7 +14,7 @@ export default class ProductController{
         const page = req.params.page
         const productList = await ProductService.getAllProducts(page)
     
-        res.status(200).send(productList)
+        res.status(200).send({message: productList})
     }
 
     public static getProductsNoPage: Handler = async (req, res) => {
