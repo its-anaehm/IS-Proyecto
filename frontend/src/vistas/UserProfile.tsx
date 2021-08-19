@@ -180,7 +180,6 @@ function UserProfile({
 	}
 
 
-
 	function getWishlist(){
 		fetch("http://localhost:4000/home/wishlist", {
 				method: 'GET',
@@ -204,8 +203,6 @@ function UserProfile({
 				console.log(error);
 		});
 	}
-	//JUAN
-
 
 	function showError(){
 			let message:string = "Ha surgido un error.";
@@ -243,9 +240,11 @@ function UserProfile({
         });
 	}
 
-	function removeFromListed(id:number){
-		fetch(`http://localhost:4000/products/${id}`, {
-				method: 'DELETE',
+	function removeFromListed(id:number, param:number){
+		console.log("Soy el id: "+id)
+		console.log("Soy el param: "+param)
+		fetch(`http://localhost:4000/products/${id}/${param}`, {
+				method: 'PUT',
 				headers: {
 						'Content-Type': 'application/json',
 						'Accept': 'application/json',
