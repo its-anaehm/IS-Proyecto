@@ -9,7 +9,8 @@ interface ProductObj{
     images: string[],
     date?: string,
     details?:string,
-    vendorID?: number
+    vendorID?: number,
+    Disponibilidad?:string
 }
 
 
