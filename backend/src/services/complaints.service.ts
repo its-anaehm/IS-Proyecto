@@ -18,7 +18,7 @@ export class ComplaintsService
     }
     public static listComplaintsLimit = async() =>
     {
-        const [row] = await db.query(`SELECT id,fk_id_denunciador,fk_id_acusado, DATE_FORMAT(Denuncia.Fecha_denuncia, '%y-%m-%d') AS 'date' , Tipo_Denuncia, Estado FROM Denuncia LIMIT 5`);
+        const [row] = await db.query(`SELECT Denuncia.id, Denuncia.fk_id_denunciador, Denuncia.fk_id_acusado, (SELECT CONCAT(Usuario.Nombre, ' ',Usuario.Apellido) FROM Usuario WHERE Denuncia.fk_id_acusado = Usuario.id) AS 'NombreAcusado', (SELECT CONCAT(Usuario.Nombre, ' ', Usuario.Apellido) FROM Usuario WHERE Denuncia.fk_id_denunciador = Usuario.id) AS 'NombreDenunciador', DATE_FORMAT(Denuncia.Fecha_denuncia, '%y-%m-%d') AS 'date', Denuncia.Tipo_Denuncia, Denuncia.Estado FROM Denuncia LIMIT 5`);
         let jsonListComplaintsLimit = JSON.parse(JSON.stringify(row));
         return jsonListComplaintsLimit;
     }
