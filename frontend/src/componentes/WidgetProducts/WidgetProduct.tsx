@@ -35,7 +35,7 @@ function WidgetProduct(){
     }, []);
 
     function getProducts(){
-        fetch('http://localhost:4000/products/getAllProductsLimit',{
+        fetch('http://localhost:4000/products/getAllProductsConfig',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
