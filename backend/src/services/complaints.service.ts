@@ -10,7 +10,7 @@ export class ComplaintsService
     }
     public static listComplaints = async() =>
     {
-        const [row] = await db.query(`SELECT Denuncia.id, Denuncia.fk_id_denunciador, Denuncia.fk_id_acusado, (SELECT CONCAT(Usuario.Nombre, ' ',Usuario.Apellido) FROM Usuario WHERE Denuncia.fk_id_acusado = Usuario.id) AS 'NombreAcusado', (SELECT CONCAT(Usuario.Nombre, ' ', Usuario.Apellido) FROM Usuario WHERE Denuncia.fk_id_denunciador = Usuario.id) AS 'NombreDenunciador', DATE_FORMAT(Denuncia.Fecha_denuncia, '%y-%m-%d') AS 'date', Denuncia.Tipo_Denuncia, Denuncia.Estado FROM Denuncia`);
+        const [row] = await db.query(`SELECT Denuncia.id, Denuncia.fk_id_denunciador, Denuncia.fk_id_acusado, (SELECT CONCAT(Usuario.Nombre, ' ',Usuario.Apellido) FROM Usuario WHERE Denuncia.fk_id_acusado = Usuario.id) AS 'NombreAcusado', (SELECT CONCAT(Usuario.Nombre, ' ', Usuario.Apellido) FROM Usuario WHERE Denuncia.fk_id_denunciador = Usuario.id) AS 'NombreDenunciador', DATE_FORMAT(Denuncia.Fecha_denuncia, '%y-%m-%d') AS 'date', Denuncia.Tipo_Denuncia, Denuncia.Estado FROM Denuncia WHERE Estado ='Pendiente'`);
 
         let jsonListComplaints = JSON.parse(JSON.stringify(row));
 
@@ -18,7 +18,7 @@ export class ComplaintsService
     }
     public static listComplaintsLimit = async() =>
     {
-        const [row] = await db.query(`SELECT Denuncia.id, Denuncia.fk_id_denunciador, Denuncia.fk_id_acusado, (SELECT CONCAT(Usuario.Nombre, ' ',Usuario.Apellido) FROM Usuario WHERE Denuncia.fk_id_acusado = Usuario.id) AS 'NombreAcusado', (SELECT CONCAT(Usuario.Nombre, ' ', Usuario.Apellido) FROM Usuario WHERE Denuncia.fk_id_denunciador = Usuario.id) AS 'NombreDenunciador', DATE_FORMAT(Denuncia.Fecha_denuncia, '%y-%m-%d') AS 'date', Denuncia.Tipo_Denuncia, Denuncia.Estado FROM Denuncia LIMIT 5`);
+        const [row] = await db.query(`SELECT Denuncia.id, Denuncia.fk_id_denunciador, Denuncia.fk_id_acusado, (SELECT CONCAT(Usuario.Nombre, ' ',Usuario.Apellido) FROM Usuario WHERE Denuncia.fk_id_acusado = Usuario.id) AS 'NombreAcusado', (SELECT CONCAT(Usuario.Nombre, ' ', Usuario.Apellido) FROM Usuario WHERE Denuncia.fk_id_denunciador = Usuario.id) AS 'NombreDenunciador', DATE_FORMAT(Denuncia.Fecha_denuncia, '%y-%m-%d') AS 'date', Denuncia.Tipo_Denuncia, Denuncia.Estado FROM Denuncia WHERE Estado ='Pendiente' LIMIT 5`);
         let jsonListComplaintsLimit = JSON.parse(JSON.stringify(row));
         return jsonListComplaintsLimit;
     }
@@ -28,13 +28,15 @@ export class ComplaintsService
         let jsonListComplaintsLimit = JSON.parse(JSON.stringify(row));
         return jsonListComplaintsLimit;
     }
-    public static verifyComplaint = async(state_id: string, complaint_id: string) =>
+    public static verifyComplaint = async(state_id: string, complaint_id: string, user_id: string) =>
     {
         //Aprobado: 1, Desestimado: 0
         if(state_id == '1')
         {
             console.log('Aprobado');
             const [row] = await db.query(`UPDATE Denuncia SET Estado = 'Aprobado' WHERE id = ?`, [complaint_id]);
+            const [rowTwo] = await db.query(`UPDATE Producto SET Disponibilidad = 'Retirado' WHERE fk_id_usuario = ?`, [user_id]);
+            const [rowThree] = await db.query(`UPDATE Usuario SET Estado = '0' WHERE id = ?`, [user_id]);
             let jsonCategory = JSON.parse(JSON.stringify(row));
             return jsonCategory;
         }

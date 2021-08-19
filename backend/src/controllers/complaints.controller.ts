@@ -64,7 +64,7 @@ export class ComplaintController
     {
         try
         {
-            const verifyComplaint = await ComplaintsService.verifyComplaint(req.params.state,req.params.id);
+            const verifyComplaint = await ComplaintsService.verifyComplaint(req.params.state,req.params.idcomplaint,req.params.userid);
             res.status(200).send({message: 'Done'});
         }
         catch(err)

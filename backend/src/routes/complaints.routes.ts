@@ -9,6 +9,6 @@ routes.post('/:acusserid/:acussedid/:complainttype', verifyToken, ComplaintContr
 routes.get('/listcomplaint', verifyToken, ComplaintController.listComplaint);
 routes.get('/listcomplaintlimit', verifyToken, ComplaintController.listComplaintLimit);
 routes.post('/getSpecificComplaint/:id', verifyToken, ComplaintController.getComplaintSpecific);
-routes.put('/verifyComplaint/:state/:id', verifyToken, ComplaintController.verifyComplaint);
+routes.put('/verifyComplaint/:state/:idcomplaint/:userid', verifyToken, ComplaintController.verifyComplaint);
 
 export default routes;
