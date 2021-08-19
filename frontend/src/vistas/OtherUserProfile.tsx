@@ -159,7 +159,7 @@ function OtherUserProfile({
 						//console.log(response);
 							response.json().then( jsonResponse => {
 									console.log(jsonResponse);
-									setQualification(parseFloat(`${jsonResponse.qualification.qualification}`));
+									setQualification(parseFloat(`${jsonResponse.message}`));
 
 									//colocar set Comentarios aqui
 									//Se obtienen los comentarios de la respuesta json
