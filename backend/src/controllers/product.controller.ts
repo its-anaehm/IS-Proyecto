@@ -11,12 +11,29 @@ export default class ProductController{
 
     public static getAllProducts: Handler = async (req, res) => {
         
-        const productList = await ProductService.getAllProducts()
-        for( let product of productList){
-            product.department = await DepartmentService.getDepartment(product.department)
-            product.municipy = await MunicipyService.getMunicipy(product.municipy)
-        }
-        res.send(productList)
+        const page = req.params.page
+        const productList = await ProductService.getAllProducts(page)
+        const productCount = await ProductService.getAllProductsCount();
+    
+        res.status(200).send({message: productList, productCount})
+    }
+
+    public static getProductsNoPage: Handler = async (req, res) => {
+        
+        const productList = await ProductService.getAllProductsNoPage()
+        res.status(200).send(productList)
+    }
+
+    public static getProductsNoPageLimit: Handler = async (req, res) => {
+        
+        const productList = await ProductService.getAllProductsNoPageLimit()
+        res.status(200).send(productList)
+    }
+
+    public static getProductsNoPageConfig: Handler = async (req, res) => {
+        
+        const productList = await ProductService.getAllProductsNoPageConfig()
+        res.status(200).send(productList)
     }
 
     public static getOneProduct: Handler = async (req,res) => {
@@ -50,8 +67,8 @@ export default class ProductController{
 
     public static deleteProduct : Handler = async (req, res) => {
         if(req.user.role !== 'guest'){
-            await ProductService.deleteProduct(req.params.id)
-            res.status(200).send({message: 'Product deleted'})
+            await ProductService.deleteProduct(req.params.id,Number(req.params.type))
+            return res.status(200).send({message: 'Product deleted'})
         }
         res.status(401).send('Unauthorized user')
     }
@@ -60,8 +77,10 @@ export default class ProductController{
     {
         try
         {
-            const productInfo = await ProductService.getAllProductsInfo();
-            res.status(200).send({message: productInfo});
+            const page = req.params.page
+            const productInfo = await ProductService.getAllProductsInfo(page);
+            const productCount = await ProductService.getProductsCount();
+            res.status(200).send({message: productInfo, productCount});
         }
         catch(err)
         {

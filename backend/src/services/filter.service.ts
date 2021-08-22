@@ -27,39 +27,39 @@ export class FilterService
     }
 
     public static getQuery = async (filterInfo: Filter) => {
-        var query: string = "";
+        var query: string = 'WHERE Producto.Disponibilidad = "Disponible"';
         const queryParams = [];
 
         if(filterInfo.Department !== undefined){
-            query = "WHERE Departamento.id = ?";
+            query = ' AND Departamento.id = ?';
             queryParams.push(filterInfo.Department)
         }
         if(filterInfo.Municipality !== undefined && query !== ""){
             query += " AND Municipio.id = ?";
             queryParams.push(filterInfo.Municipality)
         }else if(filterInfo.Municipality !== undefined){
-             query = "WHERE Municipio.id = ?";
+             query = ' AND Municipio.id = ?';
              queryParams.push(filterInfo.Municipality)
         }
         if(filterInfo.Category !== undefined && query !== ""){
             query += " AND Categoria.id = ?";
             queryParams.push(filterInfo.Category)
         }else if(filterInfo.Category !== undefined){
-            query = "WHERE Categoria.id = ?";
+            query = ' AND Categoria.id = ?';
             queryParams.push(filterInfo.Category)
         }
         if(filterInfo.minPrice !== undefined && query !== ""){
             query += " AND Producto.Precio >= ?";
             queryParams.push(filterInfo.minPrice)
         }else if(filterInfo.minPrice !== undefined){
-            query = " WHERE Producto.Precio >= ?";
+            query = ' AND Producto.Precio >= ?';
             queryParams.push(filterInfo.minPrice)
         }
         if(filterInfo.maxPrice !== undefined && query !== ""){
             query += " AND Producto.Precio <= ?";
             queryParams.push(filterInfo.maxPrice)
         }else if(filterInfo.maxPrice !== undefined){
-            query = "WHERE Producto.Precio <= ?";
+            query = ' AND Producto.Precio <= ?';
             queryParams.push(filterInfo.maxPrice)
         }
         if(filterInfo.order !== undefined){

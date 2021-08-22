@@ -176,7 +176,7 @@ INSERT INTO Municipio (fk_id_departamento, Nombre) VALUES
     (9, "Ahuas"),
     (9, "Brus Laguna"),
     (9, "Juan Francisco Bulnes"),
-    (9, "Puerto LEmpira"),
+    (9, "Puerto Lempira"),
     (9, "Ramón Villeda Morales"),
     (9, "Wampusirpi"),
     (10, "La Esperanza"),

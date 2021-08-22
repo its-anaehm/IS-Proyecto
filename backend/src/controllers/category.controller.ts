@@ -60,4 +60,25 @@ export class CategoryController
         await CategoryService.removeSuscribedCategory(req.params.id, req.user.id)
         res.status(200).send({message: 'Unsuscribed from category'})
     }
+    public static removeCategory: Handler = async (req, res) =>
+    {
+        await CategoryService.removeCategory(req.params.id)
+        res.status(200).send({message: 'Category Removed'})
+    }
+    public static getCategoryConfig: Handler = async (req, res) =>
+    {
+        let category = await CategoryService.categoryConfig()
+        res.status(200).send({message: category})
+    }
+    public static addCategory : Handler = async (req, res) => {
+        if(req.user.role !== 'guest'){
+            const category = req.body.Nombre
+            const images = CategoryService.getImages(req.files)
+    
+            let idCategory = await CategoryService.addCategory(category,images)
+
+            return res.send({message:'Category added', id: idCategory})
+        }
+        res.status(400).send({message: 'Invalid user'})
+    }
 }

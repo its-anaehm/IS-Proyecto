@@ -34,6 +34,7 @@ export class UserController{
         if(req.user.role === 'guest'){
             return res.status(401).send({message: 'Unauthorized user'})
         }
+        console.log(req.user)
         const userInfo = await UserService.getUser(req.user.id)
         userInfo.id = req.user.id
         return res.status(200).send(userInfo)
@@ -50,7 +51,7 @@ export class UserController{
         if(req.user.role === 'guest'){
             return res.send(401).send({message: 'Unauthorized user'})
         }
-        const userInfo = await UserService.getUser(req.user.id)
+        const userInfo = await UserService.getUser(Number(req.params.id))
         return res.status(200).send(userInfo)
     }
     /**
@@ -180,6 +181,18 @@ export class UserController{
         try
         {
             const published = await UserService.publishedProducts(req.user.id);
+            res.status(200).send({message: published});
+        }
+        catch(err)
+        {
+            res.status(400).send({message: err})
+        }
+    }
+    public static getPublishedProductsFromSpecificUser: Handler = async(req, res) =>
+    {
+        try
+        {
+            const published = await UserService.publishedProductsFromSpecificUser(Number(req.params.id));
             res.status(200).send({message: published});
         }
         catch(err)

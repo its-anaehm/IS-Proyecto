@@ -10,7 +10,7 @@ const routes = Router()
  */
 routes.get('/page=:page',verifyToken, UserController.getUsersInfo)
 /** Obtener la información de un usuario */
-routes.get('/:id',verifyToken, UserController.getUserInfo)
+routes.get('/user/:id',verifyToken, UserController.getUserInfo)
 /** Obtener la información del usuario que realiza la petición */
 routes.get('/my_details',verifyToken, UserController.getMyInfo)
 /** Obtiene la lista de los productos que ha publicado un usuario */
@@ -24,4 +24,5 @@ routes.put('/:id', verifyToken, UserController.updateUserInfo)
 /** Eliminar un usuario */
 routes.delete('/:id', verifyToken, UserController.deleteUser)
 
+routes.post('/publishedSpecific/:id',verifyToken, UserController.getPublishedProductsFromSpecificUser);
 export default routes;

@@ -28,7 +28,17 @@ export default class ProductService{
         return product
     }
     
+    public static getAllProductsCount = async () => {
+        let [ row ] = await db.query("SELECT COUNT(*) AS count FROM Producto;");
+        return JSON.parse(JSON.stringify(row))[0]["count"];
+    }
     
+
+    public static getProductsCount = async () => {
+        let [ row ] = await db.query('SELECT COUNT(*) AS count FROM Producto WHERE Producto.Disponibilidad = "Disponible";');
+        return JSON.parse(JSON.stringify(row))[0]["count"];
+    }
+
     public static getAllProductsImages = async ( productList: Array<Product>) => {
         for(let product of productList){
             product.images = []
@@ -62,9 +72,38 @@ export default class ProductService{
         return transformedRow.insertId;
     }
     
-    public static getAllProducts = async () => {
-        const [row] = await db.query(`SELECT id, fk_id_categoria AS category, fk_id_departamento AS department, fk_id_municipio AS municipy, Nombre AS name, Precio AS price,
-        Descripcion AS details FROM Producto`)
+    public static getAllProducts = async (page: string) => {
+        const [row] = await db.query(`CALL pagination(${page}, 10, 1)`)
+        
+        let productList : Array<Product> = (JSON.parse(JSON.stringify(row))[0])
+        productList = await ProductService.getProductsImages(productList)
+        
+        return productList
+    }
+
+    public static getAllProductsNoPage = async () => {
+        const [row] = await db.query(`SELECT id, fk_id_categoria AS category, fk_id_departamento AS department, fk_id_municipio AS municipy, Nombre AS name, Precio AS price, Descripcion AS details, Disponibilidad FROM Producto`)
+        // SELECT Producto.id, Producto.Nombre AS 'name', Departamento.Nombre AS 'departmento', Producto.Precio AS 'price' FROM Producto JOIN Departamento ON Producto.fk_id_departamento = Departamento.id
+        
+        let productList : Array<Product> = (JSON.parse(JSON.stringify(row)))
+        productList = await ProductService.getProductsImages(productList)
+        
+        return productList
+    }
+
+    public static getAllProductsNoPageConfig = async () => {
+        const [row] = await db.query(`SELECT id, fk_id_categoria AS category, fk_id_departamento AS department, fk_id_municipio AS municipy, Nombre AS name, Precio AS price, Descripcion AS details, Disponibilidad FROM Producto WHERE Disponibilidad = 'Disponible'`)
+        // SELECT Producto.id, Producto.Nombre AS 'name', Departamento.Nombre AS 'departmento', Producto.Precio AS 'price' FROM Producto JOIN Departamento ON Producto.fk_id_departamento = Departamento.id
+        
+        let productList : Array<Product> = (JSON.parse(JSON.stringify(row)))
+        productList = await ProductService.getProductsImages(productList)
+        
+        return productList
+    }
+
+    public static getAllProductsNoPageLimit = async () => {
+        const [row] = await db.query(`SELECT id, fk_id_categoria AS category, fk_id_departamento AS department, fk_id_municipio AS municipy, Nombre AS name, Precio AS price, Descripcion AS details, Disponibilidad FROM Producto LIMIT 5`)
+        // SELECT Producto.id, Producto.Nombre AS 'name', Departamento.Nombre AS 'departmento', Producto.Precio AS 'price' FROM Producto JOIN Departamento ON Producto.fk_id_departamento = Departamento.id
         
         let productList : Array<Product> = (JSON.parse(JSON.stringify(row)))
         productList = await ProductService.getProductsImages(productList)
@@ -72,41 +111,54 @@ export default class ProductService{
         return productList
     }
     
-    public static getProduct = async (id: string) => {
-        let [row] = await db.query("SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date', Categoria.id AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id WHERE Producto.id = ? ", [id]);
+    public static updateVisits = async (id: string) => {
+        let [row] = await db.query("UPDATE Producto SET Num_Visita = Num_Visita + 1 WHERE Producto.id = ?", [id])
+    }
 
+    public static getProduct = async (id: string) => {
+        let [row] = await db.query("SELECT Producto.id AS 'id', Producto.fk_id_usuario AS 'vendorID', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', FORMAT(Producto.Precio,2) AS 'price', Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date', Categoria.id AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id WHERE Producto.id = ? ", [id]);
+
+        await ProductService.updateVisits(id)
         let jsonProductDetails: Array<Product> = JSON.parse(JSON.stringify(row));
         jsonProductDetails = await ProductService.getProductsImages(jsonProductDetails);
         return jsonProductDetails;
     }
     
     public static getPopularProducts = async () => {
-        const [ row ] = await db.query(`SELECT id, fk_id_categoria AS category, fk_id_departamento AS department, fk_id_municipio AS municipy, Nombre AS name, Precio AS price,
-        Descripcion AS details FROM Producto ORDER BY Producto.Num_Visita DESC LIMIT 50`)
+        const [ row ] = await db.query(`SELECT id, fk_id_categoria AS category, fk_id_departamento AS department, fk_id_municipio AS municipy, Nombre AS name, FORMAT(Precio,2) AS price,
+        Descripcion AS details FROM Producto WHERE Producto.Disponibilidad = "Disponible" ORDER BY Producto.Num_Visita DESC LIMIT 50`)
         
         let productList : Array<Product> = (JSON.parse(JSON.stringify(row)))
         productList = await ProductService.getProductsImages(productList)
         return productList
     }
 
-    public static getAllProductsInfo = async () =>
+    public static getAllProductsInfo = async (page: string) =>
     {
-        const [ row ] = await db.query(`SELECT Producto.id AS 'id', CONCAT(Usuario.Nombre,' ',Usuario.Apellido) AS 'owner', Producto.Nombre AS 'name', Producto.Precio AS 'price', Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date', Categoria.id AS 'category', Departamento.Nombre AS 'department', Municipio.Nombre AS 'municipy' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id JOIN Municipio ON Producto.fk_id_municipio = Municipio.id JOIN Departamento ON Producto.fk_id_departamento = Departamento.id JOIN Usuario ON Producto.fk_id_usuario = Usuario.id`);
-        let jsonProductDetails: Array<Product> = JSON.parse(JSON.stringify(row));
+        const [ row ] = await db.query(`CALL pagination(${page}, 9, 2)`);
+        let jsonProductDetails: Array<Product> = JSON.parse(JSON.stringify(row))[0];
         jsonProductDetails = await ProductService.getAllProductsImages(jsonProductDetails);
         return jsonProductDetails;
     }
 
     public static getCategoryProducts = async (id: string) =>
     {
-        const [ row ] = await db.query(`SELECT Producto.id, Producto.Nombre AS 'name', Producto.Precio AS 'price',  Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id WHERE Producto.fk_id_categoria = ?`, [id]);
+        const [ row ] = await db.query(`SELECT Producto.id, Producto.Nombre AS 'name', FORMAT(Producto.Precio,2) AS 'price',  Producto.Descripcion AS 'details', DATE_FORMAT(Producto.Fecha_Publicacion, '%y-%m-%d') AS 'date' FROM Producto JOIN Categoria ON Producto.fk_id_categoria = Categoria.id WHERE Producto.Disponibilidad = "Disponible" AND Producto.fk_id_categoria = ?`, [id]);
         let jsonCategoryProducts: Array<Product> = JSON.parse(JSON.stringify(row));
         jsonCategoryProducts = await ProductService.getAllProductsImages(jsonCategoryProducts);
         return jsonCategoryProducts;
     }
 
-    public static deleteProduct = async(id: string) => {
-        await db.query('DELETE FROM Producto WHERE Producto.id = ?', [id])       
+    public static deleteProduct = async(id: string, type: Number) => {
+        if(type == 0)
+        {
+            await db.query(`UPDATE Producto SET Disponibilidad = 'Retirado' WHERE Producto.id = ?`, [id, type]);
+            return true;    
+        }
+        else if(type == 1)
+        {
+            await db.query(`UPDATE Producto SET Disponibilidad = 'Vendido' WHERE Producto.id = ?`, [id, type]);
+            return true;     
+        }
     }
-
 }

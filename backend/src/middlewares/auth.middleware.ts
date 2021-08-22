@@ -24,6 +24,7 @@ export const verifyToken : Handler = (req, res, next) => {
     try{
         const { id, role } = JWT.verifyToken(token)
         req.user = { id, role }
+        console.log(req.user)
         next()
     }catch(err){
         res.status(400).send({message: 'Invalid Token'})

@@ -1,5 +1,5 @@
 DROP DATABASE IF EXISTS Websted ;
-CREATE DATABASE Websted CHARACTER SET utf8;
+CREATE DATABASE Websted CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 USE Websted;
 
@@ -10,7 +10,8 @@ CREATE TABLE Usuario(
     Email VARCHAR(50) UNIQUE NOT NULL,
     Telefono VARCHAR(20) NOT NULL,
     Rol ENUM('Administrador', 'Usuario') DEFAULT 'Usuario',
-    Contrasena VARCHAR(150) NOT NULL
+    Contrasena VARCHAR(150) NOT NULL,
+    Estado INT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE Departamento(
@@ -33,7 +34,8 @@ CREATE TABLE Categoria(
     id INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(40) NOT NULL,
     Imagen VARCHAR(70) NOT NULL,
-    Num_Visita  INT NOT NULL DEFAULT 0
+    Num_Visita  INT NOT NULL DEFAULT 0,
+    Estado INT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE Producto(
@@ -102,12 +104,22 @@ CREATE TABLE Venta(
         ON UPDATE CASCADE
 );
 
+/*
+1: Actitud Negativa
+2: Abuso Verbal/Textual
+3: Estafador
+4: Información Falsa
+5: Vendedor menor de 18 años
+6: Publicación de información de contacto de otro usuario
+7: No hay intención de completar la venta
+8: Producto Indebido
+ */
 CREATE TABLE Denuncia(
     id INT AUTO_INCREMENT PRIMARY KEY,
     fk_id_denunciador INT NOT NULL,
     fk_id_acusado INT NOT NULL,
     Fecha_denuncia DATETIME DEFAULT NOW(),
-    Tipo_Denuncia ENUM('1','2'),
+    Tipo_Denuncia ENUM('1','2','3','4','5','6','7','8'),
     Estado ENUM('Aprobado','Desestimado', 'Pendiente') DEFAULT 'Pendiente',
 
     FOREIGN KEY (fk_id_denunciador)
@@ -159,4 +171,22 @@ CREATE TABLE Suscripcion_Categoria(
         REFERENCES Usuario(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
+);
+
+CREATE TABLE Calificacion(
+    fk_id_calificador INT NOT NULL,
+    fk_id_calificado INT NOT NULL,
+    calificacion DECIMAL(2,1),
+    comentario VARCHAR(500) NOT NULL,
+    fecha_comentario DATETIME DEFAULT NOW(),
+
+    FOREIGN KEY (fk_id_calificador)
+        REFERENCES Usuario(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    
+    FOREIGN KEY (fk_id_calificado)
+        REFERENCES Usuario(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE   
 );

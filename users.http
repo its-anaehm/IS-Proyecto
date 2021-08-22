@@ -9,6 +9,17 @@ Content-Type: application/json
     "phone": "8975-8799",
     "password": "omentruco"
 }
+### Register an user
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Daniel",
+    "lastName": "Arteaga",
+    "email": "omen2@gmail.com",
+    "phone": "8975-8799",
+    "password": "omentruco"
+}
 
 ### Register an admin
 POST http://localhost:4000/users/register HTTP/1.1
@@ -28,7 +39,7 @@ POST http://localhost:4000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "omen@gmail.com",
+    "email": "omen2@gmail.com",
     "password": "omentruco"
 }
 
@@ -42,36 +53,38 @@ Content-Type: application/json
 }
 
 ### Get my user's info
-GET http://localhost:4000/users/my_details HTTP/1.1
+GET  http://localhost:4000/users/my_details HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IkFkbWluaXN0cmFkb3IiLCJpYXQiOjE2MjU0MjU4MTYsImV4cCI6MTYyNTQyOTQxNn0.ZkU9w_olYXWCVFiuI8mp3yz_yA3lZwPjKOp_rbHfzlA
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IkFkbWluaXN0cmFkb3IiLCJpYXQiOjE2MjkyMTQ5NTAsImV4cCI6MTY2NTIxMTM1MH0.ZRBhoK677sSwN1lUbgSW5lL2kbgUscoifXNUytcnCqc
+
 
 ### Get user's info
-GET http://localhost:4000/users/2 HTTP/1.1
+GET http://localhost:4000/users/user/3 HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjU0MjU3NDMsImV4cCI6MTYyNTQyOTM0M30.4cdsodZ65h1L42NSrFCx882G0UnEWSMalsMt1kd3AEA
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IkFkbWluaXN0cmFkb3IiLCJpYXQiOjE2MjkyMTQ5NTAsImV4cCI6MTY2NTIxMTM1MH0.ZRBhoK677sSwN1lUbgSW5lL2kbgUscoifXNUytcnCqc
+
 
 ### Get all user's info
 GET http://localhost:4000/users/page=1 HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwNzAyNjgsImV4cCI6MTYyNTA3Mzg2OH0.nhCZoGgyrzLZuHPavnoq-UVhNG9DWfVlJeOB5v9E_HY
+Authorization: aqui va el token
 
 ### Update user's info
 PUT http://localhost:4000/users/2 HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwMDc5NzYsImV4cCI6MTYyNTAxMTU3Nn0.90PaazX8AwDB5ta40hVDXewaJD3WI_qm3z35_FcSgYs
+Authorization: aqui va el token
 
 {
-    "firstName": "Jaffeth",
-    "lastName": "Fernandez",
-    "email": "correo@gmail.com",
+    "firstName": "Ana",
+    "lastName": "Hernandez",
+    "email": "anacleto@gmail.com",
     "phone": "8947-8799" 
 }
 
 ### Delete user's info
 DELETE http://localhost:4000/users/1 HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjUwMDY3MzksImV4cCI6MTYyNTAxMDMzOX0.n5XvpwhEFDxttRMmdBUt3GxQojnd2mdITNxSjsKYZTs
+Authorization: aqui va el token
 
 ### Get municipalities according to its id (id: 8 -> Fracisco Morazán)
 GET http://localhost:4000/filters/municipality HTTP/1.1
@@ -96,4 +109,20 @@ Content-Type: application/json
 ### Verifies if the user is logged in when trying to access the wishlist page
 GET http://localhost:4000/home/wishlist HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjYxODIxOTYsImV4cCI6MTYyNjE4NTc5Nn0.kHHy5XDbWH8kYzIQ3VbPA8yvmAFQBAENeEEKpYHgBj0
+Authorization: aqui va el token
+
+###
+POST http://localhost:4000/qualification/add HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVzdWFyaW8iLCJpYXQiOjE2MjkyMzY4NjQsImV4cCI6MTY2NTIzMzI2NH0.KrhjGs9OQb3o2oWvwDCdIPeZyntk7RgvV4vMa1b7nko
+
+{
+    "qualifiedUser": "2",
+    "qualification": "4.0",
+    "comment": "A good product for me"
+}
+
+###
+GET http://localhost:4000/qualification/2 HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluaXN0cmFkb3IiLCJpYXQiOjE2MjkyMzY0MDUsImV4cCI6MTY2NTIzMjgwNX0.2m8oKPFl_3IHUcLGHaZ5-OXGl52xlfoldUjgrUuzaFQ

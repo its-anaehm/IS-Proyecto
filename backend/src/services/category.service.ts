@@ -1,4 +1,6 @@
 import { db } from "../config/database";
+import { Request } from "express";
+import File from "../models/ImageFile";
 
 export class CategoryService
 {
@@ -8,7 +10,7 @@ export class CategoryService
      */
     public static categoryFilter = async () =>
     {
-        const [row, fields] = await db.query('SELECT * FROM Categoria');
+        const [row, fields] = await db.query(`SELECT * FROM Categoria WHERE Estado = '1'`);
         let jsonCategory = JSON.parse(JSON.stringify(row));
         return jsonCategory;   
     }
@@ -41,6 +43,31 @@ export class CategoryService
 
     public static getCategoryName = async(id: string) => {
         const [row] = await db.query("SELECT  Nombre FROM Categoria WHERE Categoria.id = ?", [id]);
+        await db.query("UPDATE Categoria SET Num_Visita = Num_Visita + 1 WHERE Categoria.id = ?", [id])
         return JSON.parse(JSON.stringify(row))[0]["Nombre"];
+    }
+    public static removeCategory = async(id: string) =>
+    {
+        const [row] = await db.query("UPDATE Producto SET Disponibilidad = 'Retirado' WHERE fk_id_categoria = ?", [id]);
+        const [rowTwo] = await db.query("UPDATE Categoria SET Estado = 0 WHERE id = ?", [id]);
+    }
+    public static categoryConfig = async() =>
+    {
+        const [row] = await db.query(`SELECT id, Nombre, Num_Visita, Estado FROM Categoria WHERE Estado = '1'`);
+        let jsonCategoryConfig = JSON.parse(JSON.stringify(row));
+        return jsonCategoryConfig;
+    }
+    public static addCategory = async(category_name: string, image: string[]) =>
+    {
+        const [row] = await db.query(`INSERT INTO Categoria(Nombre,Imagen) VALUES (?,?)`, [category_name, image[0]]);
+    }
+    public static getImages = (files : Request["files"]) => {
+        let images : Array<string> = []
+        let requestImages : Array<File> = JSON.parse(JSON.stringify(files))["categoryImage"] || []
+        
+        requestImages.map( file => {
+            images.push(file["filename"])
+        })
+        return images;
     }
 }

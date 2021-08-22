@@ -6,6 +6,7 @@ import multer from "multer";
 import morgan from "morgan";
 
 import './config/database';
+import "./utils/scheduler";
 import { storage, fields} from './config/storage';
 import routes from './routes/index.routes';
 
